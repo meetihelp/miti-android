@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/miti_login"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/miti_login" />
+        <item
+            android:id="@+id/miti_newsfeed"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/miti_newsfeed" />
+        <item
+            android:id="@+id/miti_social"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/miti_social" />
+        <item
+            android:id="@+id/miti_security"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/miti_security" />
+        <item
+            android:id="@+id/miti_privacy"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/miti_privacy" />
+        <item
+            android:id="@+id/miti_utility"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/miti_utility" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/menu_share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/menu_send" />
+        </menu>
+    </item>
+
+</menu>
