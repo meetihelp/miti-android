@@ -14,6 +14,10 @@
     <string name="miti_privacy">Privacy</string>
     <string name="miti_utility">Utility</string>
 
+    <string name="miti_login_hint">Phone number</string>
+    <string name="miti_login_password">Password</string>
+    <string name="miti_login_otp">Enter otp</string>
+
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>

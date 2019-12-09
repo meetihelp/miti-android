@@ -9,7 +9,11 @@
         android:id="@+id/miti_login"
         android:name="com.example.miti2.ui.login.LoginFragment"
         android:label="@string/miti_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_miti_login_to_otpfragment"
+            app:destination="@id/otpfragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/miti_newsfeed"
@@ -40,7 +44,11 @@
         android:name="com.example.miti2.ui.utility.UtilFragment"
         android:label="@string/miti_utility"
         tools:layout="@layout/fragment_util" />
-
+    <fragment
+        android:id="@+id/otpfragment"
+        android:name="com.example.miti2.ui.login.otpfragment"
+        android:label="fragment_otpfragment"
+        tools:layout="@layout/fragment_otpfragment" />
 
 
 </navigation>
