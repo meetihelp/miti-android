@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/miti_newsfeed"
-        android:name="com.example.miti2.ui.newsfeed.FeedFragment"
+        android:name="com.example.miti2.ui.newsfeed.pagertry"
         android:label="@string/miti_newsfeed"
         tools:layout="@layout/fragment_feed" />
 

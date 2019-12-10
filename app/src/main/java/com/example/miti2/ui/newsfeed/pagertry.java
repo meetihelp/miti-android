@@ -1,12 +1,15 @@
 package com.example.miti2.ui.newsfeed;
 
+
 import android.net.Uri;
 import android.os.Bundle;
 
 //import androidx.cardview.widget.CardView;
-import com.google.android.material.card.MaterialCardView;
+import com.example.miti2.mitiutil.adapter.ViewPagerAdapter;
+import com.example.miti2.mitiutil.animation.ZoomOutPageTransformer;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +17,10 @@ import android.view.ViewGroup;
 
 import com.example.miti2.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FeedFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FeedFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FeedFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class pagertry extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,10 +29,10 @@ public class FeedFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    ViewPager2 viewPager2;
     private OnFragmentInteractionListener mListener;
 
-    public FeedFragment() {
+    public pagertry() {
         // Required empty public constructor
     }
 
@@ -69,34 +67,17 @@ public class FeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_feed, container, false);
-        MaterialCardView card=v.findViewById(R.id.card_view);
-//        card.isDragged(true);
-//        temp.setViewDragListener(temp1);
-//        card.setOnTouchListener(new OnSwipeTouchListener(MyActivity) {
-//            public void onSwipeTop() {
-//                Toast.makeText(MyActivity, "top", Toast.LENGTH_SHORT).show();
-//            }
-//            public void onSwipeRight() {
-//                Toast.makeText(MyActivity, "right", Toast.LENGTH_SHORT).show();
-//            }
-//            public void onSwipeLeft() {
-//                Toast.makeText(MyActivity, "left", Toast.LENGTH_SHORT).show();
-//            }
-//            public void onSwipeBottom() {
-//                Toast.makeText(MyActivity, "bottom", Toast.LENGTH_SHORT).show();
-//            }
-//
-//        });
-        card.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // TODO Auto-generated method stub
-                MaterialCardView card=v.findViewById(R.id.card_view);
-                card.setChecked(!card.isChecked());
-                return true;
-            }
-        });
+        View v=inflater.inflate(R.layout.try_pager, container, false);
+
+        List<String> list = new ArrayList<>();
+        list.add("First Screen");
+        list.add("Second Screen");
+        list.add("Third Screen");
+        list.add("Fourth Screen");
+        viewPager2 = v.findViewById(R.id.viewPager2);
+        viewPager2.setAdapter(new ViewPagerAdapter(v.getContext(), list, viewPager2));
+        viewPager2.setPageTransformer(new ZoomOutPageTransformer());
+
         return v;
 
     }

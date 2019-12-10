@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.newsfeed.FeedFragment">
+    tools:context=".ui.newsfeed.pagertry">
 
     <!-- TODO: Update blank fragment layout -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view"
+        style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
-        android:minHeight="500dp"
-        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:checkable="true"
         android:clickable="true"
         android:focusable="true"
-        android:checkable="true">
+        android:minHeight="500dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,4 +27,4 @@
     </com.google.android.material.card.MaterialCardView>
 
 
-</RelativeLayout>
+</ScrollView>
