@@ -57,7 +57,16 @@
         android:id="@+id/social_chat_list"
         android:name="com.example.miti2.ui.social.chat.social_chat_list"
         android:label="fragment_social_chat_list"
-        tools:layout="@layout/fragment_social_chat_list" />
+        tools:layout="@layout/fragment_social_chat_list" >
+        <action
+            android:id="@+id/action_social_chat_list_to_social_chat_content"
+            app:destination="@id/social_chat_content" />
+    </fragment>
+    <fragment
+        android:id="@+id/social_chat_content"
+        android:name="com.example.miti2.ui.social.chat.social_chat_content"
+        android:label="fragment_social_chat_content"
+        tools:layout="@layout/fragment_social_chat_content" />
 
 
 </navigation>

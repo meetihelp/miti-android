@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +12,15 @@ import android.view.ViewGroup;
 
 import com.example.miti2.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link social_chat_list.OnFragmentInteractionListener} interface
+ * {@link social_chat_content.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link social_chat_list#newInstance} factory method to
+ * Use the {@link social_chat_content#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class social_chat_list extends Fragment {
+public class social_chat_content extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -34,13 +29,10 @@ public class social_chat_list extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     private OnFragmentInteractionListener mListener;
 
-    public social_chat_list() {
+    public social_chat_content() {
         // Required empty public constructor
     }
 
@@ -50,11 +42,11 @@ public class social_chat_list extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment social_chat_list.
+     * @return A new instance of fragment social_chat_content.
      */
     // TODO: Rename and change types and number of parameters
-    public static social_chat_list newInstance(String param1, String param2) {
-        social_chat_list fragment = new social_chat_list();
+    public static social_chat_content newInstance(String param1, String param2) {
+        social_chat_content fragment = new social_chat_content();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -75,18 +67,7 @@ public class social_chat_list extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_social_chat_list, container, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(v.getContext());
-        recyclerView.setLayoutManager(layoutManager);
-//        String []myDataset={"apoorva","kumar"};
-        ArrayList<String> names = new ArrayList<String>( Arrays.asList("alex", "brian", "charles") );
-        ArrayList<String> names1 = new ArrayList<String>( Arrays.asList("alex", "brian", "charles") );
-        ArrayList<String> names2 = new ArrayList<String>( Arrays.asList("alex", "brian", "charles") );
-        mAdapter = new social_chat_list_adapter(v.getContext(),names,names1,names2);
-        recyclerView.setAdapter(mAdapter);
-        return v;
+        return inflater.inflate(R.layout.fragment_social_chat_content, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -95,8 +76,6 @@ public class social_chat_list extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
-
 
     @Override
     public void onDetach() {
