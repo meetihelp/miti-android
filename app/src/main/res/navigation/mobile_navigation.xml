@@ -25,7 +25,11 @@
         android:id="@+id/miti_social"
         android:name="com.example.miti2.ui.social.SocialFragment"
         android:label="@string/miti_social"
-        tools:layout="@layout/fragment_social" />
+        tools:layout="@layout/fragment_social" >
+        <action
+            android:id="@+id/action_miti_social_to_social_chat_list"
+            app:destination="@id/social_chat_list" />
+    </fragment>
 
     <fragment
         android:id="@+id/miti_security"
@@ -49,6 +53,11 @@
         android:name="com.example.miti2.ui.login.otpfragment"
         android:label="fragment_otpfragment"
         tools:layout="@layout/fragment_otpfragment" />
+    <fragment
+        android:id="@+id/social_chat_list"
+        android:name="com.example.miti2.ui.social.chat.social_chat_list"
+        android:label="fragment_social_chat_list"
+        tools:layout="@layout/fragment_social_chat_list" />
 
 
 </navigation>

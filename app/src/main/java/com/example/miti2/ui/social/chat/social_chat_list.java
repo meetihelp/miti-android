@@ -1,28 +1,28 @@
-package com.example.miti2.ui.social;
+package com.example.miti2.ui.social.chat;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.miti2.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SocialFragment.OnFragmentInteractionListener} interface
+ * {@link social_chat_list.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SocialFragment#newInstance} factory method to
+ * Use the {@link social_chat_list#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SocialFragment extends Fragment {
+public class social_chat_list extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,10 +31,13 @@ public class SocialFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     private OnFragmentInteractionListener mListener;
 
-    public SocialFragment() {
+    public social_chat_list() {
         // Required empty public constructor
     }
 
@@ -44,11 +47,11 @@ public class SocialFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SocialFragment.
+     * @return A new instance of fragment social_chat_list.
      */
     // TODO: Rename and change types and number of parameters
-    public static SocialFragment newInstance(String param1, String param2) {
-        SocialFragment fragment = new SocialFragment();
+    public static social_chat_list newInstance(String param1, String param2) {
+        social_chat_list fragment = new social_chat_list();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,17 +72,13 @@ public class SocialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_social, container, false);
-        Button button = v.findViewById(R.id.social_button_chat);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                // do something
-                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_chat_list);
-            }
-        });
+        View v=inflater.inflate(R.layout.fragment_social_chat_list, container, false);
+        recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(v.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+//        mAdapter = new MyAdapter(myDataset);
+//        recyclerView.setAdapter(mAdapter);
         return v;
     }
 
