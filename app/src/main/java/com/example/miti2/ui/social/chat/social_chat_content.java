@@ -1,5 +1,6 @@
 package com.example.miti2.ui.social.chat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,8 +10,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.example.miti2.R;
+import com.stfalcon.chatkit.messages.MessageInput;
+import com.stfalcon.chatkit.messages.MessagesList;
+import com.stfalcon.chatkit.messages.MessagesListAdapter;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +34,7 @@ public class social_chat_content extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    public static MessagesListAdapter<Message> adapterx;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -67,7 +76,27 @@ public class social_chat_content extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_social_chat_content, container, false);
+        View v=inflater.inflate(R.layout.fragment_social_chat_content, container, false);
+        MessageInput inputView=v.findViewById(R.id.input);
+        MessagesList inputlist=v.findViewById(R.id.messagesList);
+        System.out.println("Aaya me - Apoorva");
+        Author temp=new Author("apoorva","apoorva kumar","");
+        adapterx = new MessagesListAdapter<>("apoorva", null);
+        inputlist.setAdapter(adapterx);
+        Message tempx=new Message("apoorva","hi there",temp,new Date());
+        adapterx.addToStart(tempx, true);
+        inputView.setInputListener(new MessageInput.InputListener() {
+            @Override
+            public boolean onSubmit(CharSequence input) {
+                //validate and send message
+
+                Author temp=new Author("apoorva","apoorva kumar","");
+                Message tempx=new Message("apoorva",input.toString(),temp,new Date());
+                adapterx.addToStart(tempx, true);
+                return true;
+            }
+        });
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
