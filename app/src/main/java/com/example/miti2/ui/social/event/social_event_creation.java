@@ -1,28 +1,26 @@
-package com.example.miti2.ui.social;
+package com.example.miti2.ui.social.event;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.miti2.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SocialFragment.OnFragmentInteractionListener} interface
+ * {@link social_event_creation.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SocialFragment#newInstance} factory method to
+ * Use the {@link social_event_creation#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SocialFragment extends Fragment {
+public class social_event_creation extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -34,7 +32,7 @@ public class SocialFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SocialFragment() {
+    public social_event_creation() {
         // Required empty public constructor
     }
 
@@ -44,11 +42,11 @@ public class SocialFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SocialFragment.
+     * @return A new instance of fragment social_event_creation.
      */
     // TODO: Rename and change types and number of parameters
-    public static SocialFragment newInstance(String param1, String param2) {
-        SocialFragment fragment = new SocialFragment();
+    public static social_event_creation newInstance(String param1, String param2) {
+        social_event_creation fragment = new social_event_creation();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,28 +67,7 @@ public class SocialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_social, container, false);
-        Button button = v.findViewById(R.id.social_button_chat);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                // do something
-                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_chat_list);
-            }
-        });
-        Button button1 = v.findViewById(R.id.social_button_pref);
-        button1.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                // do something
-                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_interest);
-            }
-        });
-        return v;
+        return inflater.inflate(R.layout.fragment_social_event_creation, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -100,7 +77,16 @@ public class SocialFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
 
     @Override
     public void onDetach() {

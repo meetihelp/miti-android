@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_miti_social_to_social_chat_list"
             app:destination="@id/social_chat_list" />
+        <action
+            android:id="@+id/action_miti_social_to_social_pref_interest"
+            app:destination="@id/social_pref_interest" />
     </fragment>
 
     <fragment
@@ -67,6 +70,11 @@
         android:name="com.example.miti2.ui.social.chat.social_chat_content"
         android:label="fragment_social_chat_content"
         tools:layout="@layout/fragment_social_chat_content" />
+    <fragment
+        android:id="@+id/social_pref_interest"
+        android:name="com.example.miti2.ui.social.pref.social_pref_interest"
+        android:label="fragment_social_pref_interest"
+        tools:layout="@layout/fragment_social_pref_interest" />
 
 
 </navigation>

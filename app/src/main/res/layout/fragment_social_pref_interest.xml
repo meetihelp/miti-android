@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.social.pref.social_pref_interest"
+    android:id="@+id/social_input_preference_relative">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Indoor - Passive"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView2"
+            android:layout_centerHorizontal="true"
+            android:text="Select max two"
+            android:textSize="30sp" />
+
+
+        <CheckBox
+            android:id="@+id/social_pref_cb1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView4"
+            android:layout_centerHorizontal="false"
+            android:text="Reading - Fiction or Non-Fiction"
+            app:useMaterialThemeColors="false" />
+
+
+        <CheckBox
+            android:id="@+id/social_pref_cb2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/social_pref_cb1"
+            android:layout_centerHorizontal="false"
+            android:text="Chilling - Netflix, Spotify etc."
+            app:useMaterialThemeColors="false" />
+
+        <CheckBox
+            android:id="@+id/social_pref_cb3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/social_pref_cb2"
+            android:layout_centerHorizontal="false"
+            android:text="Pet - Caring and Playing"
+            app:useMaterialThemeColors="false" />
+
+        <CheckBox
+            android:id="@+id/social_pref_cb4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/social_pref_cb3"
+            android:layout_centerHorizontal="false"
+            android:text="Diva - Fashion and Makeup"
+            app:useMaterialThemeColors="false" />
+
+        <CheckBox
+            android:id="@+id/social_pref_cb5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/social_pref_cb4"
+            android:layout_centerHorizontal="false"
+            android:text="Gamer - Pubg, Fortnight and Good old vcop2"
+            app:useMaterialThemeColors="false" />
+
+        <CheckBox
+            android:id="@+id/social_pref_cb6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/social_pref_cb5"
+            android:layout_centerHorizontal="false"
+            android:text="French Madame/Monsieur - Wines and Beverages"
+            app:useMaterialThemeColors="false" />
+
+        <Button
+            android:id="@+id/social_button_pref_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/social_pref_cb6"
+            android:layout_centerHorizontal="true"
+            android:text="Submit" />
+
+
+</RelativeLayout>
