@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_miti_social_to_social_pref_ipip"
             app:destination="@id/social_pref_ipip" />
+        <action
+            android:id="@+id/action_miti_social_to_social_event_creation"
+            app:destination="@id/social_event_creation" />
     </fragment>
 
     <fragment
@@ -84,6 +87,11 @@
         android:name="com.example.miti2.ui.social.pref.social_pref_ipip"
         android:label="fragment_social_pref_interest"
         tools:layout="@layout/fragment_social_pref_ipip" />
+    <fragment
+        android:id="@+id/social_event_creation"
+        android:name="com.example.miti2.ui.social.event.social_event_creation"
+        android:label="fragment_social_event_creation"
+        tools:layout="@layout/fragment_social_event_creation" />
 
 
 </navigation>

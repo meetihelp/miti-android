@@ -100,6 +100,16 @@ public class SocialFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_ipip);
             }
         });
+        Button button3 = v.findViewById(R.id.event);
+        button3.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // do something
+                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_event_creation);
+            }
+        });
         return v;
     }
 

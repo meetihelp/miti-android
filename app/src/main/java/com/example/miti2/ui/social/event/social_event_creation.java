@@ -2,15 +2,25 @@ package com.example.miti2.ui.social.event;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.IdRes;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.miti2.R;
+import com.example.miti2.ui.social.pref.social_pref_interest;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +41,7 @@ public class social_event_creation extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private String [][] array= social_pref_interest.array;
     public social_event_creation() {
         // Required empty public constructor
     }
@@ -67,7 +77,42 @@ public class social_event_creation extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_social_event_creation, container, false);
+        View v=inflater.inflate(R.layout.fragment_social_event_creation, container, false);
+        ChipGroup get=(ChipGroup) v.findViewById(R.id.prefchipgroup);
+        ViewGroup temp=(ViewGroup)get;
+        for(int i=0;i<5;i++){
+            for(int j=0;j<array[i].length;j++){
+                Chip temp1=new Chip(v.getContext());
+                temp1.setText(array[i][j]);
+                temp1.setCheckable(true);
+                temp1.setLayoutParams(new ViewGroup.LayoutParams (WRAP_CONTENT,WRAP_CONTENT));
+                int id;
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+                    id=View.generateViewId();
+
+                } else{
+                    id= ViewCompat.generateViewId();
+                }
+                temp1.setId(id);
+                temp.addView(temp1);
+            }
+        }
+        get.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, @IdRes int checkedId) {
+                // Handle the checked chip change.
+                Log.e("Control",Integer.toString(checkedId));
+            }
+        });
+        Button b1=v.findViewById(R.id.event_button_submit);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        return v;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -77,16 +122,6 @@ public class social_event_creation extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
     @Override
     public void onDetach() {

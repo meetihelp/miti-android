@@ -2,9 +2,11 @@ package com.example.miti2.ui.social.pref;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -30,7 +32,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
     private static int count=1;
     private ViewGroup v1;
     private OnFragmentInteractionListener mListener;
-    private String [][]array={
+    static public String [][]array={
             {"Writing","Singing","Dancing","Cooking","Origami/Paper crafts","Chess"},
             {"Gardening","Shopping","Cars & Bikes","Architecture","Aviation","Museum"},
             {"Fitness","Travel","Photography","Cricket","Football","Environment - Concernist and Activist","Martial arts"},
@@ -76,7 +78,13 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
             temp.addRule(RelativeLayout.BELOW,prev);
             Log.e("Control",temp.debug(""));
             cb1.setLayoutParams(temp);
-            prev=View.generateViewId();
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+                prev=View.generateViewId();
+
+            } else{
+                prev= ViewCompat.generateViewId();
+            }
+
             cb1.setId(prev);
             Log.e("Control",array[index][j]);
             Log.e("Control",Integer.toString(j));

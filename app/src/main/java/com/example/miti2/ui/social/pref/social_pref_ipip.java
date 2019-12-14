@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -87,6 +88,21 @@ public class social_pref_ipip extends Fragment implements View.OnClickListener{
     }
     @Override
     public void onClick(View v) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                if(count==0){
+                    setEnabled(false);
+                }else{
+                    count=count-1;
+                    createScreen(count);
+                }
+            }
+        };
+        if(count!=0){
+            requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+        }
         if(count>5){
 
         }else{

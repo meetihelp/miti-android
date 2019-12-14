@@ -24,4 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/social_button_pref"
         android:text="ipip" />
+    <Button
+        android:id="@+id/event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/social_button_pref"
+        android:text="Create Event" />
 </RelativeLayout>
