@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/miti_login">
+    app:startDestination="@+id/miti_social">
 
     <fragment
         android:id="@+id/miti_login"
@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_miti_social_to_social_pref_interest"
             app:destination="@id/social_pref_interest" />
+        <action
+            android:id="@+id/action_miti_social_to_social_pref_ipip"
+            app:destination="@id/social_pref_ipip" />
     </fragment>
 
     <fragment
@@ -75,6 +78,12 @@
         android:name="com.example.miti2.ui.social.pref.social_pref_interest"
         android:label="fragment_social_pref_interest"
         tools:layout="@layout/fragment_social_pref_interest" />
+
+    <fragment
+        android:id="@+id/social_pref_ipip"
+        android:name="com.example.miti2.ui.social.pref.social_pref_ipip"
+        android:label="fragment_social_pref_interest"
+        tools:layout="@layout/fragment_social_pref_ipip" />
 
 
 </navigation>

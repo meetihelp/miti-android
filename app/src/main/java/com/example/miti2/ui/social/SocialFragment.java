@@ -90,6 +90,16 @@ public class SocialFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_interest);
             }
         });
+        Button button2 = v.findViewById(R.id.ipip);
+        button2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // do something
+                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_ipip);
+            }
+        });
         return v;
     }
 
