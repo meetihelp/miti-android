@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.miti2.R;
+import com.example.miti2.apicompat.mitihelper;
 import com.example.miti2.ui.social.pref.social_pref_interest;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -87,12 +88,7 @@ public class social_event_creation extends Fragment {
                 temp1.setCheckable(true);
                 temp1.setLayoutParams(new ViewGroup.LayoutParams (WRAP_CONTENT,WRAP_CONTENT));
                 int id;
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-                    id=View.generateViewId();
-
-                } else{
-                    id= ViewCompat.generateViewId();
-                }
+                id= mitihelper.getuniqueid();
                 temp1.setId(id);
                 temp.addView(temp1);
             }

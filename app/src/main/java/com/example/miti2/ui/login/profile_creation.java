@@ -2,7 +2,6 @@ package com.example.miti2.ui.login;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,19 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.example.miti2.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link otpfragment.OnFragmentInteractionListener} interface
+ * {@link profile_creation.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link otpfragment#newInstance} factory method to
+ * Use the {@link profile_creation#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class otpfragment extends Fragment implements View.OnClickListener {
+public class profile_creation extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,24 +34,21 @@ public class otpfragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
-    public otpfragment() {
+    public profile_creation() {
         // Required empty public constructor
     }
 
-    /**<TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Yaha per profile data hoga" />
+    /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment otpfragment.
+     * @return A new instance of fragment profile_creation.
      */
     // TODO: Rename and change types and number of parameters
-    public static otpfragment newInstance(String param1, String param2) {
-        otpfragment fragment = new otpfragment();
+    public static profile_creation newInstance(String param1, String param2) {
+        profile_creation fragment = new profile_creation();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,28 +69,17 @@ public class otpfragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_otpfragment, container, false);
-        ImageButton ib=v.findViewById(R.id.resend_otp);
-        Button b1=v.findViewById(R.id.otp_to_profile);
-        b1.setOnClickListener(this);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            ib.setTooltipText("Resend Otp");
-            // Do something for lollipop and above versions
-        } else{
-            // do something for phones running an SDK before lollipop
-        }
+        View v=inflater.inflate(R.layout.fragment_profile_creation, container, false);
+        Button b=v.findViewById(R.id.profile_submit_button);
+        b.setOnClickListener(this);
         return v;
     }
     @Override
     public void onClick(View v) {
-        Navigation.findNavController(v).navigate(R.id.action_otpfragment2_to_profile_creation);
+        Navigation.findNavController(v).navigate(R.id.action_profile_creation_to_social_pref_interest2);
     }
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
     public void onDetach() {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.miti2.R;
+import com.example.miti2.apicompat.mitihelper;
 
 public class social_pref_interest extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
@@ -78,13 +80,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
             temp.addRule(RelativeLayout.BELOW,prev);
             Log.e("Control",temp.debug(""));
             cb1.setLayoutParams(temp);
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-                prev=View.generateViewId();
-
-            } else{
-                prev= ViewCompat.generateViewId();
-            }
-
+            prev= mitihelper.getuniqueid();
             cb1.setId(prev);
             Log.e("Control",array[index][j]);
             Log.e("Control",Integer.toString(j));
@@ -138,7 +134,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if(count>5){
-
+            Navigation.findNavController(v).navigate(R.id.action_social_pref_interest2_to_mainActivity);
         }else{
             System.out.println(v);
             int index=count-1;

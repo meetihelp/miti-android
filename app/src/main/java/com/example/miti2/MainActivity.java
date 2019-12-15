@@ -3,6 +3,8 @@ package com.example.miti2;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
+import com.example.miti2.bottomnav.CurvedBottomNavigationView;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,6 +27,7 @@ import android.view.Menu;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private AppBarConfiguration mAppBarConfiguration1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +49,20 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.miti_login, R.id.miti_newsfeed, R.id.miti_social,
+                 R.id.miti_newsfeed, R.id.miti_social,
                 R.id.miti_security, R.id.miti_privacy, R.id.miti_utility)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        CurvedBottomNavigationView curvedBottomNavigationView = findViewById(R.id.customBottomBar);
+        curvedBottomNavigationView.inflateMenu(R.menu.activity_main_drawer1);
+        NavigationUI.setupWithNavController(curvedBottomNavigationView,
+                navController);
+
+//        BottomAppBar curvedBottomNavigationView = findViewById(R.id.bar);
+//        curvedBottomNavigationView.inflateMenu(R.menu.activity_main_drawer);
     }
 
     @Override

@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/black">
 
     <Button
         android:id="@+id/social_button_chat"
@@ -28,6 +29,6 @@
         android:id="@+id/event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/social_button_pref"
+        android:layout_below="@id/ipip"
         android:text="Create Event" />
 </RelativeLayout>

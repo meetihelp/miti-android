@@ -61,7 +61,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View v)
             {
                 // do something
-                Navigation.findNavController(v).navigate(R.id.action_miti_login_to_otpfragment);
+                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_otpfragment2);
             }
         });
         return v;

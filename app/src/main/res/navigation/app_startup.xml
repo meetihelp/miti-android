@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_startup"
+    app:startDestination="@id/logo_page">
+
+    <fragment
+        android:id="@+id/logo_page"
+        android:name="com.example.miti2.ui.startup.Logo_page"
+        android:label="fragment_logo_page"
+        tools:layout="@layout/fragment_logo_page" >
+        <action
+            android:id="@+id/action_logo_page_to_loading_page"
+            app:destination="@id/loading_page" />
+        <action
+            android:id="@+id/action_logo_page_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/loading_page"
+        android:name="com.example.miti2.ui.startup.Loading_page"
+        android:label="fragment_loading_page"
+        tools:layout="@layout/fragment_loading_page" >
+        <action
+            android:id="@+id/action_loading_page_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.miti2.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_otpfragment2"
+            app:destination="@id/otpfragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpfragment2"
+        android:name="com.example.miti2.ui.login.otpfragment"
+        android:label="fragment_otpfragment"
+        tools:layout="@layout/fragment_otpfragment" >
+        <action
+            android:id="@+id/action_otpfragment2_to_profile_creation"
+            app:destination="@id/profile_creation" />
+    </fragment>
+    <fragment
+        android:id="@+id/social_pref_interest2"
+        android:name="com.example.miti2.ui.social.pref.social_pref_interest"
+        android:label="fragment_social_pref_interest"
+        tools:layout="@layout/fragment_social_pref_interest" >
+        <action
+            android:id="@+id/action_social_pref_interest2_to_mainActivity"
+            app:popUpTo="@+id/mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile_creation"
+        android:name="com.example.miti2.ui.login.profile_creation"
+        android:label="fragment_profile_creation"
+        tools:layout="@layout/fragment_profile_creation" >
+        <action
+            android:id="@+id/action_profile_creation_to_social_pref_interest2"
+            app:destination="@id/social_pref_interest2" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.miti2.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+</navigation>

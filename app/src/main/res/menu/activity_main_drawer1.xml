@@ -4,26 +4,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
+
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/miti_newsfeed"
             android:icon="@drawable/ic_menu_gallery"
+            app:showAsAction="always"
             android:title="@string/miti_newsfeed" />
         <item
             android:id="@+id/miti_social"
             android:icon="@drawable/ic_menu_slideshow"
+            app:showAsAction="always"
             android:title="@string/miti_social" />
-        <item
-            android:id="@+id/miti_security"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/miti_security" />
+        <item/>
         <item
             android:id="@+id/miti_privacy"
             android:icon="@drawable/ic_menu_manage"
+            app:showAsAction="always"
             android:title="@string/miti_privacy" />
         <item
             android:id="@+id/miti_utility"
             android:icon="@drawable/ic_menu_manage"
+            app:showAsAction="always"
             android:title="@string/miti_utility" />
     </group>
 
