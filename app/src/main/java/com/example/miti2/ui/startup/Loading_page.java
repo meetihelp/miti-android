@@ -80,7 +80,7 @@ public class Loading_page extends Fragment {
                     ignored.printStackTrace();
                 }
             }
-        }, 5000);
+        }, 1000);
         return v;
     }
 

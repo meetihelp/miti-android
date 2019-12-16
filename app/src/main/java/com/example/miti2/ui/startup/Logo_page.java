@@ -76,7 +76,7 @@ public class Logo_page extends Fragment {
             @Override
             public void run() {
                 try {
-                    Navigation.findNavController(v).navigate(R.id.action_logo_page_to_mainActivity);
+                    Navigation.findNavController(v).navigate(R.id.action_logo_page_to_loading_page);
                 } catch (Exception ignored) {
                     ignored.printStackTrace();
                 }

@@ -7,12 +7,23 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.miti2.R;
+import com.example.miti2.ui.utility.GetJsonObject;
+import com.example.miti2.ui.utility.POSTRequest;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.JSONException;
+
+import java.util.concurrent.ExecutionException;
 
 public class LoginFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -54,6 +65,8 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_login, container, false);
+        final TextInputEditText phoneEditText=(TextInputEditText) v.findViewById(R.id.miti_login_input_text);
+        final TextInputEditText passwordEditText=(TextInputEditText) v.findViewById(R.id.miti_password_input_text);
         Button button = v.findViewById(R.id.button2login);
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -61,7 +74,37 @@ public class LoginFragment extends Fragment {
             public void onClick(View v)
             {
                 // do something
-                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_otpfragment2);
+                String phone=phoneEditText.getText().toString();
+                String password=passwordEditText.getText().toString();
+                GetJsonObject getJsonObject=new GetJsonObject();
+                String []key={"Phone","Password"};
+                String []values={phone,password};
+                String data="";
+                try {
+                    data=getJsonObject.getJson(key,values);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                POSTRequest request=new POSTRequest();
+                String result;
+                try {
+                    Log.e("Control","Yahan");
+                    result=request.execute("login",data).get();
+                    Log.e("Control1",result);
+                } catch (ExecutionException e) {
+                    result=null;
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    result=null;
+                    e.printStackTrace();
+                }
+                if(result!=null) {
+                    String value = getJsonObject.getValue(result, "Code");
+                    if(value=="1005"){
+                        Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_otpfragment2);
+                    }
+                }
+//                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_otpfragment2);
             }
         });
         return v;
