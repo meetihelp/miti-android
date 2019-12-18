@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.miti2.database.Cookie.CookieDatabase;
 import com.example.miti2.database.Session.Session;
 import com.example.miti2.database.Session.SessionDatabase;
 

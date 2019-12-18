@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.miti2.R;
+import com.example.miti2.database.Cookie.CookieDatabase;
 import com.example.miti2.mitiutil.network.GETRequest;
 import com.example.miti2.mitiutil.network.GetJsonObject;
 import com.example.miti2.mitiutil.network.POSTRequest;
@@ -38,7 +39,8 @@ public class otpfragment extends Fragment implements View.OnClickListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     TextInputEditText otpEditText;
     private RequestHelper requestHelper;
-    private String MitiCookie;
+    private CookieDatabase db;
+    private String MeetiCookie;
     private int LoginToOTPCode;
     private int OTPGenerationStatus;
     private static final String ARG_PARAM1 = "param1";
@@ -106,6 +108,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
 //        MitiCookie=db.sessionDao().getCookie();
         otpEditText=(TextInputEditText) v.findViewById(R.id.otp);
         LoginToOTPCode=getArguments().getInt("LoginToOTPCode");
+        db=CookieDatabase.getAppDatabase(v.getContext());
         OTPGenerationStatus=RequestOTP();
         ImageButton ib=v.findViewById(R.id.resend_otp);
         Button b1=v.findViewById(R.id.otp_to_profile);
@@ -182,7 +185,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
         try {
             Log.e("Control","Yahan");
 
-            requestHelper=request.execute("verifyOTPUserverification",data,MitiCookie).get();
+            requestHelper=request.execute("verifyOTPUserverification",data,MeetiCookie).get();
             result=requestHelper.getData();
 //                Log.e("Control1",result);
         } catch (ExecutionException e) {
@@ -201,14 +204,16 @@ public class otpfragment extends Fragment implements View.OnClickListener {
     }
 
     private int RequestOTP(){
-        MitiCookie="5917af48-649c-496a-7de5-fa5d7d5d85d0";
+//        MitiCookie="5917af48-649c-496a-7de5-fa5d7d5d85d0";
 //        MitiCookie=requestHelper.getMitiCookie();
 
+        String[] data=db.cookieDao().getCookie();
+        MeetiCookie=data[data.length-1];
         GETRequest getRequest=new GETRequest();
         String otpgenerateResult;
         try {
             RequestHelper requestHelperTemp;
-            requestHelperTemp=getRequest.execute("verifyUser",MitiCookie).get();
+            requestHelperTemp=getRequest.execute("verifyUser",MeetiCookie).get();
             otpgenerateResult=requestHelperTemp.getData();
         } catch (ExecutionException e) {
             otpgenerateResult=null;
