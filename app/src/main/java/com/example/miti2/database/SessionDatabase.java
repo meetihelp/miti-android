@@ -1,11 +1,10 @@
-package com.example.miti2.ui.database;
+package com.example.miti2.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.room.Database;
-import androidx.room.Insert;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 @Database(entities = Session.class,exportSchema = false,version = 1)

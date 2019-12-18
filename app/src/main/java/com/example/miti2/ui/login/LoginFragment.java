@@ -1,34 +1,24 @@
 package com.example.miti2.ui.login;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.InvalidationTracker;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.miti2.R;
-import com.example.miti2.ui.database.Session;
-import com.example.miti2.ui.database.SessionDao;
-import com.example.miti2.ui.database.SessionDatabase;
-import com.example.miti2.ui.utility.GetJsonObject;
-import com.example.miti2.ui.utility.POSTRequest;
-import com.example.miti2.ui.utility.RequestHelper;
-import com.example.miti2.ui.utility.ToastHelper;
+import com.example.miti2.database.SessionDatabase;
+import com.example.miti2.mitiutil.network.GetJsonObject;
+import com.example.miti2.mitiutil.network.POSTRequest;
+import com.example.miti2.mitiutil.network.RequestHelper;
+import com.example.miti2.mitiutil.uihelper.ToastHelper;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 

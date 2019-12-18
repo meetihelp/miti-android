@@ -1,4 +1,4 @@
-package com.example.miti2.ui.database;
+package com.example.miti2.database;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

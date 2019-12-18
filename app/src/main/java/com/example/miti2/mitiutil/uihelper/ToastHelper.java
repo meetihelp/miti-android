@@ -1,4 +1,4 @@
-package com.example.miti2.ui.utility;
+package com.example.miti2.mitiutil.uihelper;
 
 import android.content.Context;
 import android.widget.Toast;

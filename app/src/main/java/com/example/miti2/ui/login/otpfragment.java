@@ -1,6 +1,5 @@
 package com.example.miti2.ui.login;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,13 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.miti2.MainActivity;
 import com.example.miti2.R;
-import com.example.miti2.ui.database.SessionDatabase;
-import com.example.miti2.ui.utility.GETRequest;
-import com.example.miti2.ui.utility.GetJsonObject;
-import com.example.miti2.ui.utility.POSTRequest;
-import com.example.miti2.ui.utility.RequestHelper;
+import com.example.miti2.mitiutil.network.GETRequest;
+import com.example.miti2.mitiutil.network.GetJsonObject;
+import com.example.miti2.mitiutil.network.POSTRequest;
+import com.example.miti2.mitiutil.network.RequestHelper;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;

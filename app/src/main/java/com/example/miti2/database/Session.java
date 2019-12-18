@@ -1,7 +1,6 @@
-package com.example.miti2.ui.database;
+package com.example.miti2.database;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Dao;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 

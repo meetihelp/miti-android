@@ -1,4 +1,4 @@
-package com.example.miti2.ui.utility;
+package com.example.miti2.mitiutil.network;
 
 public class RequestHelper {
     private String MitiCookie;
