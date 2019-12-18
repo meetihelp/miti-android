@@ -13,7 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.miti2.R;
-import com.example.miti2.database.SessionDatabase;
+import com.example.miti2.database.DatabaseInitializer;
+import com.example.miti2.database.Session.SessionDatabase;
 import com.example.miti2.mitiutil.network.GetJsonObject;
 import com.example.miti2.mitiutil.network.POSTRequest;
 import com.example.miti2.mitiutil.network.RequestHelper;
@@ -68,7 +69,11 @@ public class LoginFragment extends Fragment {
         final TextInputEditText phoneEditText=(TextInputEditText) v.findViewById(R.id.miti_login_input_text);
         final TextInputEditText passwordEditText=(TextInputEditText) v.findViewById(R.id.miti_password_input_text);
         Button button = v.findViewById(R.id.button2login);
-        final SessionDatabase db=SessionDatabase.getInstance(v.getContext());
+//        final SessionDatabase db=SessionDatabase.getInstance(v.getContext());
+        final SessionDatabase db=SessionDatabase.getAppDatabase(v.getContext());
+        Log.e("Apoorva Control","Aaya ram");
+        DatabaseInitializer.populateAsync(db);
+        Log.e("Apoorva Control","Gaya ram");
         button.setOnClickListener(new View.OnClickListener()
         {
             @Override
