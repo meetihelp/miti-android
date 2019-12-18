@@ -12,7 +12,7 @@ public class GETRequest extends AsyncTask<String,Void, RequestHelper> {
     public static final String REQUEST_METHOD = "GET";
     public static final int READ_TIMEOUT = 15000;
     public static final int CONNECTION_TIMEOUT = 15000;
-    private static final String Domain="http://10.147.205.205:9000";
+    private static final String Domain="http://10.147.230.129:9000";
 
     @Override
     protected void onPreExecute() {

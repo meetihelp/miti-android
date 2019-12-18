@@ -42,6 +42,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
     private CookieDatabase db;
     private String MeetiCookie;
     private int LoginToOTPCode;
+    private int LoadingToOTPCode;
     private int OTPGenerationStatus;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -107,7 +108,14 @@ public class otpfragment extends Fragment implements View.OnClickListener {
 //        Log.e("MitiCookie", MitiCookie);
 //        MitiCookie=db.sessionDao().getCookie();
         otpEditText=(TextInputEditText) v.findViewById(R.id.otp);
-        LoginToOTPCode=getArguments().getInt("LoginToOTPCode");
+        String FromFragment=getArguments().getString("From");
+        if(FromFragment=="Login") {
+            LoginToOTPCode = getArguments().getInt("LoginToOTPCode");
+            LoadingToOTPCode=0;
+        }else if(FromFragment=="Loading"){
+            LoginToOTPCode=0;
+            LoadingToOTPCode=getArguments().getInt("LoadingOTPCode");
+        }
         db=CookieDatabase.getAppDatabase(v.getContext());
         OTPGenerationStatus=RequestOTP();
         ImageButton ib=v.findViewById(R.id.resend_otp);
@@ -129,7 +137,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
             if(value==200){
                 Navigation.findNavController(v).navigate(R.id.action_otpfragment2_to_miti_feed);
             }
-        }else if(LoginToOTPCode==1005 && OTPGenerationStatus==200){
+        }else if((LoginToOTPCode==1005 || LoadingToOTPCode==2001) && OTPGenerationStatus==200){
             int value=SendOTP(otp);
             if(value==200){
                 Navigation.findNavController(v).navigate(R.id.action_otpfragment2_to_profile_creation);

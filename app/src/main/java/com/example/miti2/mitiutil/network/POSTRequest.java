@@ -15,7 +15,7 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
     public static final String REQUEST_METHOD = "POST";
     public static final int READ_TIMEOUT = 2000;
     public static final int CONNECTION_TIMEOUT = 2000;
-    public static final String Domain="http:/10.147.205.205:9000";
+    public static final String Domain="http:/10.147.230.129:9000";
 
     @Override
     protected void onPreExecute(){

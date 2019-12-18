@@ -76,6 +76,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         Button button = v.findViewById(R.id.button2login);
 //        final SessionDatabase db=SessionDatabase.getInstance(v.getContext());
          db=CookieDatabase.getAppDatabase(v.getContext());
+         db.cookieDao().nukeTable();
 //        Log.e("Apoorva Control","Aaya ram");
 //        DatabaseInitializer.populateAsync(db);
 //        Log.e("Apoorva Control","Gaya ram");
@@ -114,17 +115,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             int value = getJsonObject.getIntValue(result, "Code");
             String Message=getJsonObject.getStringValue(result,"Message");
             CookieDatabaseHelper.populateAsync(db,MeetiCookie);
+            Bundle bundle=new Bundle();
+            bundle.putInt("LoginToOTPCode",value);
+            bundle.putString("From","Login");
             if(value==200){
 //                        InsertCookie(db,requestHelper.getMitiCookie());
-                Bundle bundle=new Bundle();
-                bundle.putInt("LoginToOTPCode",value);
                 Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_otpfragment2,bundle);
             }
             else if(value==1005){
                 //User is not verified
 //                        InsertCookie(db,requestHelper.getMitiCookie());
-                Bundle bundle=new Bundle();
-                bundle.putInt("LoginToOTPCode",value);
+
                 Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_otpfragment2,bundle);
             }else if(value==1002){
                 ToastHelper.ToastFun(v.getContext(),Message);
@@ -139,8 +140,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     int registerCode=getJsonObject.getIntValue(dataTemp,"code");
                     if (registerCode == 200) {
 //                                InsertCookie(db,requestHelperRegister.getMitiCookie());
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("LoginToOTPCode", value);
                         Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_otpfragment2, bundle);
                     }
                 }

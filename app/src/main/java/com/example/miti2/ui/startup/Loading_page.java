@@ -13,6 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.miti2.R;
+import com.example.miti2.database.Cookie.CookieDatabase;
+import com.example.miti2.mitiutil.network.GETRequest;
+import com.example.miti2.mitiutil.network.GetJsonObject;
+import com.example.miti2.mitiutil.network.RequestHelper;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +33,8 @@ public class Loading_page extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private CookieDatabase db;
+    private String MeetiCookie;
     private Handler mWaitHandler = new Handler();
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -70,17 +78,55 @@ public class Loading_page extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View v=inflater.inflate(R.layout.fragment_loading_page, container, false);
-        mWaitHandler.postDelayed(new Runnable() {
-
+        mWaitHandler.post(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Navigation.findNavController(v).navigate(R.id.action_loading_page_to_loginFragment);
-                } catch (Exception ignored) {
-                    ignored.printStackTrace();
+                db=CookieDatabase.getAppDatabase(v.getContext());
+                String[] data=db.cookieDao().getCookie();
+                if(data.length>0) {
+                    MeetiCookie = data[data.length - 1];
+                }else{
+                    MeetiCookie="";
+                }
+                String jsonData=getRequest(MeetiCookie);
+                if(jsonData!=null) {
+                    GetJsonObject getJsonObject=new GetJsonObject();
+                    int code=getJsonObject.getIntValue(jsonData,"Code");
+                    Bundle bundle=new Bundle();
+                    bundle.putString("From","Loading");
+                    bundle.putInt("LoadingToOTPCode",code);
+                    if (code == 300) {
+                        //To newsfeed
+                        Navigation.findNavController(v).navigate(R.id.action_loading_page_to_newsfeed,bundle);
+                    } else if (code == 2000) {
+                        //Login Page
+                        Navigation.findNavController(v).navigate(R.id.action_loading_page_to_loginFragment,bundle);
+                    } else if (code == 2001) {
+                        //To OTP fragment
+                        Navigation.findNavController(v).navigate(R.id.action_loading_page_to_otpfragment2,bundle);
+                    } else if (code == 2002) {
+                        //To profile page
+                        Navigation.findNavController(v).navigate(R.id.action_loading_page_to_profile_page,bundle);
+                    } else if (code == 2003) {
+                        //To Preference page
+                        int Preference=getJsonObject.getIntValue(jsonData,"Preference");
+                        bundle.putInt("Preference",Preference);
+                        Navigation.findNavController(v).navigate(R.id.action_loading_page_to_preference_page,bundle);
+                    }
                 }
             }
-        }, 1000);
+        });
+//        mWaitHandler.postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                try {
+//                    Navigation.findNavController(v).navigate(R.id.action_loading_page_to_loginFragment);
+//                } catch (Exception ignored) {
+//                    ignored.printStackTrace();
+//                }
+//            }
+//        }, 1000);
         return v;
     }
 
@@ -111,5 +157,24 @@ public class Loading_page extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public String getRequest(String MeetiCookie){
+        try {
+            GETRequest getRequest=new GETRequest();
+            RequestHelper requestHelper=getRequest.execute("/loadingPage",MeetiCookie).get();
+            String data=requestHelper.getData();
+            return data;
+//            GetJsonObject getJsonObject=new GetJsonObject();
+//            int code=getJsonObject.getIntValue(data,"Code");
+//            return code;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+//        RequestHelper requestHelper=getRequest.execute(MeetiCookie);
     }
 }

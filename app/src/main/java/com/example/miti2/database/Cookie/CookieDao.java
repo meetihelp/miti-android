@@ -15,4 +15,7 @@ public interface CookieDao {
 
     @Delete
     void deleteCookie(Cookie cookie);
+
+    @Query("DELETE FROM MeetiCookie")
+    void nukeTable();
 }

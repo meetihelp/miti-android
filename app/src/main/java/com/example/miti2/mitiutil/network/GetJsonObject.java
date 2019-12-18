@@ -25,7 +25,7 @@ public class GetJsonObject {
     }
 
     public int getIntValue(String result,String key){
-        Log.e("Control",result);
+//        Log.e("Control",result);
         int value;
         try {
             if(result!=null) {

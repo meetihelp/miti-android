@@ -25,6 +25,18 @@
         <action
             android:id="@+id/action_loading_page_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_loading_page_to_newsfeed"
+            app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_loading_page_to_otpfragment2"
+            app:destination="@id/otpfragment2" />
+        <action
+            android:id="@+id/action_loading_page_to_profile_page"
+            app:destination="@id/profile_creation" />
+        <action
+            android:id="@+id/action_loading_page_to_preference_page"
+            app:destination="@id/social_pref_interest2" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

@@ -31,16 +31,18 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
     // TODO: Rename and change types of parameters
 //    private String mParam1;
 //    private String mParam2;
-    private static int count=1;
+    private static int count=0;
     private ViewGroup v1;
     private OnFragmentInteractionListener mListener;
     static public String [][]array={
+            {"Reading - Fiction or Non-Fiction","Chilling - Netflix, Spotify etc.","Pet - Caring and Playing","Diva - Fashion and Makeup","Gamer - Pubg, Fortnight and Good old vcop2"},
             {"Writing","Singing","Dancing","Cooking","Origami/Paper crafts","Chess"},
             {"Gardening","Shopping","Cars & Bikes","Architecture","Aviation","Museum"},
             {"Fitness","Travel","Photography","Cricket","Football","Environment - Concernist and Activist","Martial arts"},
             {"Collecting","Debating","Quizzing","Psychology and Philosophy","Parenting","Lgbtq","Law","History"},
             {"Left - liberty , equality, fraternity","Right - authority, hierarchy, property"}};
     private String [][]array1={
+            {"Indoor - Passive"},
             {"Active Indoor"},
             {"Passive Outdoor"},
             {"Active Outdoor"},
@@ -123,6 +125,10 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         Button b1=v.findViewById(R.id.social_button_pref_submit);
         this.v1=(ViewGroup) v;
         b1.setOnClickListener(this);
+        this.count=getArguments().getInt("Preference");
+        //this.count=gaurav ka lauda
+        this.createScreen(this.count);
+        this.count=this.count+1;
         return v;
     }
 
@@ -137,7 +143,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
             Navigation.findNavController(v).navigate(R.id.action_social_pref_interest2_to_mainActivity);
         }else{
             System.out.println(v);
-            int index=count-1;
+            int index=count;
             this.createScreen(index);
             count=count+1;
 
