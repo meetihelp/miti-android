@@ -12,12 +12,12 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.Properties;
 
-public class GETRequest extends AsyncTask<String,Void,String> {
+public class GETRequest extends AsyncTask<String,Void,RequestHelper> {
 
     public static final String REQUEST_METHOD = "GET";
     public static final int READ_TIMEOUT = 15000;
     public static final int CONNECTION_TIMEOUT = 15000;
-    private static final String Domain="http://10.147.142.4:9000";
+    private static final String Domain="http://10.147.205.205:9000";
 
     @Override
     protected void onPreExecute() {
@@ -25,15 +25,19 @@ public class GETRequest extends AsyncTask<String,Void,String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected RequestHelper doInBackground(String... strings) {
         String url =Domain+"/"+ strings[0];
         String result = "";
+        String MitiCookie="";
         try {
             URL myUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) myUrl.openConnection();
             connection.setRequestMethod(REQUEST_METHOD);
             connection.setReadTimeout(READ_TIMEOUT);
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
+            if(strings.length>1) {
+                connection.setRequestProperty("Miti-Cookie", strings[1]);
+            }
             connection.connect();
             InputStreamReader streamReader = new
                     InputStreamReader(connection.getInputStream());
@@ -46,15 +50,17 @@ public class GETRequest extends AsyncTask<String,Void,String> {
             reader.close();
             streamReader.close();
             result = stringBuilder.toString();
+            MitiCookie=connection.getHeaderField("Miti-Cookie");
         } catch (Exception e) {
             e.printStackTrace();
             result = null;
         }
-        return result;
+        RequestHelper requestHelper=new RequestHelper(MitiCookie,result);
+        return requestHelper;
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(RequestHelper result) {
         super.onPostExecute(result);
     }
 }

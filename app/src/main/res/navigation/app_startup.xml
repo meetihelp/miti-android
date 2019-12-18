@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_loginFragment_to_otpfragment2"
             app:destination="@id/otpfragment2" />
+        <action
+            android:id="@+id/action_miti_login_to_miti_feed"
+            app:destination="@+id/mainActivity"></action>
     </fragment>
     <fragment
         android:id="@+id/otpfragment2"
@@ -43,6 +46,9 @@
         <action
             android:id="@+id/action_otpfragment2_to_profile_creation"
             app:destination="@id/profile_creation" />
+        <action
+            android:id="@+id/action_otpfragment2_to_miti_feed"
+            app:destination="@+id/mainActivity"></action>
     </fragment>
     <fragment
         android:id="@+id/social_pref_interest2"

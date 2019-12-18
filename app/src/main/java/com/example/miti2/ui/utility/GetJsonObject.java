@@ -1,5 +1,7 @@
 package com.example.miti2.ui.utility;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,7 +14,6 @@ public class GetJsonObject {
 ////        this.Value=Value;
 //    }
 
-
     public String getJson(String[] Key,String[] Value) throws JSONException {
         int length=Key.length;
         JSONObject json=new JSONObject();
@@ -23,12 +24,34 @@ public class GetJsonObject {
         return json.toString();
     }
 
-    public String getValue(String result,String key){
+    public int getIntValue(String result,String key){
+        Log.e("Control",result);
+        int value;
         try {
             if(result!=null) {
                 JSONObject json = new JSONObject(result);
-                result = json.getString(key);
-                return result;
+                value = json.getInt(key);
+//                Log.e("Control",value);
+                return value;
+            }
+            else{
+                return 0;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public String getStringValue(String result, String key){
+        Log.e("Control",result);
+        String value;
+        try {
+            if(result!=null) {
+                JSONObject json = new JSONObject(result);
+                value = json.getString(key);
+//                Log.e("Control",value);
+                return value;
             }
             else{
                 return null;

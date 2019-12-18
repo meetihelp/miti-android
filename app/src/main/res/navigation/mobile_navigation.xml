@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/miti_social">
+    app:startDestination="@+id/miti_newsfeed">
 
     <fragment
         android:id="@+id/miti_login"

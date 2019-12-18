@@ -8,13 +8,25 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.miti2.MainActivity;
 import com.example.miti2.R;
+import com.example.miti2.ui.database.SessionDatabase;
+import com.example.miti2.ui.utility.GETRequest;
+import com.example.miti2.ui.utility.GetJsonObject;
+import com.example.miti2.ui.utility.POSTRequest;
+import com.example.miti2.ui.utility.RequestHelper;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.json.JSONException;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +39,11 @@ import com.example.miti2.R;
 public class otpfragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    TextInputEditText otpEditText;
+    private RequestHelper requestHelper;
+    private String MitiCookie;
+    private int LoginToOTPCode;
+    private int OTPGenerationStatus;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -75,6 +92,24 @@ public class otpfragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_otpfragment, container, false);
+//        SessionDatabase db=SessionDatabase.getInstance(v.getContext());
+//        SessionDatabase.SessionDatabaseQuery database= new SessionDatabase.SessionDatabaseQuery(db);
+//        try {
+//            MitiCookie=database.execute().get();
+//        } catch (ExecutionException e) {
+//            Log.e("Otp fragment","cookie retrieve nahi hua");
+//            MitiCookie="";
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            Log.e("Otp fragment","cookie retrieve nahi hua2");
+//            MitiCookie="";
+//            e.printStackTrace();
+//        }
+//        Log.e("MitiCookie", MitiCookie);
+//        MitiCookie=db.sessionDao().getCookie();
+        otpEditText=(TextInputEditText) v.findViewById(R.id.otp);
+        LoginToOTPCode=getArguments().getInt("LoginToOTPCode");
+        OTPGenerationStatus=RequestOTP();
         ImageButton ib=v.findViewById(R.id.resend_otp);
         Button b1=v.findViewById(R.id.otp_to_profile);
         b1.setOnClickListener(this);
@@ -88,7 +123,24 @@ public class otpfragment extends Fragment implements View.OnClickListener {
     }
     @Override
     public void onClick(View v) {
-        Navigation.findNavController(v).navigate(R.id.action_otpfragment2_to_profile_creation);
+        String otp=otpEditText.getText().toString();
+        if(LoginToOTPCode==200 && OTPGenerationStatus==200){
+            int value=SendOTP(otp);
+            if(value==200){
+                Navigation.findNavController(v).navigate(R.id.action_otpfragment2_to_miti_feed);
+            }
+        }else if(LoginToOTPCode==1005 && OTPGenerationStatus==200){
+            int value=SendOTP(otp);
+            if(value==200){
+                Navigation.findNavController(v).navigate(R.id.action_otpfragment2_to_profile_creation);
+            }
+        }else if(LoginToOTPCode==1501 && OTPGenerationStatus==200){
+            int value=SendOTP(otp);
+            if(value==200){
+                Navigation.findNavController(v).navigate(R.id.action_otpfragment2_to_profile_creation);
+            }
+        }
+//        Navigation.findNavController(v).navigate(R.id.action_otpfragment2_to_profile_creation);
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -116,5 +168,60 @@ public class otpfragment extends Fragment implements View.OnClickListener {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private int SendOTP(String otp){
+        GetJsonObject getJsonObject=new GetJsonObject();
+        String []key={"OTP"};
+        String []values={otp};
+        String data="";
+        try {
+            data=getJsonObject.getJson(key,values);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        POSTRequest request=new POSTRequest();
+        String result;
+        try {
+            Log.e("Control","Yahan");
+
+            requestHelper=request.execute("verifyOTPUserverification",data,MitiCookie).get();
+            result=requestHelper.getData();
+//                Log.e("Control1",result);
+        } catch (ExecutionException e) {
+            result=null;
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            result=null;
+            e.printStackTrace();
+        }
+        if(result!=null){
+            int value = getJsonObject.getIntValue(result, "Code");
+            String Message=getJsonObject.getStringValue(result,"Message");
+            return value;
+        }
+        return 0;
+    }
+
+    private int RequestOTP(){
+        MitiCookie="5917af48-649c-496a-7de5-fa5d7d5d85d0";
+//        MitiCookie=requestHelper.getMitiCookie();
+
+        GETRequest getRequest=new GETRequest();
+        String otpgenerateResult;
+        try {
+            RequestHelper requestHelperTemp;
+            requestHelperTemp=getRequest.execute("verifyUser",MitiCookie).get();
+            otpgenerateResult=requestHelperTemp.getData();
+        } catch (ExecutionException e) {
+            otpgenerateResult=null;
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            otpgenerateResult=null;
+            e.printStackTrace();
+        }
+        GetJsonObject getJsonObject=new GetJsonObject();
+        OTPGenerationStatus=getJsonObject.getIntValue(otpgenerateResult,"Code");
+        return OTPGenerationStatus;
     }
 }
