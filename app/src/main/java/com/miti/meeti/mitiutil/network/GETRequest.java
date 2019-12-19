@@ -7,21 +7,26 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Set;
 
-public class GETRequest extends AsyncTask<String,Void, RequestHelper> {
+public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHelper> {
 
     public static final String REQUEST_METHOD = "GET";
     public static final int READ_TIMEOUT = 15000;
     public static final int CONNECTION_TIMEOUT = 15000;
     private static final String Domain="http://10.147.230.129:9000";
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
     }
 
     @Override
-    protected RequestHelper doInBackground(String... strings) {
-        String url =Domain+"/"+ strings[0];
+    protected RequestHelper doInBackground(HashMap<String,String>... Has) {
+        HashMap<String,String> Dic=Has[0];
+        Set<String> keys = Dic.keySet();
+        String url =Domain+Dic.get("url");
         String result = "";
         String MitiCookie="";
         try {
@@ -30,8 +35,10 @@ public class GETRequest extends AsyncTask<String,Void, RequestHelper> {
             connection.setRequestMethod(REQUEST_METHOD);
             connection.setReadTimeout(READ_TIMEOUT);
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
-            if(strings.length>1) {
-                connection.setRequestProperty("Miti-Cookie", strings[1]);
+            for(String key:keys){
+                if(key.compareTo("url")==0){
+                    connection.setRequestProperty(key,Dic.get(key));
+                }
             }
             connection.connect();
             InputStreamReader streamReader = new

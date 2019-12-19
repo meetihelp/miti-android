@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -13,8 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.miti.meeti.R;
+import com.miti.meeti.database.Cookie.Cookie;
 import com.miti.meeti.database.Cookie.CookieDatabase;
-import com.miti.meeti.database.Cookie.CookieDatabaseHelper;
+import com.miti.meeti.database.Cookie.CookieRepository;
+import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.mitiutil.network.GetJsonObject;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
@@ -31,7 +34,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private RequestHelper requestHelper;
-    private CookieDatabase db;
+//    private CookieDatabase db;
     private String MeetiCookie;
 
     // TODO: Rename and change types of parameters
@@ -73,8 +76,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         passwordEditText=(TextInputEditText) v.findViewById(R.id.miti_password_input_text);
         Button button = v.findViewById(R.id.button2login);
 //        final SessionDatabase db=SessionDatabase.getInstance(v.getContext());
-         db=CookieDatabase.getAppDatabase(v.getContext());
-         db.cookieDao().nukeTable();
+//         db=CookieDatabase.getAppDatabase(v.getContext());
+//         db.cookieDao().nukeTable();
 //        Log.e("Apoorva Control","Aaya ram");
 //        DatabaseInitializer.populateAsync(db);
 //        Log.e("Apoorva Control","Gaya ram");
@@ -112,7 +115,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         if(result!=null) {
             int value = getJsonObject.getIntValue(result, "Code");
             String Message=getJsonObject.getStringValue(result,"Message");
-            CookieDatabaseHelper.populateAsync(db,MeetiCookie);
+            CookieViewModel cookieViewModel= ViewModelProviders.of(this).get(CookieViewModel.class);
+            Cookie temp=new Cookie();
+            temp.setMeetiCookie(MeetiCookie);
+            cookieViewModel.insert(temp);
+//            CookieRepository.populateAsync(db,MeetiCookie);
             Bundle bundle=new Bundle();
             bundle.putInt("LoginToOTPCode",value);
             bundle.putString("From","Login");

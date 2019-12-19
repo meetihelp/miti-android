@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
@@ -14,8 +15,11 @@ import android.view.ViewGroup;
 
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieDatabase;
+import com.miti.meeti.database.Cookie.CookieRepository;
+import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.mitiutil.network.GETRequest;
 import com.miti.meeti.mitiutil.network.GetJsonObject;
+import com.miti.meeti.mitiutil.network.Keyvalue;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 
 import java.util.concurrent.ExecutionException;
@@ -34,7 +38,9 @@ public class Loading_page extends Fragment implements Runnable{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private View vx;
-    private CookieDatabase db;
+    private CookieViewModel cookieViewModel;
+//    private CookieDatabase db;
+    private CookieRepository cp;
     private String MeetiCookie;
     private Handler mWaitHandler = new Handler();
     // TODO: Rename and change types of parameters
@@ -85,14 +91,17 @@ public class Loading_page extends Fragment implements Runnable{
     }
     @Override
     public void run(){
-        db=CookieDatabase.getAppDatabase(this.vx.getContext());
-        String[] data=db.cookieDao().getCookie();
-        if(data.length>0) {
-            MeetiCookie = data[data.length - 1];
-        }else{
-            MeetiCookie="";
-        }
+//        db= CookieRepository.getInstance(this.vx.getContext());
+        cookieViewModel=ViewModelProviders.of(this).get(CookieViewModel.class);
+//        String[] data=db.cookieDao().getCookie();
+        MeetiCookie=cookieViewModel.getCookie1();
+//        if(data.length>0) {
+//            MeetiCookie = data[data.length - 1];
+//        }else{
+//            MeetiCookie="";
+//        }
         String jsonData=getRequest(MeetiCookie);
+        Log.e("Control","Loading page ka response->"+jsonData);
         if(jsonData!=null) {
             GetJsonObject getJsonObject=new GetJsonObject();
             int code=getJsonObject.getIntValue(jsonData,"Code");
@@ -152,7 +161,8 @@ public class Loading_page extends Fragment implements Runnable{
         try {
             GETRequest getRequest=new GETRequest();
             Log.e("Control","Get Request enter");
-            RequestHelper requestHelper=getRequest.execute("/loadingPage",MeetiCookie).get();
+            RequestHelper requestHelper=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/loadingPage"),
+                    new Keyvalue("Miti-Cookie",MeetiCookie))).get();
             Log.e("Control","Get Request exit");
             String data=requestHelper.getData();
             Log.e("Control",requestHelper.toString());

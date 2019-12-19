@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -73,44 +74,20 @@ public class Logo_page extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View v=inflater.inflate(R.layout.fragment_logo_page, container, false);
-        Timer MyTimerImage = new Timer();
-        class MyTimerTask extends TimerTask {
-            LinearLayout myIDLinearLayout= (LinearLayout) v.findViewById(R.id.logo_layout);
+        LinearLayout myIDLinearLayout= (LinearLayout) v.findViewById(R.id.logo_layout);
+        TransitionDrawable MyTrans = (TransitionDrawable) myIDLinearLayout.getBackground();
+        MyTrans.startTransition(2000);
+        mWaitHandler.postDelayed(new Runnable() {
 
-            TransitionDrawable MyTrans = (TransitionDrawable) myIDLinearLayout.getBackground();
-
-            int i = 0;
             @Override
             public void run() {
-                getActivity().runOnUiThread(new Runnable(){
-
-                    @Override
-                    public void run() {
-                        i++;
-                        if (i%2==0) { //
-                            MyTrans.startTransition(2000);
-                        }else{
-                            MyTrans.reverseTransition(2000);
-                        }
-
-                    }});
+                try {
+                    Navigation.findNavController(v).navigate(R.id.action_logo_page_to_loading_page);
+                } catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
             }
-
-        }
-        MyTimerTask MyTimer = new MyTimerTask();
-        MyTimerImage.schedule(MyTimer, 2000, 2000);
-
-//        mWaitHandler.postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                try {
-//                    Navigation.findNavController(v).navigate(R.id.action_logo_page_to_loading_page);
-//                } catch (Exception ignored) {
-//                    ignored.printStackTrace();
-//                }
-//            }
-//        }, 1000);
+        }, 2000);
         return v;
     }
 

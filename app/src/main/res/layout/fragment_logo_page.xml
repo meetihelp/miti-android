@@ -9,6 +9,7 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".ui.startup.Logo_page">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
