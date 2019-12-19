@@ -62,7 +62,7 @@
         android:clickable="true"
         android:focusable="true" />
 
-    <com.example.miti2.bottomnav.CurvedBottomNavigationView
+    <com.miti.meeti.bottomnav.CurvedBottomNavigationView
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         android:id="@+id/customBottomBar"
         android:layout_width="match_parent"

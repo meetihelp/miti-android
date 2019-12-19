@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/logo_page"
-        android:name="com.example.miti2.ui.startup.Logo_page"
+        android:name="com.miti.meeti.ui.startup.Logo_page"
         android:label="fragment_logo_page"
         tools:layout="@layout/fragment_logo_page" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/loading_page"
-        android:name="com.example.miti2.ui.startup.Loading_page"
+        android:name="com.miti.meeti.ui.startup.Loading_page"
         android:label="fragment_loading_page"
         tools:layout="@layout/fragment_loading_page" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.miti2.ui.login.LoginFragment"
+        android:name="com.miti.meeti.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/otpfragment2"
-        android:name="com.example.miti2.ui.login.otpfragment"
+        android:name="com.miti.meeti.ui.login.otpfragment"
         android:label="fragment_otpfragment"
         tools:layout="@layout/fragment_otpfragment" >
         <action
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/social_pref_interest2"
-        android:name="com.example.miti2.ui.social.pref.social_pref_interest"
+        android:name="com.miti.meeti.ui.social.pref.social_pref_interest"
         android:label="fragment_social_pref_interest"
         tools:layout="@layout/fragment_social_pref_interest" >
         <action
@@ -74,7 +74,7 @@
     </fragment>
     <fragment
         android:id="@+id/profile_creation"
-        android:name="com.example.miti2.ui.login.profile_creation"
+        android:name="com.miti.meeti.ui.login.profile_creation"
         android:label="fragment_profile_creation"
         tools:layout="@layout/fragment_profile_creation" >
         <action
@@ -83,7 +83,7 @@
     </fragment>
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.example.miti2.MainActivity"
+        android:name="com.miti.meeti.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
 </navigation>

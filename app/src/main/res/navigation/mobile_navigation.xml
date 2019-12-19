@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/miti_login"
-        android:name="com.example.miti2.ui.login.LoginFragment"
+        android:name="com.miti.meeti.ui.login.LoginFragment"
         android:label="@string/miti_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -17,13 +17,13 @@
 
     <fragment
         android:id="@+id/miti_newsfeed"
-        android:name="com.example.miti2.ui.newsfeed.pagertry"
+        android:name="com.miti.meeti.ui.newsfeed.pagertry"
         android:label="@string/miti_newsfeed"
         tools:layout="@layout/fragment_feed" />
 
     <fragment
         android:id="@+id/miti_social"
-        android:name="com.example.miti2.ui.social.SocialFragment"
+        android:name="com.miti.meeti.ui.social.SocialFragment"
         android:label="@string/miti_social"
         tools:layout="@layout/fragment_social" >
         <action
@@ -42,29 +42,29 @@
 
     <fragment
         android:id="@+id/miti_security"
-        android:name="com.example.miti2.ui.security.SecurityFragment"
+        android:name="com.miti.meeti.ui.security.SecurityFragment"
         android:label="@string/miti_security"
         tools:layout="@layout/fragment_security" />
 
     <fragment
         android:id="@+id/miti_privacy"
-        android:name="com.example.miti2.ui.privacy.PrivacyFragment"
+        android:name="com.miti.meeti.ui.privacy.PrivacyFragment"
         android:label="@string/miti_privacy"
         tools:layout="@layout/fragment_privacy" />
 
     <fragment
         android:id="@+id/miti_utility"
-        android:name="com.example.miti2.ui.utility.UtilFragment"
+        android:name="com.miti.meeti.ui.utility.UtilFragment"
         android:label="@string/miti_utility"
         tools:layout="@layout/fragment_util" />
     <fragment
         android:id="@+id/otpfragment"
-        android:name="com.example.miti2.ui.login.otpfragment"
+        android:name="com.miti.meeti.ui.login.otpfragment"
         android:label="fragment_otpfragment"
         tools:layout="@layout/fragment_otpfragment" />
     <fragment
         android:id="@+id/social_chat_list"
-        android:name="com.example.miti2.ui.social.chat.social_chat_list"
+        android:name="com.miti.meeti.ui.social.chat.social_chat_list"
         android:label="fragment_social_chat_list"
         tools:layout="@layout/fragment_social_chat_list" >
         <action
@@ -73,23 +73,23 @@
     </fragment>
     <fragment
         android:id="@+id/social_chat_content"
-        android:name="com.example.miti2.ui.social.chat.social_chat_content"
+        android:name="com.miti.meeti.ui.social.chat.social_chat_content"
         android:label="fragment_social_chat_content"
         tools:layout="@layout/fragment_social_chat_content" />
     <fragment
         android:id="@+id/social_pref_interest"
-        android:name="com.example.miti2.ui.social.pref.social_pref_interest"
+        android:name="com.miti.meeti.ui.social.pref.social_pref_interest"
         android:label="fragment_social_pref_interest"
         tools:layout="@layout/fragment_social_pref_interest" />
 
     <fragment
         android:id="@+id/social_pref_ipip"
-        android:name="com.example.miti2.ui.social.pref.social_pref_ipip"
+        android:name="com.miti.meeti.ui.social.pref.social_pref_ipip"
         android:label="fragment_social_pref_interest"
         tools:layout="@layout/fragment_social_pref_ipip" />
     <fragment
         android:id="@+id/social_event_creation"
-        android:name="com.example.miti2.ui.social.event.social_event_creation"
+        android:name="com.miti.meeti.ui.social.event.social_event_creation"
         android:label="fragment_social_event_creation"
         tools:layout="@layout/fragment_social_event_creation" />
 
