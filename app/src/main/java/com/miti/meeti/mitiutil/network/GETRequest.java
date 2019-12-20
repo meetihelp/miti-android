@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHelper> {
@@ -16,7 +18,9 @@ public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHe
     public static final int READ_TIMEOUT = 15000;
     public static final int CONNECTION_TIMEOUT = 15000;
     private static final String Domain="http://10.147.230.129:9000";
+    public void helper(HashMap<String,String>temp){
 
+    }
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -52,6 +56,7 @@ public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHe
             reader.close();
             streamReader.close();
             result = stringBuilder.toString();
+            Map<String, List<String>> mapx = connection.getHeaderFields();
             MitiCookie=connection.getHeaderField("Miti-Cookie");
         } catch (Exception e) {
             Log.e("Control","mitiutil/network/getrequest->"+e.toString());

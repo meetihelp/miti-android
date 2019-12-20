@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.miti.meeti.R;
 import com.miti.meeti.apicompat.mitihelper;
+import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
 public class social_pref_interest extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
@@ -134,8 +135,37 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
             this.v1.removeViewAt(i);
         }
     }
+    private int check_helper(View v,int cmax,int cmin){
+        int noofchild=this.v1.getChildCount();
+        int checked_countx=0;
+        for(int i=2;i<noofchild-1;i++){
+            View temp=this.v1.getChildAt(i);
+            CheckBox temp1=(CheckBox)temp;
+            if(temp1.isChecked()){
+                checked_countx=checked_countx+1;
+            }
+        }
+        if(checked_countx<cmin){
+            ToastHelper.ToastFun(v.getContext(),"Please select atleast one");
+            return -1;
+        }
+        if(checked_countx>cmax){
+            ToastHelper.ToastFun(v.getContext(),"You can select atmax "+Integer.toString(cmax));
+            return -1;
+        }
+        return 1;
+    }
     @Override
     public void onClick(View v) {
+        if(count==5){
+            if(check_helper(v,1,1)!=1){
+                return;
+            }
+        }else{
+            if(check_helper(v,2,1)!=1){
+                return;
+            }
+        }
         if(count>5){
             Navigation.findNavController(v).navigate(R.id.action_social_pref_interest2_to_mainActivity);
         }else{

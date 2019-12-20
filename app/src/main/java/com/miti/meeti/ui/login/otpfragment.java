@@ -123,6 +123,10 @@ public class otpfragment extends Fragment implements View.OnClickListener {
             return;
         }
         String otp=otpEditText.getText().toString();
+        if(otp.length()!=5){
+            ToastHelper.ToastFun(v.getContext(),"Otp length should be 5");
+            return;
+        }
         int value=SendOTP(otp);
         if(value!=200){
             ToastHelper.ToastFun(v.getContext(),"Try again");

@@ -73,7 +73,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_login, container, false);
         phoneEditText=(TextInputEditText) v.findViewById(R.id.miti_login_input_text);
-        passwordEditText=(TextInputEditText) v.findViewById(R.id.miti_password_input_text);
         Button button = v.findViewById(R.id.button2login);
 //        final SessionDatabase db=SessionDatabase.getInstance(v.getContext());
 //         db=CookieDatabase.getAppDatabase(v.getContext());
@@ -87,10 +86,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         String phone=phoneEditText.getText().toString();
-        String password=passwordEditText.getText().toString();
+        if(phone.length()!=10){
+            ToastHelper.ToastFun(v.getContext(),"Length of phone number not 10");
+            return;
+        }
         GetJsonObject getJsonObject=new GetJsonObject();
-        String []key={"Phone","Password"};
-        String []values={phone,password};
+        String []key={"Phone"};
+        String []values={phone};
         String data="";
         try {
             data=getJsonObject.getJson(key,values);

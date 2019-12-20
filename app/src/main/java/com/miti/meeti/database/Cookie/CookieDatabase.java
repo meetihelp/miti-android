@@ -23,7 +23,7 @@ public abstract class CookieDatabase extends RoomDatabase {
         }
         return instance;
     }
-    
+
     public static void destroyInstance() {
         instance = null;
     }
