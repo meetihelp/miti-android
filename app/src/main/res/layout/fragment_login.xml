@@ -21,6 +21,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/miti_login_input_text"
+            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

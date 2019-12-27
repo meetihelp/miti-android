@@ -6,19 +6,36 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.miti.meeti.R;
+import com.miti.meeti.mitiutil.uihelper.ToastHelper;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.miti.meeti.apicompat.mitihelper.getuniqueid;
 
 public class social_pref_ipip extends Fragment implements View.OnClickListener{
     private OnFragmentInteractionListener mListener;
     public ViewGroup v1;
     public int perpage=5;
     public int count=0;
+    HashMap<Integer, Integer> map= new HashMap<>();
+    HashMap<Integer, Integer> map1= new HashMap<Integer, Integer>(){{
+        put(R.id.radioButton1,1);
+        put(R.id.radioButton2,2);
+        put(R.id.radioButton3,3);
+        put(R.id.radioButton4,4);
+        put(R.id.radioButton5,5);
+    }};
     public String []question={"Am the life of the party.","Feel little concern for others.","Am always prepared.",
             "Get stressed out easily.","Have a rich vocabulary.","Don't talk a lot.","Am interested in humans.",
             "Leave my belongings around.","Am relaxed most of the time.","Have difficulty understanding abstract ideas."
@@ -41,10 +58,15 @@ public class social_pref_ipip extends Fragment implements View.OnClickListener{
     }
 
     public void createScreen(int index){
+        map.clear();
         this.v1.removeAllViews();
         for(int i=index*this.perpage;i<(index+1)*perpage;i++){
             View view = LayoutInflater.from(this.getContext()).inflate(R.layout.ipip_helper, null);
             TextView t1=view.findViewById(R.id.textView5);
+            RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radiogroup1);
+            int idxs=getuniqueid();
+            map.put(i,idxs);
+            radioGroup.setId(idxs);
             t1.setText(this.question[i]);
             this.v1.addView(view);
         }
@@ -104,7 +126,18 @@ public class social_pref_ipip extends Fragment implements View.OnClickListener{
         if(count>5){
 
         }else{
-            System.out.println(v);
+            for(int i=count*this.perpage;i<(count+1)*perpage;i++){
+                int idx=map.get(i);
+                RadioGroup radioGroup = (RadioGroup) this.v1.findViewById(idx);
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                if(selectedId==-1){
+                    ToastHelper.ToastFun(v1.getContext(),"Fill all");
+                    return;
+                }else{
+                    Log.e("Control",Integer.toString(map1.get(selectedId)));
+                }
+
+            }
             count=count+1;
             this.createScreen(count);
 

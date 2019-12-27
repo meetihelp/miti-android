@@ -15,6 +15,7 @@
 
     <RadioGroup
         android:layout_width="match_parent"
+        android:id="@+id/radiogroup1"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView5"
         android:orientation="horizontal">
