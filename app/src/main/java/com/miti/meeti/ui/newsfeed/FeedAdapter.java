@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.miti.meeti.R;
@@ -33,11 +34,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
     public int getItemCount() {
         return temp.size();
     }
+
     public void setTemp(List<String>temp){
         this.temp=temp;
         notifyDataSetChanged();
     }
-
+    public void setTemp1(List<String>temp1){
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(this.temp, temp1));
+        this.temp=temp1;
+        diffResult.dispatchUpdatesTo(this);
+    }
     class FeedHolder extends RecyclerView.ViewHolder{
         private TextView temp;
         public FeedHolder(@NonNull View itemView) {

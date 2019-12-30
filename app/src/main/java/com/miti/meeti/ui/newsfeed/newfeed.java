@@ -69,20 +69,9 @@ public class newfeed extends Fragment {
         feedViewModel.getTodos().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> strings) {
-                feedAdapter.setTemp(strings);
+                feedAdapter.setTemp1(strings);
             }
         });
-        mWaitHandler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    feedViewModel.addTodo("saraswati");
-                } catch (Exception ignored) {
-//                    ignored.printStackTrace();
-                }
-            }
-        }, 2000);
         return v;
 
     }
