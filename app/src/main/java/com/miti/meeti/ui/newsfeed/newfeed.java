@@ -13,14 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.miti.meeti.R;
 import com.miti.meeti.database.Feed.FeedViewModel;
+import com.miti.meeti.mitiutil.uihelper.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
+
+import static com.miti.meeti.mitiutil.try123.randomAlphaNumeric;
 
 public class newfeed extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +33,7 @@ public class newfeed extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private  RecyclerView recyclerView;
     private FeedViewModel feedViewModel;
+    private EndlessRecyclerViewScrollListener scrollListener;
     private Handler mWaitHandler = new Handler();
     private OnFragmentInteractionListener mListener;
     boolean isLoading = false;
@@ -47,8 +52,18 @@ public class newfeed extends Fragment {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_newfeed, container, false);
         recyclerView=v.findViewById(R.id.feed_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        LinearLayoutManager llm=new LinearLayoutManager(v.getContext());
+        recyclerView.setLayoutManager(llm);
         final FeedAdapter feedAdapter = new FeedAdapter();
+        scrollListener = new EndlessRecyclerViewScrollListener(llm) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi(page);
+            }
+        };
+        recyclerView.addOnScrollListener(scrollListener);
         recyclerView.setAdapter(feedAdapter);
         feedViewModel= ViewModelProviders.of(this).get(FeedViewModel.class);
         feedViewModel.getTodos().observe(this, new Observer<List<String>>() {
@@ -85,7 +100,10 @@ public class newfeed extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
+    public void loadNextDataFromApi(int offset) {
+        Log.e("Control","loadnextmeaayamain");
+        feedViewModel.addTodo(randomAlphaNumeric(10));
+    }
 
     /**
      * This interface must be implemented by activities that contain this
