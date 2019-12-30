@@ -39,7 +39,8 @@ public class FeedViewModel extends AndroidViewModel {
         }
         mTodos.setValue(newTodos);
     }
-    public void addTodo(String name) {
+    public void addTodo() {
+        String name=FeedRequest.getlaternews();
         List<String> todos = mTodos.getValue();
         ArrayList<String> clonedTodos = new ArrayList<String>(todos.size());
         for(int i = 0; i < todos.size(); i++){

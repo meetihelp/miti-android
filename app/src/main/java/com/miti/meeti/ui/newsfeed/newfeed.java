@@ -65,11 +65,13 @@ public class newfeed extends Fragment {
         };
         recyclerView.addOnScrollListener(scrollListener);
         recyclerView.setAdapter(feedAdapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(2);
         feedViewModel= ViewModelProviders.of(this).get(FeedViewModel.class);
         feedViewModel.getTodos().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> strings) {
-                feedAdapter.setTemp1(strings);
+                feedAdapter.setTemp(strings);
             }
         });
         return v;
@@ -91,7 +93,7 @@ public class newfeed extends Fragment {
     }
     public void loadNextDataFromApi(int offset) {
         Log.e("Control","loadnextmeaayamain");
-        feedViewModel.addTodo(FeedRequest.getlaternews());
+        feedViewModel.addTodo();
     }
 
     /**
