@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_logo_page_to_social_pref_ipip2"
             app:destination="@id/social_pref_ipip2" />
+        <action
+            android:id="@+id/action_logo_page_to_newfeed"
+            app:destination="@id/newfeed" />
     </fragment>
     <fragment
         android:id="@+id/loading_page"
@@ -94,4 +97,9 @@
         android:name="com.miti.meeti.ui.social.pref.social_pref_ipip"
         android:label="fragment_social_pref_ipip"
         tools:layout="@layout/fragment_social_pref_ipip" />
+    <fragment
+        android:id="@+id/newfeed"
+        android:name="com.miti.meeti.ui.newsfeed.newfeed"
+        android:label="fragment_newfeed"
+        tools:layout="@layout/fragment_newfeed" />
 </navigation>
