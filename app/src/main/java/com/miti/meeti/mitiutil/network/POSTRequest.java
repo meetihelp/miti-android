@@ -15,7 +15,7 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
     public static final String REQUEST_METHOD = "POST";
     public static final int READ_TIMEOUT = 2000;
     public static final int CONNECTION_TIMEOUT = 2000;
-    public static final String Domain="http:/10.147.230.129:9000";
+    public static final String Domain="http://meeti.club:9000";
 
     @Override
     protected void onPreExecute(){
@@ -33,7 +33,7 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
             connection.setReadTimeout(READ_TIMEOUT);
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
             if(strings.length>2) {
-                connection.setRequestProperty("Miti-Cookie", strings[2]);
+                connection.addRequestProperty("Miti-Cookie", strings[2]);
             }
             connection.connect();
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());

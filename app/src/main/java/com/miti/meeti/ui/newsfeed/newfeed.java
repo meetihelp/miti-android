@@ -91,7 +91,7 @@ public class newfeed extends Fragment {
     }
     public void loadNextDataFromApi(int offset) {
         Log.e("Control","loadnextmeaayamain");
-        feedViewModel.addTodo(randomAlphaNumeric(10));
+        feedViewModel.addTodo(FeedRequest.getlaternews());
     }
 
     /**
