@@ -15,18 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
-    private final int VIEW_TYPE_ITEM = 0;
-    private final int VIEW_TYPE_LOADING = 1;
     private List<String>temp=new ArrayList<String>();
     @NonNull
     @Override
     public FeedHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType==VIEW_TYPE_ITEM){
-            View Itemview= LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_item,parent,false);
-            return new FeedHolder(Itemview);
-        }else{
-            View Itemview= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading,parent,false);
-        }
+        View Itemview= LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_item,parent,false);
+        return new FeedHolder(Itemview);
     }
 
     @Override
@@ -49,14 +43,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
         public FeedHolder(@NonNull View itemView) {
             super(itemView);
             temp=itemView.findViewById(R.id.feed_text);
-        }
-    }
-    private class LoadingViewHolder extends RecyclerView.ViewHolder {
-
-        ProgressBar progressBar;
-        public LoadingViewHolder(@NonNull View itemView) {
-            super(itemView);
-            progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 }
