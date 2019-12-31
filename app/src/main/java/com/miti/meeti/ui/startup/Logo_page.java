@@ -82,7 +82,7 @@ public class Logo_page extends Fragment {
             @Override
             public void run() {
                 try {
-                    Navigation.findNavController(v).navigate(R.id.action_logo_page_to_newfeed);
+                    Navigation.findNavController(v).navigate(R.id.action_logo_page_to_social_chat_list2);
                 } catch (Exception ignored) {
                     ignored.printStackTrace();
                 }

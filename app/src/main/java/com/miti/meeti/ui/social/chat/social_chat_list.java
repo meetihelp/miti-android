@@ -4,17 +4,23 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.miti.meeti.NetworkObjects.ChatList;
 import com.miti.meeti.R;
+import com.miti.meeti.database.Chat.ChatListViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,12 +35,13 @@ public class social_chat_list extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    public static int chatlist_offset;
+    public static ChatListViewModel chatListViewModel;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private social_chat_list_adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private OnFragmentInteractionListener mListener;
@@ -68,6 +75,8 @@ public class social_chat_list extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //set chatlistoffset;
+        chatlist_offset=getChatlist_offset();
     }
 
     @Override
@@ -80,11 +89,17 @@ public class social_chat_list extends Fragment {
         layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
 //        String []myDataset={"apoorva","kumar"};
-        ArrayList<String> names = new ArrayList<String>( Arrays.asList("alex", "brian", "charles") );
-        ArrayList<String> names1 = new ArrayList<String>( Arrays.asList("alex", "brian", "charles") );
-        ArrayList<String> names2 = new ArrayList<String>( Arrays.asList("alex", "brian", "charles") );
-        mAdapter = new social_chat_list_adapter(v.getContext(),names,names1,names2);
+        mAdapter = new social_chat_list_adapter();
         recyclerView.setAdapter(mAdapter);
+        chatListViewModel= ViewModelProviders.of(this).get(ChatListViewModel.class);
+        chatListViewModel.getTodos().observe(this, new Observer<List<ChatList.chatlist_object>>() {
+            @Override
+            public void onChanged(List<ChatList.chatlist_object> newChatlist) {
+                Log.e("Control","On changed called for social chat list ");
+                mAdapter.setChatList(newChatlist);
+            }
+        });
+        ChatListRequest.getinitialnews();
         return v;
     }
 
@@ -102,7 +117,9 @@ public class social_chat_list extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
+    public int getChatlist_offset(){
+        return 0;
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

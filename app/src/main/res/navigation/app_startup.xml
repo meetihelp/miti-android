@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_logo_page_to_newfeed"
             app:destination="@id/newfeed" />
+        <action
+            android:id="@+id/action_logo_page_to_social_chat_list2"
+            app:destination="@id/social_chat_list2" />
     </fragment>
     <fragment
         android:id="@+id/loading_page"
@@ -102,4 +105,18 @@
         android:name="com.miti.meeti.ui.newsfeed.newfeed"
         android:label="fragment_newfeed"
         tools:layout="@layout/fragment_newfeed" />
+    <fragment
+        android:id="@+id/social_chat_list2"
+        android:name="com.miti.meeti.ui.social.chat.social_chat_list"
+        android:label="fragment_social_chat_list"
+        tools:layout="@layout/fragment_social_chat_list" >
+        <action
+            android:id="@+id/action_social_chat_list2_to_social_chat_content2"
+            app:destination="@id/social_chat_content2" />
+    </fragment>
+    <fragment
+        android:id="@+id/social_chat_content2"
+        android:name="com.miti.meeti.ui.social.chat.social_chat_content"
+        android:label="fragment_social_chat_content"
+        tools:layout="@layout/fragment_social_chat_content" />
 </navigation>

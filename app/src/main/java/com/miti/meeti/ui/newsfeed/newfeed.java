@@ -32,7 +32,7 @@ public class newfeed extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private  RecyclerView recyclerView;
-    private FeedViewModel feedViewModel;
+    static public FeedViewModel feedViewModel;
     private EndlessRecyclerViewScrollListener scrollListener;
     private Handler mWaitHandler = new Handler();
     private OnFragmentInteractionListener mListener;
@@ -93,7 +93,7 @@ public class newfeed extends Fragment {
     }
     public void loadNextDataFromApi(int offset) {
         Log.e("Control","loadnextmeaayamain");
-        feedViewModel.addTodo();
+        FeedRequest.getlaternews();
     }
 
     /**

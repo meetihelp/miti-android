@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.miti.meeti.NetworkObjects.GetChatContent;
+import com.miti.meeti.NetworkObjects.SendChatContent;
 import com.miti.meeti.R;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
@@ -71,6 +73,7 @@ public class social_chat_content extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        final String chatid=getArguments().getString("chatid");
         View v=inflater.inflate(R.layout.fragment_social_chat_content, container, false);
         MessageInput inputView=v.findViewById(R.id.input);
         MessagesList inputlist=v.findViewById(R.id.messagesList);
@@ -78,15 +81,17 @@ public class social_chat_content extends Fragment {
         Author temp=new Author("apoorva","apoorva kumar","");
         adapterx = new MessagesListAdapter<>("apoorva", null);
         inputlist.setAdapter(adapterx);
+        ChatContentRequest.getmessage(new GetChatContent().new request_body(chatid,10,0));
         Message tempx=new Message("apoorva","hi there",temp,new Date());
         adapterx.addToStart(tempx, true);
         inputView.setInputListener(new MessageInput.InputListener() {
             @Override
             public boolean onSubmit(CharSequence input) {
                 //validate and send message
-
                 Author temp=new Author("apoorva","apoorva kumar","");
                 Message tempx=new Message("apoorva",input.toString(),temp,new Date());
+                SendChatContent.request_body tempk=new SendChatContent().new request_body("Text",input.toString(),chatid);
+                ChatContentRequest.sendmessage(tempk);
                 adapterx.addToStart(tempx, true);
                 return true;
             }

@@ -33,24 +33,18 @@ public class FeedRequest {
         }
         return ret;
     }
-    public static String getlaternews(){
+    public static void getlaternews(){
         String ret=new String();
         Gson gson = new Gson();
         Feed.request_body temp=new Feed().new request_body(FeedViewModel.templkh);
         String jsonInString = gson.toJson(temp);
-        POSTRequest postRequest=new POSTRequest();
+        FeedPOSTRequest postRequest=new FeedPOSTRequest();
         RequestHelper requestHelper;
         try{
             requestHelper= postRequest.execute("getNewsArticleList",jsonInString,"558eca4e-0475-4164-47e5-a720a4b55119").get();
-            String result=requestHelper.getData();
-            Feed.response_object tempqw=gson.fromJson(result,Feed.response_object.class);
-            ret=tempqw.NewsData.get(0).Summary;
-            FeedViewModel.templkh=tempqw.NewsData.get(0).Id+1;
-            Log.e("Control","returned");
-            return ret;
+            Log.e("Control","post request sent");
         }catch (Exception e){
             Log.e("Control",e.toString());
         }
-        return ret;
     }
 }
