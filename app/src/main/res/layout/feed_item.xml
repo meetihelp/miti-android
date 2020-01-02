@@ -1,15 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
  <com.google.android.material.card.MaterialCardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/mtrl_card_spacing"
-        android:layout_marginTop="@dimen/mtrl_card_spacing"
-        android:layout_marginRight="@dimen/mtrl_card_spacing"
+    android:layout_marginBottom="5dp"
+    app:cardBackgroundColor="#0c1329"
         android:minHeight="200dp">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_margin="0dp"
+    android:padding="0dp"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars" />
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Entry"
+            app:chipBackgroundColor="#7FDBFF"
+            app:closeIconVisible="false"
+            android:layout_margin="3sp"
+            android:layout_width="wrap_content"
+            android:id="@+id/label_chip"
+            android:layout_gravity="right"
+            android:layout_height="wrap_content"
+            android:text=""/>
+    </FrameLayout>
+    <TextView
+        android:id="@+id/feed_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="10dp"
+        android:text="hey jude"
+        android:textColor="#7FDBFF"
+        android:textSize="28sp"
+        app:fontFamily="@font/lora" />
+
         <TextView
             android:id="@+id/feed_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hey jude"/>
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_margin="0dp"
+            android:textColor="#7FDBFF"
+            app:fontFamily="@font/slabo_13px"
+            android:padding="10dp"
+            android:text="hey jude"
+            android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="false"
+            android:text=""
+            android:textColor="#7FDBFF"
+            android:textSize="3dp"
+            android:layout_weight="4"
+            app:chipBackgroundColor="#0c1329"
+            app:chipIcon="@drawable/ic_angry"
+            app:closeIconVisible="false"
+            app:showMotionSpec="@anim/nav_default_enter_anim" />
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Entry"
+            app:chipBackgroundColor="#0c1329"
+            android:checkable="false"
+            app:showMotionSpec="@anim/nav_default_enter_anim"
+            app:closeIconVisible="false"
+            android:layout_width="wrap_content"
+            app:chipIcon="@drawable/ic_heart"
+            android:layout_height="wrap_content"
+            android:textColor="#7FDBFF"
+            android:textSize="3dp"
+            android:layout_weight="0"
+            android:text=""/>
+    </LinearLayout>
+</LinearLayout>
+ </com.google.android.material.card.MaterialCardView>

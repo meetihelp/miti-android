@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.miti.meeti.NetworkObjects.Feed;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.mitiutil.uihelper.EndlessRecyclerViewScrollListener;
@@ -31,6 +32,7 @@ public class newfeed extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static View v;
     private  RecyclerView recyclerView;
     static public FeedViewModel feedViewModel;
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -50,7 +52,7 @@ public class newfeed extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_newfeed, container, false);
+        v=inflater.inflate(R.layout.fragment_newfeed, container, false);
         recyclerView=v.findViewById(R.id.feed_recyclerview);
         LinearLayoutManager llm=new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(llm);
@@ -68,10 +70,10 @@ public class newfeed extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(2);
         feedViewModel= ViewModelProviders.of(this).get(FeedViewModel.class);
-        feedViewModel.getTodos().observe(this, new Observer<List<String>>() {
+        feedViewModel.getTodos().observe(this, new Observer<List<Feed.feed_object>>() {
             @Override
-            public void onChanged(List<String> strings) {
-                feedAdapter.setTemp(strings);
+            public void onChanged(List<Feed.feed_object> feeds) {
+                feedAdapter.setTemp(feeds);
             }
         });
         return v;

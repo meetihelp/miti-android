@@ -14,38 +14,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeedViewModel extends AndroidViewModel {
-    private MutableLiveData<List<String>> mTodos;
+    private MutableLiveData<List<Feed.feed_object>> mTodos;
     public static int templkh=-1;
     public FeedViewModel(@NonNull Application application) {
         super(application);
     }
-    public LiveData<List<String>> getTodos() {
+    public LiveData<List<Feed.feed_object>> getTodos() {
         if (mTodos == null) {
-            mTodos = new MutableLiveData<List<String>>();
+            mTodos = new MutableLiveData<List<Feed.feed_object>>();
             loadTodos();
         }
         return mTodos;
     }
     private void loadTodos() {
-        List<String> newTodos = new ArrayList<String>();
+        List<Feed.feed_object> newTodos = new ArrayList<>();
         List<Feed.feed_object>lkj= FeedRequest.getinitialnews();
         if(lkj.size()==0){
         }else{
-            newTodos.add(lkj.get(0).Summary);
-            newTodos.add(lkj.get(1).Summary);
+            newTodos.add(lkj.get(0));
+            newTodos.add(lkj.get(1));
             templkh=lkj.get(1).Id+1;
         }
         mTodos.setValue(newTodos);
     }
-    public void addTodo(String name) {
+    public void addTodo(List<Feed.feed_object>newtodo) {
 //        String name=FeedRequest.getlaternews();
-        List<String> todos = mTodos.getValue();
-        ArrayList<String> clonedTodos = new ArrayList<String>(todos.size());
+        List<Feed.feed_object> todos = mTodos.getValue();
+        ArrayList<Feed.feed_object> clonedTodos = new ArrayList<>();
         for(int i = 0; i < todos.size(); i++){
-            clonedTodos.add(new String(todos.get(i)));
+            clonedTodos.add(todos.get(i));
         }
-        String todo = new String(name);
-        clonedTodos.add(todo);
+        for(Feed.feed_object tempxd:newtodo){
+            clonedTodos.add(tempxd);
+        }
         mTodos.setValue(clonedTodos);
     }
 }
