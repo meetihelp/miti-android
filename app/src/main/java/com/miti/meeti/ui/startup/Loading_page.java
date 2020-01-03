@@ -120,6 +120,9 @@ public class Loading_page extends Fragment implements Runnable{
                 bundle.putInt("Preference",Preference);
                 Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_preference_page,bundle);
             }
+            else if(moveto==6){
+                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_newsfeed);
+            }
 //            if (code == 300) {
 //                //To newsfeed
 //                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_newsfeed,bundle);
