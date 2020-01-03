@@ -4,17 +4,21 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 
+import com.miti.meeti.mitiutil.Logging.Mlog;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
 
     public static final String REQUEST_METHOD = "POST";
-    public static final int READ_TIMEOUT = 2000;
-    public static final int CONNECTION_TIMEOUT = 2000;
+    public static final int READ_TIMEOUT = 5000;
+    public static final int CONNECTION_TIMEOUT = 5000;
     public static final String Domain="http://meeti.club:9000";
 
     @Override
@@ -37,6 +41,7 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
             }
             connection.connect();
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+            Mlog.e(strings[1]);
             wr.writeBytes(strings[1]);
             wr.flush();
             wr.close();
@@ -54,11 +59,13 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
             MitiCookie=connection.getHeaderField("Miti-Cookie");
 //            Log.e("Cookie",MitiCookie);
         } catch (Exception e) {
-            Log.e("Control","mitiutil/network/postrequest->"+e.getMessage());
-//            e.printStackTrace();
+            Mlog.e(e);
+            Mlog.printStackTrace(e,500);
             result=null;
         }
         RequestHelper requestHelper=new RequestHelper(MitiCookie,result);
+        String className = new Exception().getStackTrace()[1].getClassName();
+        new Mlog<RequestHelper>().e1(requestHelper);
         return requestHelper;
     }
 

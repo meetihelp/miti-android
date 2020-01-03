@@ -10,8 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.miti.meeti.NetworkObjects.UserProfile;
 import com.miti.meeti.R;
+import com.miti.meeti.mitiutil.network.RequestHelper;
+import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +35,7 @@ public class profile_creation extends Fragment implements View.OnClickListener {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    public static View v1;
     private OnFragmentInteractionListener mListener;
 
     public profile_creation() {
@@ -68,14 +73,36 @@ public class profile_creation extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_profile_creation, container, false);
-        Button b=v.findViewById(R.id.profile_submit_button);
+        v1=inflater.inflate(R.layout.fragment_profile_creation, container, false);
+        Button b=v1.findViewById(R.id.profile_submit_button);
         b.setOnClickListener(this);
-        return v;
+        return v1;
     }
     @Override
     public void onClick(View v) {
-        Navigation.findNavController(v).navigate(R.id.action_profile_creation_to_social_pref_interest2);
+        TextView t1=v1.findViewById(R.id.miti_p_name_text);
+        String s1=t1.getText().toString();
+        t1=v1.findViewById(R.id.miti_p_dob_text);
+        String s3=t1.getText().toString();
+        t1=v1.findViewById(R.id.miti_p_job_text);
+        String s5=t1.getText().toString();
+        t1=v1.findViewById(R.id.miti_p_gender_text);
+        String s4=t1.getText().toString();
+        t1=v1.findViewById(R.id.miti_p_lang_text);
+        String s6=t1.getText().toString();
+        t1=v1.findViewById(R.id.miti_p_country_text);
+        String s2=t1.getText().toString();
+        Gson gson = new Gson();
+        UserProfile.request_body temp=new UserProfile().new request_body(s1,s3,s5,s4,s6,s2);
+        String jsonInString = gson.toJson(temp);
+        RequestHelper requestHelper;
+        ProfilePostRequest postRequest=new ProfilePostRequest();
+        try{
+            requestHelper= postRequest.execute("profileCreation",jsonInString,"558eca4e-0475-4164-47e5-a720a4b55119").get();
+        }catch (Exception e){
+            ToastHelper.ToastFun(v.getContext(),e.toString());
+        }
+
     }
     // TODO: Rename method, update argument and hook method into UI event
 

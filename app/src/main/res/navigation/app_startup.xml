@@ -25,6 +25,12 @@
         <action
             android:id="@+id/action_logo_page_to_social_chat_list2"
             app:destination="@id/social_chat_list2" />
+        <action
+            android:id="@+id/action_logo_page_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_logo_page_to_social_pref_interest2"
+            app:destination="@id/social_pref_interest2" />
     </fragment>
     <fragment
         android:id="@+id/loading_page"

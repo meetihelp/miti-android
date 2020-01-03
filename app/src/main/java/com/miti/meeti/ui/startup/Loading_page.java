@@ -17,6 +17,7 @@ import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieDatabase;
 import com.miti.meeti.database.Cookie.CookieRepository;
 import com.miti.meeti.database.Cookie.CookieViewModel;
+import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.GETRequest;
 import com.miti.meeti.mitiutil.network.GetJsonObject;
 import com.miti.meeti.mitiutil.network.Keyvalue;
@@ -105,27 +106,39 @@ public class Loading_page extends Fragment implements Runnable{
         if(jsonData!=null) {
             GetJsonObject getJsonObject=new GetJsonObject();
             int code=getJsonObject.getIntValue(jsonData,"Code");
+            int moveto=getJsonObject.getIntValue(jsonData,"MoveTo");
             Bundle bundle=new Bundle();
             bundle.putString("From","Loading");
             bundle.putInt("LoadingToOTPCode",code);
-            if (code == 300) {
-                //To newsfeed
-                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_newsfeed,bundle);
-            } else if (code == 2000) {
-                //Login Page
+            if(moveto==2){
                 Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_loginFragment,bundle);
-            } else if (code == 2001) {
-                //To OTP fragment
+            }else if(moveto==3){
                 Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_otpfragment2,bundle);
-            } else if (code == 2002) {
-                //To profile page
+            }else if(moveto==4){
                 Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_profile_page,bundle);
-            } else if (code == 2003) {
-                //To Preference page
+            }else if(moveto==5){
                 int Preference=getJsonObject.getIntValue(jsonData,"Preference");
                 bundle.putInt("Preference",Preference);
                 Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_preference_page,bundle);
             }
+//            if (code == 300) {
+//                //To newsfeed
+//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_newsfeed,bundle);
+//            } else if (code == 2000) {
+//                //Login Page
+//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_loginFragment,bundle);
+//            } else if (code == 2001) {
+//                //To OTP fragment
+//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_otpfragment2,bundle);
+//            } else if (code == 2002) {
+//                //To profile page
+//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_profile_page,bundle);
+//            } else if (code == 2003) {
+//                //To Preference page
+//                int Preference=getJsonObject.getIntValue(jsonData,"Preference");
+//                bundle.putInt("Preference",Preference);
+//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_preference_page,bundle);
+//            }
         }
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -163,7 +176,8 @@ public class Loading_page extends Fragment implements Runnable{
             Log.e("Control","Get Request enter");
             RequestHelper requestHelper=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/loadingPage"),
                     new Keyvalue("Miti-Cookie",MeetiCookie))).get();
-            Log.e("Control","Get Request exit");
+            Mlog.e( "Get Request exit");
+            Mlog.e("Cookie Sent->"+MeetiCookie);
             String data=requestHelper.getData();
             Log.e("Control",requestHelper.toString());
             return data;

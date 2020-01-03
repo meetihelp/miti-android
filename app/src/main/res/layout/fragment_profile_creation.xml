@@ -1,13 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/mitiPrimaryBlue"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ui.login.profile_creation"
     android:gravity="center"
     android:orientation="vertical">
-
     <!-- TODO: Update blank fragment layout -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/miti_p_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="314dp"
+        android:layout_height="57dp"
+        android:layout_gravity="center"
+        app:boxStrokeColor="@color/mitiOrange"
+        android:layout_marginBottom="10dp"
+        android:textColorHint="@color/white"
+        android:hint="Name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/mitiTextBlue"
+            android:id="@+id/miti_p_name_text"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/miti_p_dob"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="314dp"
+        android:layout_height="57dp"
+        android:layout_gravity="center"
+        app:boxStrokeColor="@color/mitiOrange"
+        android:layout_marginBottom="10dp"
+        android:textColorHint="@color/white"
+        android:hint="DD-MM-YYYY">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/mitiTextBlue"
+            android:id="@+id/miti_p_dob_text"
+            android:inputType="date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/miti_p_job"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="314dp"
+        android:layout_height="57dp"
+        android:layout_gravity="center"
+        app:boxStrokeColor="@color/mitiOrange"
+        android:layout_marginBottom="10dp"
+        android:textColorHint="@color/white"
+        android:hint="Job">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/mitiTextBlue"
+            android:id="@+id/miti_p_job_text"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/miti_p_gender"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="314dp"
+        android:layout_height="57dp"
+        android:layout_gravity="center"
+        app:boxStrokeColor="@color/mitiOrange"
+        android:layout_marginBottom="10dp"
+        android:textColorHint="@color/white"
+        android:hint="Gender">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/mitiTextBlue"
+            android:id="@+id/miti_p_gender_text"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/miti_p_lang"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="314dp"
+        android:layout_height="57dp"
+        android:layout_gravity="center"
+        app:boxStrokeColor="@color/mitiOrange"
+        android:layout_marginBottom="10dp"
+        android:textColorHint="@color/white"
+        android:hint="Language">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/mitiTextBlue"
+            android:id="@+id/miti_p_lang_text"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/miti_p_country"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="314dp"
+        android:layout_height="57dp"
+        android:layout_gravity="center"
+        app:boxStrokeColor="@color/mitiOrange"
+        android:layout_marginBottom="10dp"
+        android:textColorHint="@color/white"
+        android:hint="Country">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/mitiTextBlue"
+            android:id="@+id/miti_p_country_text"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/profile_submit_button"
@@ -17,3 +135,4 @@
         android:text="Button" />
 
 </LinearLayout>
+</ScrollView>

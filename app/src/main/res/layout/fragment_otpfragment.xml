@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mitiPrimaryBlue"
     android:orientation="vertical"
     tools:context=".ui.login.otpfragment">
 
@@ -24,6 +25,8 @@
             android:hint="@string/miti_login_otp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:inputType="number"
+                android:textColor="@color/mitiTextBlue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/otp"
@@ -44,6 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="300dp"
         android:text="Submit" />
 

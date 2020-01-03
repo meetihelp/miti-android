@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="mitiPrimaryBlue" tools:override="true">#000414</color>
+    <color name="mitiPrimaryBlue1" tools:override="true">#000814</color>
+
+    <color name="mitiSecondaryBlue" tools:override="true">#0c1329</color>
+
+    <color name="mitiTextBlue" tools:override="true">#7FDBFF</color>
+    <color name="mitiTextBlue1" tools:override="true">#77cced</color>
+    <color name="mitiTextBlue2" tools:override="true">#71c3e3</color>
+    <color name="mitiTextBlue3">#538fa6</color>
+
+    <color name="mitiRed" tools:override="true">#FF4136</color>
+    
+    <color name="mitiGreen" tools:override="true">#01FF70</color>
+
+    <color name="mitiOrange" tools:override="true">#FF851B</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/mitiOrange</color>
 </resources>

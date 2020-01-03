@@ -66,7 +66,7 @@ public class social_chat_list_adapter extends RecyclerView.Adapter<social_chat_l
             @Override
             public void onClick(View v) {
                 //implement onClick
-                Navigation.findNavController(v).navigate(R.id.action_social_chat_list2_to_social_chat_content2,bundle);
+                Navigation.findNavController(v).navigate(R.id.action_social_chat_list_to_social_chat_content,bundle);
             }
         });
 

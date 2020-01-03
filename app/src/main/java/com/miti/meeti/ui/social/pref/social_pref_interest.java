@@ -5,20 +5,30 @@ import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.miti.meeti.NetworkObjects.PrefInterest;
 import com.miti.meeti.R;
 import com.miti.meeti.apicompat.mitihelper;
+import com.miti.meeti.database.Cookie.CookieViewModel;
+import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class social_pref_interest extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
@@ -30,6 +40,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
 //    private String mParam1;
 //    private String mParam2;
     private static int count=0;
+    private CookieViewModel cookieViewModel;
     private ViewGroup v1;
     private OnFragmentInteractionListener mListener;
     static public String [][]array={
@@ -68,33 +79,27 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         TextView t2=(TextView) this.v1.getChildAt(1);
         CheckBox cb=(CheckBox) this.v1.getChildAt(2);
         Button b=(Button)this.v1.getChildAt(noofchild-1);
-//            removefromto(2,noofchild-1);
         this.v1.removeAllViews();
         this.v1.addView(t1);
         this.v1.addView(t2);
-        Log.e("Control","line 100 tak to sahi hai");
         int prev=t2.getId();
         for(int j=0;j<array[index].length;j++){
-            CheckBox cb1=new CheckBox(v1.getContext());
-            RelativeLayout.LayoutParams temp=new RelativeLayout.LayoutParams(cb.getLayoutParams());
-            temp.addRule(RelativeLayout.BELOW,prev);
-            Log.e("Control",temp.debug(""));
-            cb1.setLayoutParams(temp);
-            prev= mitihelper.getuniqueid();
-            cb1.setId(prev);
-            Log.e("Control",array[index][j]);
-            Log.e("Control",Integer.toString(j));
+            CheckBox cb1=new CheckBox(this.v1.getContext());
             cb1.setText(array[index][j]);
+            cb1.setTextColor(getResources().getColor(R.color.mitiOrange));
+//            cb1.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+//            cb1.setScaleY(new Float(1.2));
+            cb1.setTextSize(TypedValue.COMPLEX_UNIT_SP,25);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cb.getLayoutParams();
+            params.bottomMargin=20;
+            cb1.setLayoutParams(params);
             try{
                 this.v1.addView(cb1);
             }catch (Exception e){
 
             }
         }
-        RelativeLayout.LayoutParams temp=(RelativeLayout.LayoutParams)b.getLayoutParams();
-        temp.addRule(RelativeLayout.BELOW,prev);
 //            b.setId();
-        b.setLayoutParams(temp);
         this.v1.addView(b);
     }
     @Override
@@ -104,11 +109,13 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                if(count==1){
-                    setEnabled(false);
+                if(count==0){
+                    Navigation.findNavController(v1).navigateUp();
                 }
-                createScreen(count);
-                count=count-1;
+                if(count>=1){
+                    count=count-1;
+                    createScreen(count);
+                }
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
@@ -123,10 +130,12 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         Button b1=v.findViewById(R.id.social_button_pref_submit);
         this.v1=(ViewGroup) v;
         b1.setOnClickListener(this);
-        this.count=getArguments().getInt("Preference");
-        //this.count=gaurav ka lauda
+        try{
+            this.count=getArguments().getInt("Preference");
+        }catch (Exception e){
+            this.count=0;
+        }
         this.createScreen(this.count);
-        this.count=this.count+1;
         return v;
     }
 
@@ -150,9 +159,35 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
             return -1;
         }
         if(checked_countx>cmax){
-            ToastHelper.ToastFun(v.getContext(),"You can select atmax "+Integer.toString(cmax));
+            ToastHelper.ToastFun(v.getContext(),"You can select at max "+Integer.toString(cmax));
             return -1;
         }
+        return 1;
+    }
+    private int check_send(){
+        List<String>allpref=new ArrayList<>();
+        int noofchild=this.v1.getChildCount();
+        for(int i=2;i<noofchild-1;i++){
+            View temp=this.v1.getChildAt(i);
+            CheckBox temp1=(CheckBox)temp;
+            if(temp1.isChecked()){
+                Mlog.e(array[count][i-2].split(" ")[0]);
+                allpref.add(array[count][i-2].split(" ")[0]);
+            }
+        }
+        if(allpref.size()==0){
+            allpref.add("");
+            allpref.add("");
+        }else if(allpref.size()==1){
+            allpref.add("");
+        }
+        PrefInterest.request_object tempyu=new PrefInterest().new request_object(allpref.get(0),allpref.get(1));
+        Gson gson=new Gson();
+        String data=gson.toJson(tempyu);
+        cookieViewModel= ViewModelProviders.of(this).get(CookieViewModel.class);
+        String MeetiCookie= cookieViewModel.getCookie1();
+        InterestPost request=new InterestPost();
+        request.execute("updatePreference",data,MeetiCookie);
         return 1;
     }
     @Override
@@ -166,14 +201,12 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
                 return;
             }
         }
-        if(count>5){
+        if(count==5){
             Navigation.findNavController(v).navigate(R.id.action_social_pref_interest2_to_mainActivity);
         }else{
-            System.out.println(v);
-            int index=count;
-            this.createScreen(index);
+            check_send();
             count=count+1;
-
+            this.createScreen(count);
         }
 
     }

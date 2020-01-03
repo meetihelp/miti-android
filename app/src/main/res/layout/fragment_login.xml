@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/mitiPrimaryBlue"
     android:gravity="center"
     tools:context=".ui.login.LoginFragment">
 
@@ -16,10 +17,13 @@
         android:layout_height="57dp"
         android:layout_marginTop="100dp"
         android:layout_gravity="center"
+        app:boxStrokeColor="@color/mitiOrange"
         android:layout_marginBottom="10dp"
+        android:textColorHint="@color/white"
         android:hint="@string/miti_login_hint">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/mitiTextBlue"
             android:id="@+id/miti_login_input_text"
             android:inputType="number"
             android:layout_width="match_parent"
