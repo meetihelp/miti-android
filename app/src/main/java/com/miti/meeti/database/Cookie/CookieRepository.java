@@ -7,6 +7,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import com.miti.meeti.database.DatabaseInit;
+
 import java.util.concurrent.ExecutionException;
 
 public class CookieRepository {
@@ -14,7 +16,7 @@ public class CookieRepository {
     private LiveData<String[]> miticookie;
     private static final String TAG = CookieRepository.class.getName();
     public CookieRepository(Application application){
-        CookieDatabase cookieDatabase=CookieDatabase.getInstance(application);
+        DatabaseInit cookieDatabase=DatabaseInit.getInstance(application);
         this.cookieDao=cookieDatabase.cookieDao();
         this.miticookie=cookieDao.getCookie();
     }

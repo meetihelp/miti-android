@@ -14,6 +14,9 @@ public class Mlog<T>{
     public static void et(String tag,String error){
         Log.e(tag,error);
     }
+    public static void e(String tag,int error){
+        Log.e(tag,Integer.toString(error));
+    }
     public static void e(String ...error){
         String s1="";
         for(String s:error){

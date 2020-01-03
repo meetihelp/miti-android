@@ -3,6 +3,8 @@ package com.miti.meeti.mitiutil.network;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.miti.meeti.mitiutil.Logging.Mlog;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -40,8 +42,9 @@ public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHe
             connection.setReadTimeout(READ_TIMEOUT);
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
             for(String key:keys){
-                if(key.compareTo("url")==0){
-                    connection.setRequestProperty(key,Dic.get(key));
+                if(key.compareTo("url")!=0){
+                    Mlog.e(key,Dic.get(key));
+                    connection.addRequestProperty(key,Dic.get(key));
                 }
             }
             connection.connect();

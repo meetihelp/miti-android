@@ -1,21 +1,21 @@
-package com.miti.meeti.database.Cookie;
+package com.miti.meeti.database;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.miti.meeti.database.Cookie.Cookie;
+import com.miti.meeti.database.Cookie.CookieDao;
 
 @Database(entities = {Cookie.class}, version = 1,exportSchema = false)
-public abstract class CookieDatabase extends RoomDatabase {
-    private static CookieDatabase instance;
+public abstract class DatabaseInit extends RoomDatabase {
+    private static DatabaseInit instance;
     public abstract CookieDao cookieDao();
-
-    public static synchronized CookieDatabase getInstance(Context context) {
+    public static synchronized DatabaseInit getInstance(Context context) {
         if(instance==null){
-            instance= Room.databaseBuilder(context.getApplicationContext(), CookieDatabase.class, "user-database")
+            instance= Room.databaseBuilder(context.getApplicationContext(), DatabaseInit.class, "user-database")
                     // allow queries on the main thread.
                     // Don't do this on a real app! See PersistenceBasicSample for an example.
                     .fallbackToDestructiveMigration()
@@ -28,3 +28,4 @@ public abstract class CookieDatabase extends RoomDatabase {
         instance = null;
     }
 }
+

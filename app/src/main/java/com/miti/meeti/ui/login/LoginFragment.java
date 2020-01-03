@@ -15,8 +15,6 @@ import android.widget.Button;
 
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.Cookie;
-import com.miti.meeti.database.Cookie.CookieDatabase;
-import com.miti.meeti.database.Cookie.CookieRepository;
 import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.mitiutil.network.GetJsonObject;
 import com.miti.meeti.mitiutil.network.POSTRequest;

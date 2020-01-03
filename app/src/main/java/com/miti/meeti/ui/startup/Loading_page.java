@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.miti.meeti.R;
-import com.miti.meeti.database.Cookie.CookieDatabase;
 import com.miti.meeti.database.Cookie.CookieRepository;
 import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;

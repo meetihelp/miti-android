@@ -18,9 +18,8 @@ import android.widget.ImageButton;
 import com.google.gson.Gson;
 import com.miti.meeti.NetworkObjects.OTP;
 import com.miti.meeti.R;
-import com.miti.meeti.database.Cookie.Cookie;
-import com.miti.meeti.database.Cookie.CookieDatabase;
 import com.miti.meeti.database.Cookie.CookieViewModel;
+import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.GETRequest;
 import com.miti.meeti.mitiutil.network.GetJsonObject;
 import com.miti.meeti.mitiutil.network.Keyvalue;
@@ -150,6 +149,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
         //1005,2001 -> User was not verified, so it will go to profile creation
         //1501 -> Was verified but not registered.
         LoginToOTPCode=value;
+        Mlog.e("LoginToOTPCode->",value);
         if(LoginToOTPCode==200){
             Navigation.findNavController(this.v1).navigate(R.id.action_otpfragment2_to_miti_feed);
         }else if(LoginToOTPCode==1005 || LoadingToOTPCode==2001){

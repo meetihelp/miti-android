@@ -41,7 +41,7 @@ public class FeedRequest {
         FeedPOSTRequest postRequest=new FeedPOSTRequest();
         RequestHelper requestHelper;
         try{
-            requestHelper= postRequest.execute("getNewsArticleList",jsonInString,"558eca4e-0475-4164-47e5-a720a4b55119").get();
+            postRequest.execute("getNewsArticleList",jsonInString,"558eca4e-0475-4164-47e5-a720a4b55119").get();
             Log.e("Control","post request sent");
         }catch (Exception e){
             Log.e("Control",e.toString());
