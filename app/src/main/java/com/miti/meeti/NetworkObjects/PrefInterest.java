@@ -10,10 +10,11 @@ public class PrefInterest {
         }
     }
     public class request_object{
+        public int Page;
         public String I1;
         public String I2;
-        public request_object(String I1,String I2){
-            this.I1=I1;this.I2=I2;
+        public request_object(String I1,String I2,int page){
+            this.I1=I1;this.I2=I2;this.Page=page;
         }
     }
     public class response_object{

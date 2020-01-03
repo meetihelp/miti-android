@@ -20,5 +20,7 @@ public class OTP {
     public class response_object{
         public int Code;
         public String Message;
+        public int MoveTo;
+        public int Preference;
     }
 }

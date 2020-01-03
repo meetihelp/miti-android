@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.miti.meeti.NetworkObjects.UserProfile;
 import com.miti.meeti.R;
+import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
@@ -36,6 +38,7 @@ public class profile_creation extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
     public static View v1;
+    private CookieViewModel cvm;
     private OnFragmentInteractionListener mListener;
 
     public profile_creation() {
@@ -75,6 +78,7 @@ public class profile_creation extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         v1=inflater.inflate(R.layout.fragment_profile_creation, container, false);
         Button b=v1.findViewById(R.id.profile_submit_button);
+        cvm= ViewModelProviders.of(this).get(CookieViewModel.class);
         b.setOnClickListener(this);
         return v1;
     }
@@ -98,7 +102,7 @@ public class profile_creation extends Fragment implements View.OnClickListener {
         RequestHelper requestHelper;
         ProfilePostRequest postRequest=new ProfilePostRequest();
         try{
-            requestHelper= postRequest.execute("profileCreation",jsonInString,"558eca4e-0475-4164-47e5-a720a4b55119").get();
+            requestHelper= postRequest.execute("profileCreation",jsonInString,cvm.getCookie1()).get();
         }catch (Exception e){
             ToastHelper.ToastFun(v.getContext(),e.toString());
         }

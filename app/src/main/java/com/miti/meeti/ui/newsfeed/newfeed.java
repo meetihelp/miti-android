@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.miti.meeti.NetworkObjects.Feed;
 import com.miti.meeti.R;
+import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.mitiutil.uihelper.EndlessRecyclerViewScrollListener;
 
@@ -39,6 +40,7 @@ public class newfeed extends Fragment {
     private Handler mWaitHandler = new Handler();
     private OnFragmentInteractionListener mListener;
     boolean isLoading = false;
+    public static CookieViewModel cvm;
     public newfeed() {
         // Required empty public constructor
     }
@@ -53,6 +55,7 @@ public class newfeed extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v=inflater.inflate(R.layout.fragment_newfeed, container, false);
+        cvm=ViewModelProviders.of(this).get(CookieViewModel.class);
         recyclerView=v.findViewById(R.id.feed_recyclerview);
         LinearLayoutManager llm=new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(llm);

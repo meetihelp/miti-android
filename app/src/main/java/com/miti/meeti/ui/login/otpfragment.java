@@ -106,7 +106,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
         cookieViewModel= ViewModelProviders.of(this).get(CookieViewModel.class);
         GETRequest k=new GETRequest();
         k.execute(Keyvalue.GetHashMap(new Keyvalue("url","/generateOTP"),
-                new Keyvalue("Meeti-Cookie",cookieViewModel.getCookie1())));
+                new Keyvalue("Miti-Cookie",cookieViewModel.getCookie1())));
 //        OTPGenerationStatus=RequestOTPStatus();
         ImageButton ib=v.findViewById(R.id.resend_otp);
         Button b1=v.findViewById(R.id.otp_to_profile);
@@ -131,34 +131,17 @@ public class otpfragment extends Fragment implements View.OnClickListener {
             ToastHelper.ToastFun(v.getContext(),"Otp length should be 5");
             return;
         }
-        int value=SendOTP(otp);
-        Log.e("Control-131","Send otp ka return value-"+Integer.toString(value));
-//        if(value!=200){
-//            ToastHelper.ToastFun(v.getContext(),"Try again");
-//            return;
-//        }
-//        String FromFragment=getArguments().getString("From");
-//        if(FromFragment=="Login") {
-//            LoginToOTPCode = getArguments().getInt("LoginToOTPCode");
-//            LoadingToOTPCode=0;
-//        }else if(FromFragment=="Loading"){
-//            LoginToOTPCode=0;
-//            LoadingToOTPCode=getArguments().getInt("LoadingOTPCode");
-//        }
-        //200 -> go to feed because everything else is done
-        //1005,2001 -> User was not verified, so it will go to profile creation
-        //1501 -> Was verified but not registered.
-        LoginToOTPCode=value;
-        Mlog.e("LoginToOTPCode->",value);
-        if(LoginToOTPCode==200){
-            Navigation.findNavController(this.v1).navigate(R.id.action_otpfragment2_to_miti_feed);
-        }else if(LoginToOTPCode==1005 || LoadingToOTPCode==2001){
-            Log.e("Control","Aaya me");
-            Navigation.findNavController(this.v1).navigate(R.id.action_otpfragment2_to_profile_creation);
-        }else if(LoginToOTPCode==1501){
-            Navigation.findNavController(this.v1).navigate(R.id.action_otpfragment2_to_profile_creation);
+        OTP.response_object value1=SendOTP(otp);
+        int moveTo=value1.MoveTo;
+        int value=value1.Code;
+        Mlog.e("Send otp ka return value-"+Integer.toString(value));
+        if(moveTo==4){
+            Navigation.findNavController(v1).navigate(R.id.action_otpfragment2_to_profile_creation);
+        }else if(moveTo==5){
+            Bundle lk=new Bundle();
+            lk.putInt("Preference",value1.Preference);
+            Navigation.findNavController(v1).navigate(R.id.action_otpfragment2_to_social_pref_interest2,lk);
         }
-//        Navigation.findNavController(v).navigate(R.id.action_otpfragment2_to_profile_creation);
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -188,8 +171,9 @@ public class otpfragment extends Fragment implements View.OnClickListener {
         void onFragmentInteraction(Uri uri);
     }
 
-    private int SendOTP(String otp){
+    private OTP.response_object SendOTP(String otp){
         Gson gson=new Gson();
+        OTP.response_object temp;
         String data=gson.toJson(new OTP().new request_object(otp));
         Log.e("Control","OTPDATA->"+data);
         POSTRequest request=new POSTRequest();
@@ -204,25 +188,19 @@ public class otpfragment extends Fragment implements View.OnClickListener {
 //                Log.e("Control1",result);
         } catch (ExecutionException e) {
             result=null;
-            Log.e("Control",e.toString());
+            Mlog.e(e);
         } catch (InterruptedException e) {
             result=null;
-            Log.e("Control",e.toString());
+            Mlog.e(e);
         }
         if(result!=null){
-            OTP.response_object temp=gson.fromJson(result,OTP.response_object.class);
-            int value = temp.Code;
-            String Message=temp.Message;
-            return value;
+            temp=gson.fromJson(result,OTP.response_object.class);
+            return temp;
         }
-        return 0;
+        return null;
     }
 
     private String RequestOTPStatus(){
-//        MitiCookie="5917af48-649c-496a-7de5-fa5d7d5d85d0";
-//        MitiCookie=requestHelper.getMitiCookie();
-
-//        String[] data=db.cookieDao().getCookie();
         MeetiCookie=cookieViewModel.getCookie1();
         Log.e("Meeti->",MeetiCookie);
         GETRequest getRequest=new GETRequest();

@@ -20,7 +20,9 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
     public static final int READ_TIMEOUT = 5000;
     public static final int CONNECTION_TIMEOUT = 5000;
     public static final String Domain="http://meeti.club:9000";
+    public POSTRequest(){
 
+    }
     @Override
     protected void onPreExecute(){
         super.onPreExecute();

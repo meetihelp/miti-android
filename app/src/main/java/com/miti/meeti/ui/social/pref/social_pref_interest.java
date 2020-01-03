@@ -181,7 +181,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         }else if(allpref.size()==1){
             allpref.add("");
         }
-        PrefInterest.request_object tempyu=new PrefInterest().new request_object(allpref.get(0),allpref.get(1));
+        PrefInterest.request_object tempyu=new PrefInterest().new request_object(allpref.get(0),allpref.get(1),count+1);
         Gson gson=new Gson();
         String data=gson.toJson(tempyu);
         cookieViewModel= ViewModelProviders.of(this).get(CookieViewModel.class);
@@ -202,6 +202,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
             }
         }
         if(count==5){
+            check_send();
             Navigation.findNavController(v).navigate(R.id.action_social_pref_interest2_to_mainActivity);
         }else{
             check_send();

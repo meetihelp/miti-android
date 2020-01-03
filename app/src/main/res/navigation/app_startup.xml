@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_otpfragment2_to_miti_feed"
             app:destination="@+id/mainActivity"></action>
+        <action
+            android:id="@+id/action_otpfragment2_to_social_pref_interest2"
+            app:destination="@id/social_pref_interest2" />
     </fragment>
     <fragment
         android:id="@+id/social_pref_interest2"

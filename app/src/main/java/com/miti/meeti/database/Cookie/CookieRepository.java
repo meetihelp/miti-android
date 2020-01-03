@@ -58,6 +58,7 @@ public class CookieRepository {
         }
         @Override
         protected Void doInBackground(Cookie... cookie) {
+            cookieDao.nukeTable();
             cookieDao.insertCookie(cookie[0]);
             return null;
         }
