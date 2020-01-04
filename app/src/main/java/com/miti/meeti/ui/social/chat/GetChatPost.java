@@ -2,6 +2,7 @@ package com.miti.meeti.ui.social.chat;
 
 import com.google.gson.Gson;
 import com.miti.meeti.NetworkObjects.GetChatContent;
+import com.miti.meeti.database.Chat.ChatDb;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 import java.util.ArrayList;
@@ -16,12 +17,12 @@ public class GetChatPost extends POSTRequest {
         Gson gson=new Gson();
         GetChatContent.response_object response_object=gson.fromJson(response,GetChatContent.response_object.class);
         List<GetChatContent.chat_object>messages=response_object.Chat;
-        List<Message>temp12=new ArrayList<>();
-        for (GetChatContent.chat_object tempx:messages){
-            Author temp45=new Author(tempx.UserId,"","");
-            Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,new Date());
-            temp12.add(temp34);
+        List<ChatDb>tempxy=new ArrayList<>();
+        for(GetChatContent.chat_object tempx:messages){
+            String json=gson.toJson(tempx);
+            ChatDb tempcv=gson.fromJson(json,ChatDb.class);
+            tempxy.add(tempcv);
         }
-        social_chat_content.adapterx.addToEnd(temp12,false);
+        social_chat_content.chatDbViewModel.insert(tempxy.toArray(new ChatDb[tempxy.size()]));
     }
 }

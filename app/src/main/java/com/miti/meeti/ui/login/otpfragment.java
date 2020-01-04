@@ -142,6 +142,9 @@ public class otpfragment extends Fragment implements View.OnClickListener {
             lk.putInt("Preference",value1.Preference);
             Navigation.findNavController(v1).navigate(R.id.action_otpfragment2_to_social_pref_interest2,lk);
         }
+        else if(moveTo==6){
+            Navigation.findNavController(v1).navigate(R.id.action_otpfragment2_to_miti_feed);
+        }
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
