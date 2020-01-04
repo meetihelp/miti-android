@@ -1,9 +1,13 @@
 package com.miti.meeti.mitiutil.uihelper;
 
+import android.view.View;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import com.miti.meeti.MainActivity;
 
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
     // The minimum amount of items to have below your current scroll position
@@ -54,7 +58,11 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
     public void onScrolled(RecyclerView view, int dx, int dy) {
         int lastVisibleItemPosition = 0;
         int totalItemCount = mLayoutManager.getItemCount();
-
+        if (dy > 0) {
+            MainActivity.SetNavigationVisibiltity(false);
+        } else if (dy < 0) {
+            MainActivity.SetNavigationVisibiltity(true);
+        }
         if (mLayoutManager instanceof StaggeredGridLayoutManager) {
             int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) mLayoutManager).findLastVisibleItemPositions(null);
             // get maximum element within the list

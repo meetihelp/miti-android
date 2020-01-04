@@ -50,7 +50,7 @@ private Path mPath;
         mPath = new Path();
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.white));
+        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.mitiPrimaryBlue));
         setBackgroundColor(Color.TRANSPARENT);
     }
 

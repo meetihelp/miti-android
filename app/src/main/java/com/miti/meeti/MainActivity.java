@@ -3,6 +3,8 @@ package com.miti.meeti;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.miti.meeti.bottomnav.CurvedBottomNavigationView;
 
 import androidx.navigation.NavController;
@@ -18,12 +20,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private AppBarConfiguration mAppBarConfiguration1;
-
+    private static BottomNavigationView bottomNavigationView;
+    private static AppBarLayout appBarLayout;
+    public static void SetNavigationVisibiltity (boolean b) {
+        if (b) {
+//            appBarLayout.setVisibility(View.VISIBLE);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        } else {
+//            appBarLayout.setVisibility(View.GONE);
+            bottomNavigationView.setVisibility(View.GONE);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +64,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        CurvedBottomNavigationView curvedBottomNavigationView = findViewById(R.id.customBottomBar);
-        curvedBottomNavigationView.inflateMenu(R.menu.activity_main_drawer1);
-        NavigationUI.setupWithNavController(curvedBottomNavigationView,
+//        CurvedBottomNavigationView curvedBottomNavigationView = findViewById(R.id.customBottomBar);
+//        curvedBottomNavigationView.inflateMenu(R.menu.activity_main_drawer1);
+        appBarLayout=findViewById(R.id.appbar);
+        bottomNavigationView = findViewById(R.id.customBottomBar);
+        bottomNavigationView.inflateMenu(R.menu.activity_main_drawer1);
+        NavigationUI.setupWithNavController(bottomNavigationView,
                 navController);
 
 //        BottomAppBar curvedBottomNavigationView = findViewById(R.id.bar);
