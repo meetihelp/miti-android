@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:text=""/>
     </FrameLayout>
+
     <TextView
         android:id="@+id/feed_heading"
         android:layout_width="wrap_content"
@@ -48,18 +49,19 @@
         android:text="hey jude"
         android:textColor="@color/mitiTextBlue"
         android:textSize="28sp"
-        app:fontFamily="@font/lora" />
+        app:fontFamily="@font/slabo_13px" />
 
-        <TextView
-            android:id="@+id/feed_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:textColor="@color/mitiTextBlue2"
-            app:fontFamily="@font/slabo_13px"
-            android:padding="10dp"
-            android:text="hey jude"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/feed_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="10dp"
+        android:letterSpacing="0.05"
+        android:text="hey jude"
+        android:textColor="@color/mitiTextBlue2"
+        android:textSize="18sp"
+        app:fontFamily="@font/montserrat" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,6 +76,7 @@
             android:checkable="false"
             app:chipIcon="@drawable/ic_angry"
             app:chipIconTint="@color/mitiOrange"
+            android:layout_marginRight="10dp"
             app:closeIconVisible="false"
             app:showMotionSpec="@anim/nav_default_enter_anim" />
         <com.google.android.material.chip.Chip

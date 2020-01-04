@@ -32,7 +32,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
     public void onBindViewHolder(@NonNull FeedHolder holder, int position) {
         Feed.feed_object currentFeed=temp.get(position);
         holder.temp.setText(currentFeed.Summary);
-        holder.temp2.setText(currentFeed.Title);
+        holder.temp2.setText(currentFeed.Title.replaceAll("^[ \t]+|[ \t]+$", ""));
         //url=currentFeed.image_url
         String url="https://www.thehindu.com/business/Economy/vmkj2f/article30442644.ece/ALTERNATES/FREE_960/Nirmala-Sitharaman";
         Glide.with(newfeed.v.getContext()).load(url).into(holder.temp1);
