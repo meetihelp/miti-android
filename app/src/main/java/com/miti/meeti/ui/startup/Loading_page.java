@@ -123,24 +123,8 @@ public class Loading_page extends Fragment implements Runnable{
             else if(moveto==6){
                 Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_newsfeed);
             }
-//            if (code == 300) {
-//                //To newsfeed
-//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_newsfeed,bundle);
-//            } else if (code == 2000) {
-//                //Login Page
-//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_loginFragment,bundle);
-//            } else if (code == 2001) {
-//                //To OTP fragment
-//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_otpfragment2,bundle);
-//            } else if (code == 2002) {
-//                //To profile page
-//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_profile_page,bundle);
-//            } else if (code == 2003) {
-//                //To Preference page
-//                int Preference=getJsonObject.getIntValue(jsonData,"Preference");
-//                bundle.putInt("Preference",Preference);
-//                Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_preference_page,bundle);
-//            }
+        }else{
+            run();
         }
     }
     // TODO: Rename method, update argument and hook method into UI event

@@ -6,14 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 public class ChatListDbViewModel extends AndroidViewModel {
     private ChatListDbRepository repository;
-    private LiveData<ChatListDb[]> chatlist;
+    private LiveData<List<ChatListDb>> chatlist;
     public ChatListDbViewModel(@NonNull Application application) {
         super(application);
         repository = new ChatListDbRepository(application);
     }
-    public LiveData<ChatListDb[]>getchatbyid(String chatid){
+    public LiveData<List<ChatListDb>>getchatbyid(String chatid){
         this.chatlist=repository.getall();
         return chatlist;
     }
@@ -26,4 +28,5 @@ public class ChatListDbViewModel extends AndroidViewModel {
     public void synced(String ...chatid){
         repository.Synced(chatid[0]);
     }
+    public void getold(){repository.getallold();}
 }

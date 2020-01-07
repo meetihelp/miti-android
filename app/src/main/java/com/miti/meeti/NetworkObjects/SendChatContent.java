@@ -13,14 +13,19 @@ public class SendChatContent {
         public String MessageType;
         public String MessageContent;
         public String ChatId;
-        public request_body(String messageType, String messageContent,String chatId){
+        public String RequestId;
+        public request_body(String messageType, String messageContent,String chatId,String requestId){
             this.ChatId=chatId;
             this.MessageContent=messageContent;
             this.MessageType=messageType;
+            this.RequestId=requestId;
         }
     }
     public class response_object{
         public int Code;
         public String Message;
+        public String MessageId;
+        public String CreatedAt;
+        public String RequestId;
     }
 }

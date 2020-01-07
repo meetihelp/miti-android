@@ -33,6 +33,7 @@ public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHe
         HashMap<String,String> Dic=Has[0];
         Set<String> keys = Dic.keySet();
         String url =Domain+Dic.get("url");
+        Mlog.e("Get request url",url);
         String result = "";
         String MitiCookie="";
         try {
@@ -43,8 +44,10 @@ public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHe
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
             for(String key:keys){
                 if(key.compareTo("url")!=0){
+                    Mlog.e("GET request header setting here");
                     Mlog.e(key,Dic.get(key));
                     connection.addRequestProperty(key,Dic.get(key));
+                    Mlog.e("GET request header setting ended");
                 }
             }
             connection.connect();

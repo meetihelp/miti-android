@@ -72,7 +72,7 @@ public class FeedFragment extends Fragment {
         View v=inflater.inflate(R.layout.fragment_feed, container, false);
         MaterialCardView card=v.findViewById(R.id.card_view);
 //        card.isDragged(true);
-//        temp.setViewDragListener(temp1);
+//        chat_list_helper.setViewDragListener(temp1);
 //        card.setOnTouchListener(new OnSwipeTouchListener(MyActivity) {
 //            public void onSwipeTop() {
 //                Toast.makeText(MyActivity, "top", Toast.LENGTH_SHORT).show();

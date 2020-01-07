@@ -15,6 +15,19 @@ public class ChatDb {
     public String MessageType;
     public String MessageContent;
     public String CreatedAt;
-    @SerializedName("Index") public int Indexz;
+    public String RequestId;
+    public int Read;
     public int Sync;
+    public ChatDb(){
+
+    }
+    public ChatDb(String userId,String messageType,String messageContent, String requestId, String chatId
+    ,String createdAt){
+        this.UserId=userId;
+        this.MessageType=messageType;
+        this.MessageContent=messageContent;
+        this.RequestId=requestId;
+        this.ChatId=chatId;
+        this.CreatedAt=createdAt;
+    }
 }

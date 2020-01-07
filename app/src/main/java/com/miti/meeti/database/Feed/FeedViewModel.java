@@ -28,7 +28,7 @@ public class FeedViewModel extends AndroidViewModel {
     }
     private void loadTodos() {
         List<Feed.feed_object> newTodos = new ArrayList<>();
-        List<Feed.feed_object>lkj= FeedRequest.getinitialnews();
+        List<Feed.feed_object>lkj= new ArrayList<>();
         if(lkj.size()==0){
         }else{
             newTodos.add(lkj.get(0));

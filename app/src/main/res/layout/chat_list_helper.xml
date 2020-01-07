@@ -10,29 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
-        app:cardBackgroundColor="#a63fc6ff">
+        app:cardBackgroundColor="@color/transparent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/social_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:text="1"
-                android:textColor="#fff"
-                android:textSize="15sp" />
-
             <TextView
                 android:id="@+id/social_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/social_no"
                 android:text="Tilte"
                 android:textColor="#00f2ff"
                 android:textSize="20sp" />
@@ -42,8 +29,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/social_title"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/social_no"
                 android:text="Description"
                 android:textColor="#2d2d2d"
                 android:textSize="15sp" />

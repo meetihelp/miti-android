@@ -211,14 +211,12 @@ public class otpfragment extends Fragment implements View.OnClickListener {
         try {
             RequestHelper requestHelperTemp;
             requestHelperTemp=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/otpStatus"),
-                    new Keyvalue("Meeti-Cookie",MeetiCookie))).get();
+                    new Keyvalue("Miti-Cookie",MeetiCookie))).get();
             otpgenerateResult=requestHelperTemp.getData();
         } catch (ExecutionException e) {
             otpgenerateResult=null;
-            e.printStackTrace();
         } catch (InterruptedException e) {
             otpgenerateResult=null;
-            e.printStackTrace();
         }
         GetJsonObject getJsonObject=new GetJsonObject();
         int temp=getJsonObject.getIntValue(otpgenerateResult,"Code");

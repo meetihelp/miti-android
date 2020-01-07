@@ -14,10 +14,10 @@ public class GetChatContent {
     public class request_body{
         public String ChatId;
         public int NumOfChat;
-        public int Index;
-        public request_body(String chatId,int numOfChat,int index){
+        public String CreatedAt;
+        public request_body(String chatId,int numOfChat,String datetime){
             this.ChatId=chatId;
-            this.Index=index;
+            this.CreatedAt=datetime;
             this.NumOfChat=numOfChat;
         }
     }

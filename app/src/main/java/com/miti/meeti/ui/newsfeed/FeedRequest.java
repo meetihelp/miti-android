@@ -9,6 +9,7 @@ import com.miti.meeti.NetworkObjects.Feed;
 import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Feed.FeedObject;
 import com.miti.meeti.database.Feed.FeedViewModel;
+import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 
@@ -18,27 +19,20 @@ import java.util.List;
 import static com.miti.meeti.ui.newsfeed.newfeed.cvm;
 
 public class FeedRequest {
-    public static List<Feed.feed_object> getinitialnews(){
+    public static void getinitialnews(String cookie){
         List<Feed.feed_object> ret=new ArrayList<>();
         Gson gson = new Gson();
         Feed.request_body temp=new Feed().new request_body(0);
         String jsonInString = gson.toJson(temp);
-        POSTRequest postRequest=new POSTRequest();
-        RequestHelper requestHelper;
+        FeedPOSTRequest postRequest=new FeedPOSTRequest();
         try{
-            requestHelper= postRequest.execute("getNewsArticleList",jsonInString,cvm.getCookie1()).get();
-            String result=requestHelper.getData();
-            Feed.response_object tempqw=gson.fromJson(result,Feed.response_object.class);
-            ret.add(tempqw.NewsData.get(0));
-            ret.add(tempqw.NewsData.get(1));
-            Log.e("Control","returned");
-            return ret;
+            postRequest.execute("getNewsArticleList",jsonInString,cookie);
+            Mlog.e("getinitalnews","success");
         }catch (Exception e){
-            Log.e("Control",e.toString());
+            Mlog.e("getinitalnews",e.toString());
         }
-        return ret;
     }
-    public static void getlaternews(){
+    public static void getlaternews(String cookie){
         String ret=new String();
         Gson gson = new Gson();
         Feed.request_body temp=new Feed().new request_body(FeedViewModel.templkh);
@@ -46,7 +40,7 @@ public class FeedRequest {
         FeedPOSTRequest postRequest=new FeedPOSTRequest();
         RequestHelper requestHelper;
         try{
-            postRequest.execute("getNewsArticleList",jsonInString,cvm.getCookie1());
+            postRequest.execute("getNewsArticleList",jsonInString,cookie);
             Log.e("Control","post request sent");
         }catch (Exception e){
             Log.e("Control",e.toString());

@@ -31,7 +31,10 @@ import com.miti.meeti.NetworkObjects.Feed;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Feed.FeedViewModel;
+import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
+import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.Logging.Mlog;
+import com.miti.meeti.mitiutil.network.Keyvalue;
 import com.miti.meeti.mitiutil.uihelper.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
@@ -51,6 +54,8 @@ public class newfeed extends Fragment{
     private OnFragmentInteractionListener mListener;
     boolean isLoading = false;
     public static CookieViewModel cvm;
+    public static KeyvalueViewModel kvm;
+    public static String cookie;
     public newfeed() {
         // Required empty public constructor
     }
@@ -67,6 +72,11 @@ public class newfeed extends Fragment{
         setHasOptionsMenu(true);
         v=inflater.inflate(R.layout.fragment_newfeed, container, false);
         cvm=ViewModelProviders.of(this).get(CookieViewModel.class);
+        kvm=ViewModelProviders.of(this).get(KeyvalueViewModel.class);
+        cookie=cvm.getCookie1();
+        if(kvm.get("userid")==null){
+            GETid.getid(cookie);
+        }
         recyclerView=v.findViewById(R.id.feed_recyclerview);
         LinearLayoutManager llm=new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(llm);
@@ -90,6 +100,7 @@ public class newfeed extends Fragment{
                 feedAdapter.setTemp(feeds);
             }
         });
+        FeedRequest.getinitialnews(cookie);
         return v;
 
     }
@@ -109,9 +120,8 @@ public class newfeed extends Fragment{
     }
     public void loadNextDataFromApi(int offset) {
         Log.e("Control","loadnextmeaayamain");
-        FeedRequest.getlaternews();
+        FeedRequest.getlaternews(cookie);
     }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

@@ -22,6 +22,9 @@ public class ChatDbViewModel extends AndroidViewModel {
     public void insert(ChatDb ...chats){
         repository.insert(chats);
     }
+    public void insertnew(ChatDb ...chats){
+        repository.insertnew(chats);
+    }
     public void getmax(String ...chatid){
         repository.getmax(chatid[0]);
     }
@@ -29,6 +32,8 @@ public class ChatDbViewModel extends AndroidViewModel {
         repository.delete(chatid[0]);
     }
     public void synced(String ...chatid){
-        repository.Synced(chatid[0]);
+        repository.Synced(chatid);
     }
+    public void getnotlive(String chatid){repository.getnotlive(chatid);}
+    public void ifrow(String chatid){repository.ifrow(chatid);}
 }

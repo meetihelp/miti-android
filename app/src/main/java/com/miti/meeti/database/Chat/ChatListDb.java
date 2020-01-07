@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "MeetiChatList")
 public class ChatListDb {
-    public String TempUserId;
+    public String UserId;
     @PrimaryKey
     @NonNull
     public String ChatId;

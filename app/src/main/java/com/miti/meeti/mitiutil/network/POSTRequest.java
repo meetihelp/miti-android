@@ -17,8 +17,8 @@ import java.net.URL;
 public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
 
     public static final String REQUEST_METHOD = "POST";
-    public static final int READ_TIMEOUT = 5000;
-    public static final int CONNECTION_TIMEOUT = 5000;
+    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 15000;
     public static final String Domain="http://meeti.club:9000";
     public POSTRequest(){
 
@@ -30,6 +30,7 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
     @Override
     protected RequestHelper doInBackground(String... strings) {
         String url=Domain+"/"+strings[0];
+        Mlog.e("Post url->",url);
         String result="";
         String MitiCookie="";
         try {
@@ -40,10 +41,11 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
             if(strings.length>2) {
                 connection.addRequestProperty("Miti-Cookie", strings[2]);
+                Mlog.e("in post request",strings[2]);
             }
             connection.connect();
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-            Mlog.e(strings[1]);
+            Mlog.e("in POSTRequest",strings[1]);
             wr.writeBytes(strings[1]);
             wr.flush();
             wr.close();
@@ -66,7 +68,7 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
             result=null;
         }
         RequestHelper requestHelper=new RequestHelper(MitiCookie,result);
-        String className = new Exception().getStackTrace()[1].getClassName();
+        Mlog.e("POst request wala data");
         new Mlog<RequestHelper>().e1(requestHelper);
         return requestHelper;
     }

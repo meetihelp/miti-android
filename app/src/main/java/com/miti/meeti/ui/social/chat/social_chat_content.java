@@ -5,9 +5,11 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +20,23 @@ import com.miti.meeti.NetworkObjects.SendChatContent;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Chat.ChatDb;
 import com.miti.meeti.database.Chat.ChatDbViewModel;
+import com.miti.meeti.database.Cookie.Cookie;
+import com.miti.meeti.database.Cookie.CookieViewModel;
+import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
+import com.miti.meeti.mitiutil.uihelper.MitiDiff;
+import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,9 +52,17 @@ public class social_chat_content extends Fragment{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static String chatid;
+    private static List<ChatDb>allchatsynchronized;
     private List<ChatDb>messagesold;
+    public static String requestid;
+    public static String content;
     public static MessagesListAdapter<Message> adapterx;
     public static ChatDbViewModel chatDbViewModel;
+    public static String userid;
+    public static KeyvalueViewModel keyvalueViewModel;
+    public static String cookie;
+    private View v;
+    public static Boolean mitilock;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -81,16 +98,22 @@ public class social_chat_content extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        CookieViewModel cookieViewModel=ViewModelProviders.of(this).get(CookieViewModel.class);
+        keyvalueViewModel=ViewModelProviders.of(this).get(KeyvalueViewModel.class);
+        cookie=cookieViewModel.getCookie1();
+        userid=keyvalueViewModel.get("userid").mitivalue;
+        Mlog.e("userid",userid);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mitilock=true;
         chatid=getArguments().getString("chatid");
-        View v=inflater.inflate(R.layout.fragment_social_chat_content, container, false);
+        v=inflater.inflate(R.layout.fragment_social_chat_content, container, false);
         chatDbViewModel= ViewModelProviders.of(this).get(ChatDbViewModel.class);
-        chatDbViewModel.getmax(chatid);
+
         final Observer<List<ChatDb>> nameObserver = new Observer<List<ChatDb>>() {
             @Override
             public void onChanged(@Nullable final List<ChatDb> newName) {
@@ -98,30 +121,54 @@ public class social_chat_content extends Fragment{
             }
         };
         chatDbViewModel.getchatbyid(chatid).observe(this,nameObserver);
-        addinmessagelist(chatDbViewModel.getchatbyid(chatid).getValue());
+        LiveData<List<ChatDb>>lkjh=chatDbViewModel.getchatbyid(chatid);
         MainActivity.SetNavigationVisibiltity(false);
         MessageInput inputView=v.findViewById(R.id.input);
         MessagesList inputlist=v.findViewById(R.id.messagesList);
         System.out.println("Aaya me - Apoorva");
-        Author temp=new Author("apoorva","apoorva kumar","");
-        adapterx = new MessagesListAdapter<>("apoorva", null);
+        Author temp=new Author("","apoorva kumar","");
+        adapterx = new MessagesListAdapter<>(userid, null);
         inputlist.setAdapter(adapterx);
         inputView.setInputListener(new MessageInput.InputListener() {
             @Override
             public boolean onSubmit(CharSequence input) {
                 //validate and send message
-                Author temp=new Author("apoorva","apoorva kumar","");
-                Message tempx=new Message("apoorva",input.toString(),temp,new Date());
-                SendChatContent.request_body tempk=new SendChatContent().new request_body("Text",input.toString(),chatid);
-                ChatContentRequest.sendmessage(tempk);
-                adapterx.addToStart(tempx, true);
-                return true;
+                if(mitilock){
+                    Author temp=new Author("","apoorva kumar","");
+                    String mitidt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                    requestid=UUID.randomUUID().toString().replace("-","").substring(0,32);
+                    chatDbViewModel.insertnew(new ChatDb(userid,"Text",input.toString(),requestid,chatid,mitidt));
+                    content=input.toString();
+//                    adapterx.addToStart(tempx, true);
+                    return true;
+                }else{
+                    ToastHelper.ToastFun(v.getContext(),"Try again");
+                    return false;
+                }
             }
         });
         return v;
     }
-    public static void dbcallback(int index){
-        ChatContentRequest.getmessage(new GetChatContent().new request_body(chatid,10,index));
+    public static synchronized void dbcallbacksendmessage(){
+        //coming callback from insertnew
+        SendChatContent.request_body tempk=new SendChatContent().new request_body("Text",content,chatid,requestid);
+        mitilock=true;
+        ChatContentRequest.sendmessage(tempk,cookie);
+    }
+    public static void dbcallback(String datetime){
+        //coming callback from getmax;
+        //coming callback from ifrow
+        //coming callback from onchanged1
+        Mlog.e("in chat content dbcalback, got datetime->",datetime);
+        ChatContentRequest.getmessage(new GetChatContent().new request_body(chatid,10,datetime),cookie);
+    }
+    public static void dbcallback_allchat(List<ChatDb> allchat){
+        //coming calback from getnotlive
+        addinmessagelist(allchat);
+        chatDbViewModel.getmax(chatid);
+    }
+    public static synchronized void setall(List<ChatDb> allchat){
+        allchatsynchronized=allchat;
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -133,26 +180,44 @@ public class social_chat_content extends Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        allchatsynchronized = null;
     }
 
-    public void onChanged1(@Nullable final List<ChatDb>messages) {
+    public static synchronized void onChanged1(@Nullable final List<ChatDb>messages) {
+        Mlog.e("callback","onchanged in message content",Integer.toString(messages.size()));
+        if(messages.size()==0){
+            dbcallback("");
+            return;
+        }
+        if(allchatsynchronized==null){
+            setall(messages);
+            addinmessagelist(messages);
+        }else{
+            List<ChatDb>diff= new MitiDiff<String,ChatDb>().getx(allchatsynchronized,messages,"RequestId");
+            Mlog.e("I am going to add");
+            addinmessagelist(diff);
+            setall(messages);
+            Mlog.e("added not being called");
+        }
 //        Set<ChatDb> ad = new HashSet<ChatDb>(messages);
 //        Set<ChatDb> ad1 = new HashSet<ChatDb>(messagesold);
 //        ad.removeAll(ad1);
 //        messages.clear();
 //        messages.addAll(ad);
-        Mlog.e("Control->Inchat",Integer.toString(messages.size()));
-        addinmessagelist(messages);
     }
-    public void addinmessagelist(@Nullable final List<ChatDb>messages){
+    public static synchronized void addinmessagelist(@Nullable final List<ChatDb>messages){
+//        for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+//            Log.e("control",ste.toString());
+//        }
+        Mlog.e("Inserting in addinmessagelist",Integer.toString(messages.size()));
         if(messages==null){
             return;
         }
         List<Message>temp12=new ArrayList<>();
         for (ChatDb tempx:messages){
-            Author temp45=new Author(tempx.UserId,"","");
-            Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,new Date());
+            Author temp45=new Author(tempx.UserId,tempx.UserId,"");
+//            Mlog.e(tempx.UserId,tempx.MessageContent);
+            Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,tempx.CreatedAt);
             temp12.add(temp34);
         }
         social_chat_content.adapterx.addToEnd(temp12,false);

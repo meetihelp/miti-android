@@ -49,11 +49,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
         notifyDataSetChanged();
     }
 //    public void setTemp1(List<Feed.feed_object>temp1){
-//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(this.temp, temp1));
-////        this.temp=temp1;
+//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(this.chat_list_helper, temp1));
+////        this.chat_list_helper=temp1;
 //        diffResult.dispatchUpdatesTo(this);
-//        this.temp.clear();
-//        this.temp.addAll(temp1);
+//        this.chat_list_helper.clear();
+//        this.chat_list_helper.addAll(temp1);
 //    }
     class FeedHolder extends RecyclerView.ViewHolder{
         private TextView temp;

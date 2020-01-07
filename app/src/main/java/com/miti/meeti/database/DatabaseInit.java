@@ -12,13 +12,16 @@ import com.miti.meeti.database.Chat.ChatListDb;
 import com.miti.meeti.database.Chat.ChatListDbDao;
 import com.miti.meeti.database.Cookie.Cookie;
 import com.miti.meeti.database.Cookie.CookieDao;
+import com.miti.meeti.database.Keyvalue.keyvalue;
+import com.miti.meeti.database.Keyvalue.KeyvalueDao;
 
-@Database(entities = {Cookie.class, ChatDb.class, ChatListDb.class}, version = 1,exportSchema = false)
+@Database(entities = {Cookie.class, ChatDb.class, ChatListDb.class, keyvalue.class}, version = 1,exportSchema = false)
 public abstract class DatabaseInit extends RoomDatabase {
     private static DatabaseInit instance;
     public abstract CookieDao cookieDao();
     public abstract ChatDbDao chatDbDao();
     public abstract ChatListDbDao chatListDbDao();
+    public abstract KeyvalueDao keyvalueDao();
     public static synchronized DatabaseInit getInstance(Context context) {
         if(instance==null){
             instance= Room.databaseBuilder(context.getApplicationContext(), DatabaseInit.class, "user-database")
