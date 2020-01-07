@@ -17,6 +17,8 @@ import com.google.gson.Gson;
 import com.miti.meeti.NetworkObjects.UserProfile;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieViewModel;
+import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
+import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
@@ -39,6 +41,7 @@ public class profile_creation extends Fragment implements View.OnClickListener {
     private String mParam2;
     public static View v1;
     private CookieViewModel cvm;
+    private KeyvalueViewModel kvm;
     private OnFragmentInteractionListener mListener;
 
     public profile_creation() {
@@ -79,6 +82,7 @@ public class profile_creation extends Fragment implements View.OnClickListener {
         v1=inflater.inflate(R.layout.fragment_profile_creation, container, false);
         Button b=v1.findViewById(R.id.profile_submit_button);
         cvm= ViewModelProviders.of(this).get(CookieViewModel.class);
+        kvm= ViewModelProviders.of(this).get(KeyvalueViewModel.class);
         b.setOnClickListener(this);
         return v1;
     }
@@ -102,7 +106,8 @@ public class profile_creation extends Fragment implements View.OnClickListener {
         RequestHelper requestHelper;
         ProfilePostRequest postRequest=new ProfilePostRequest();
         try{
-            requestHelper= postRequest.execute("profileCreation",jsonInString,cvm.getCookie1()).get();
+            postRequest.execute("profileCreation",jsonInString,cvm.getCookie1());
+            kvm.insert(new keyvalue("profileCreation",jsonInString));
         }catch (Exception e){
             ToastHelper.ToastFun(v.getContext(),e.toString());
         }

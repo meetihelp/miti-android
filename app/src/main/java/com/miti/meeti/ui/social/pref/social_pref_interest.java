@@ -24,6 +24,8 @@ import com.miti.meeti.NetworkObjects.PrefInterest;
 import com.miti.meeti.R;
 import com.miti.meeti.apicompat.mitihelper;
 import com.miti.meeti.database.Cookie.CookieViewModel;
+import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
+import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
@@ -41,6 +43,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
 //    private String mParam2;
     private static int count=0;
     private CookieViewModel cookieViewModel;
+    private KeyvalueViewModel kvm;
     private ViewGroup v1;
     private OnFragmentInteractionListener mListener;
     static public String [][]array={
@@ -129,6 +132,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         View v=inflater.inflate(R.layout.fragment_social_pref_interest, container, false);
         Button b1=v.findViewById(R.id.social_button_pref_submit);
         this.v1=(ViewGroup) v;
+        kvm=ViewModelProviders.of(this).get(KeyvalueViewModel.class);
         b1.setOnClickListener(this);
         try{
             this.count=getArguments().getInt("Preference");
@@ -188,6 +192,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         String MeetiCookie= cookieViewModel.getCookie1();
         InterestPost request=new InterestPost();
         request.execute("updatePreference",data,MeetiCookie);
+        kvm.insert(new keyvalue("updatePreference"+Integer.toString(count+1),data));
         return 1;
     }
     @Override
@@ -203,6 +208,9 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         }
         if(count==5){
             check_send();
+            for(int i=1;i<7;i++){
+                Mlog.e(kvm.get("updatePreference"+Integer.toString(i)).mitivalue);
+            }
             Navigation.findNavController(v).navigate(R.id.action_social_pref_interest2_to_mainActivity);
         }else{
             check_send();
