@@ -61,7 +61,7 @@ public class ChatDbRepository {
         }
         @Override
         protected Void doInBackground(String ...chatid) {
-            chatDbDao.Synced(chatid[0],chatid[1],chatid[2],chatid[3]);
+            chatDbDao.Synced(chatid[0],chatid[1],chatid[2]);
             return null;
         }
     }

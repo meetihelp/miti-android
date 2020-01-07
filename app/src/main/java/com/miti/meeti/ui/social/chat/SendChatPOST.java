@@ -17,7 +17,7 @@ public class SendChatPOST extends POSTRequest {
             return;
         }
         if(temp.Code==200){
-            social_chat_content.chatDbViewModel.synced(temp.RequestId,temp.CreatedAt,temp.MessageId,social_chat_content.chatid);
+            social_chat_content.chatDbViewModel.synced(temp.RequestId,temp.CreatedAt,temp.MessageId);
         }else{
             Mlog.e("Request failed for send chat");
         }

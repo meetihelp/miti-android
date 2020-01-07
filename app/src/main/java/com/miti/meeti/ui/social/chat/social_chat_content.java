@@ -216,7 +216,7 @@ public class social_chat_content extends Fragment{
         List<Message>temp12=new ArrayList<>();
         for (ChatDb tempx:messages){
             Author temp45=new Author(tempx.UserId,tempx.UserId,"");
-//            Mlog.e(tempx.UserId,tempx.MessageContent);
+            Mlog.e(tempx.UserId,tempx.MessageContent);
             Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,tempx.CreatedAt);
             temp12.add(temp34);
         }

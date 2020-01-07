@@ -21,8 +21,8 @@ public interface ChatDbDao {
     @Query("Delete FROM MeetiChat where ChatId = :chatId")
     void deleteChat(String chatId);
 
-    @Query("Update MeetiChat set Sync=1,CreatedAt =:CreatedAt,MessageId =:messageid,UserId=:userId where RequestId = :requestid")
-    void Synced(String requestid,String CreatedAt,String messageid,String userId);
+    @Query("Update MeetiChat set Sync=1,CreatedAt =:CreatedAt,MessageId =:messageid where RequestId = :requestid")
+    void Synced(String requestid,String CreatedAt,String messageid);
 
     @Query("Select * from MeetiChat where ChatId = :chatId order by CreatedAt desc limit 1")
     ChatDb getmax(String chatId);
