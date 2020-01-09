@@ -3,22 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/mitiPrimaryBlue"
+    android:fitsSystemWindows="false"
     tools:context=".ui.privacy.PrivacyFragment">
-
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-
-        <TextView
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
-
+            android:orientation="vertical"
+            android:id="@+id/moodbard_input_text"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="3dp"
+                android:layout_width="match_parent">
+                <EditText
+                    android:id="@+id/moodboard_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Write your mood down"
+                    android:background="@color/transparent"
+                    android:maxLength="500"
+                    android:textColor="@color/mitiTextBlue"
+                    android:inputType="text|textMultiLine"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/save_mood"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_save_black_24dp"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/close_mood"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_close_black_24dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:background="@color/transparent"
+            android:id="@+id/moodboard_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
-
     <include layout="@layout/layout_fab_submenu"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
