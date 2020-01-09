@@ -50,7 +50,7 @@
         android:id="@+id/miti_privacy"
         android:name="com.miti.meeti.ui.privacy.PrivacyFragment"
         android:label="@string/miti_privacy"
-        tools:layout="@layout/fragment_privacy" />
+        tools:layout="@layout/fragment_moodboard" />
 
     <fragment
         android:id="@+id/miti_utility"

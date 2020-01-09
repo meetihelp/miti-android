@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
 
 /**
@@ -28,9 +31,13 @@ public class PrivacyFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private View v;
     private OnFragmentInteractionListener mListener;
-
+    private LinearLayout layoutFabEdit;
+    private LinearLayout layoutFabImage;
+    private LinearLayout layoutFabCam;
+    private boolean fabExpanded = false;
+    private FloatingActionButton fabSettings;
     public PrivacyFragment() {
         // Required empty public constructor
     }
@@ -58,9 +65,42 @@ public class PrivacyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_privacy, container, false);
+        v=inflater.inflate(R.layout.fragment_moodboard, container, false);
+        layoutFabEdit = (LinearLayout) v.findViewById(R.id.layoutFabEdit);
+        layoutFabImage = (LinearLayout) v.findViewById(R.id.layoutFabPic);
+        layoutFabCam = (LinearLayout) v.findViewById(R.id.layoutFabCam);
+        fabSettings = (FloatingActionButton) v.findViewById(R.id.fabSetting);
+        fabSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fabExpanded == true){
+                    closeSubMenusFab();
+                } else {
+                    openSubMenusFab();
+                }
+            }
+        });
+        closeSubMenusFab();
+        MainActivity.SetNavigationVisibiltity(false);
+        return v;
+    }
+    private void closeSubMenusFab(){
+        layoutFabCam.setVisibility(View.INVISIBLE);
+        layoutFabEdit.setVisibility(View.INVISIBLE);
+        layoutFabImage.setVisibility(View.INVISIBLE);
+        fabSettings.setImageResource(R.drawable.ic_add_black_24dp);
+        fabExpanded = false;
     }
 
+    //Opens FAB submenus
+    private void openSubMenusFab(){
+        layoutFabCam.setVisibility(View.VISIBLE);
+        layoutFabEdit.setVisibility(View.VISIBLE);
+        layoutFabImage.setVisibility(View.VISIBLE);
+        //Change settings icon to 'X' icon
+        fabSettings.setImageResource(R.drawable.ic_close_black_24dp);
+        fabExpanded = true;
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
