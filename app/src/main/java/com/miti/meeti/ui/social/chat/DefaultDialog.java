@@ -17,7 +17,11 @@ public class DefaultDialog implements IDialog {
     public DefaultDialog(String mid,String mName,String type){
         Mlog.e("Default Dialog",id);
         this.id=mid;
-        this.Name="AdamEve-"+mid.substring(0,3);
+        if(mName==null){
+            this.Name="AdamEve-"+mid.substring(0,3);
+        }else{
+            this.Name=mName;
+        }
         this.Type=type;
     }
     @Override

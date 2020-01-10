@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
@@ -16,7 +16,6 @@
         android:id="@+id/ipip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/social_button_pref"
         android:text="ipip" />
     <Button
         android:id="@+id/event"
@@ -24,4 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ipip"
         android:text="Create Event" />
-</RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/social_options"
+        android:layout_height="match_parent" />
+</LinearLayout>

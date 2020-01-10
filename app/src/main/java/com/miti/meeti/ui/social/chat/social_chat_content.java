@@ -149,23 +149,12 @@ public class social_chat_content extends Fragment{
         });
         return v;
     }
-    public static synchronized void dbcallbacksendmessage(){
-        //coming callback from insertnew
-        SendChatContent.request_body tempk=new SendChatContent().new request_body("Text",content,chatid,requestid);
-        mitilock=true;
-        ChatContentRequest.sendmessage(tempk,cookie);
-    }
     public static void dbcallback(String datetime){
         //coming callback from getmax;
         //coming callback from ifrow
         //coming callback from onchanged1
         Mlog.e("in chat content dbcalback, got datetime->",datetime);
         ChatContentRequest.getmessage(new GetChatContent().new request_body(chatid,10,datetime),cookie);
-    }
-    public static void dbcallback_allchat(List<ChatDb> allchat){
-        //coming calback from getnotlive
-        addinmessagelist(allchat);
-        chatDbViewModel.getmax(chatid);
     }
     public static synchronized void setall(List<ChatDb> allchat){
         allchatsynchronized=allchat;

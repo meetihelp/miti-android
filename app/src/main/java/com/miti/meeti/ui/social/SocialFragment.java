@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +32,7 @@ public class SocialFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private RecyclerView recyclerView;
     private OnFragmentInteractionListener mListener;
 
     public SocialFragment() {
@@ -99,6 +101,8 @@ public class SocialFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_event_creation);
             }
         });
+        recyclerView=v.findViewById(R.id.social_options);
+        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.HORIZONTAL, true));
         return v;
     }
 
