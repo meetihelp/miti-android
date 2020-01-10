@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieRepository;
 import com.miti.meeti.database.Cookie.CookieViewModel;
+import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
+import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.GETRequest;
 import com.miti.meeti.mitiutil.network.GetJsonObject;
@@ -121,7 +123,10 @@ public class Loading_page extends Fragment implements Runnable{
                 Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_preference_page,bundle);
             }
             else if(moveto==6){
+                KeyvalueViewModel keyvalueViewModel=ViewModelProviders.of(this).get(KeyvalueViewModel.class);
+                keyvalueViewModel.insert(new keyvalue("MitiLogin","Success"));
                 Navigation.findNavController(this.vx).navigate(R.id.action_loading_page_to_newsfeed);
+
             }
         }else{
             run();

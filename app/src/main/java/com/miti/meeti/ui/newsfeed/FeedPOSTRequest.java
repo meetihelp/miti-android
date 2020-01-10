@@ -1,21 +1,21 @@
 package com.miti.meeti.ui.newsfeed;
 
-import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
 import com.miti.meeti.NetworkObjects.Feed;
 import com.miti.meeti.R;
+import com.miti.meeti.database.Feed.FeedDb;
 import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 
+import static com.miti.meeti.ui.newsfeed.newfeed.progress;
+
 public class FeedPOSTRequest extends POSTRequest {
     @Override
     protected void onPreExecute() {
-        View v=newfeed.v;
-        View progress=v.findViewById(R.id.progressBar2);
         progress.setVisibility(View.VISIBLE);
     }
 
@@ -24,15 +24,12 @@ public class FeedPOSTRequest extends POSTRequest {
 //        super.onPostExecute(result);
         Gson gson = new Gson();
         try{
-            Feed.response_object tempqw=gson.fromJson(result.getData(),Feed.response_object.class);
-            newfeed.feedViewModel.addTodo(tempqw.NewsData);
-            FeedViewModel.templkh=tempqw.NewsData.get(0).Id+1;
+            Feed.response_object tempqw=gson.fromJson(result.getData(), Feed.response_object.class);
+            newfeed.feedViewModel.insert(tempqw.NewsData.toArray(new FeedDb[tempqw.NewsData.size()]));
         }catch (Exception e){
 
         }
-        View v=newfeed.v;
-        View progress=v.findViewById(R.id.progressBar2);
-        progress.setVisibility(View.INVISIBLE);
+        progress.setVisibility(View.GONE);
         Mlog.e("Recycler view changed");
     }
 }

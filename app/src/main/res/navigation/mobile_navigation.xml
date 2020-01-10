@@ -19,16 +19,20 @@
         android:id="@+id/miti_newsfeed"
         android:name="com.miti.meeti.ui.newsfeed.newfeed"
         android:label="@string/miti_newsfeed"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_miti_newsfeed_to_feedView"
+            app:destination="@id/feedView" />
+        <action
+            android:id="@+id/action_miti_newsfeed_to_social_chat_list"
+            app:destination="@id/social_chat_list" />
+    </fragment>
 
     <fragment
         android:id="@+id/miti_social"
         android:name="com.miti.meeti.ui.social.SocialFragment"
         android:label="@string/miti_social"
         tools:layout="@layout/fragment_social" >
-        <action
-            android:id="@+id/action_miti_social_to_social_chat_list"
-            app:destination="@id/social_chat_list" />
         <action
             android:id="@+id/action_miti_social_to_social_pref_interest"
             app:destination="@id/social_pref_interest" />
@@ -105,6 +109,16 @@
             android:id="@+id/action_camera_moodboard_to_miti_privacy"
             app:destination="@id/miti_privacy" />
     </fragment>
+    <fragment
+        android:id="@+id/feedView"
+        android:name="com.miti.meeti.ui.newsfeed.FeedView"
+        android:label="fragment_feed_view"
+        tools:layout="@layout/fragment_feed_view" />
+    <action
+        android:id="@+id/message_list"
+        app:destination="@id/social_chat_list"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
 
 
 </navigation>

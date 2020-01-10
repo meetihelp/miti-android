@@ -3,11 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
+        android:id="@+id/actionview_messages"
+        android:orderInCategory="101"
+        android:title="Messages"
+        android:iconTint="@color/white"
+        android:icon="@drawable/ic_message_black_24dp"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/autismfont"
         android:orderInCategory="100"
         android:title="Autism"
         android:icon="@drawable/ic_autism1"
-        app:showAsAction="always" />
+        app:showAsAction="collapseActionView" />
 
 </menu>
 <!--<?xml version="1.0" encoding="utf-8"?>-->

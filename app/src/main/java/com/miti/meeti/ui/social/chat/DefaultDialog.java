@@ -13,10 +13,12 @@ public class DefaultDialog implements IDialog {
     /*...*/
     private  IMessage lastMessage;
     private String id,Name;
-    public DefaultDialog(String mid,String mName){
+    public String Type;
+    public DefaultDialog(String mid,String mName,String type){
         Mlog.e("Default Dialog",id);
         this.id=mid;
-        this.Name="Ram-"+mid.substring(0,3);
+        this.Name="AdamEve-"+mid.substring(0,3);
+        this.Type=type;
     }
     @Override
     public String getId() {

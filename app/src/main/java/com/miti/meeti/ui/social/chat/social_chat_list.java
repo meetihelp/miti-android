@@ -3,9 +3,13 @@ package com.miti.meeti.ui.social.chat;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.ChatList;
 import com.miti.meeti.R;
+import com.miti.meeti.database.Chat.ChatListDb;
 import com.miti.meeti.database.Chat.ChatListDbViewModel;
 import com.miti.meeti.database.Chat.ChatListViewModel;
 import com.miti.meeti.database.Cookie.CookieViewModel;
@@ -24,6 +31,9 @@ import com.miti.meeti.ui.newsfeed.GETid;
 import com.stfalcon.chatkit.dialogs.DialogsList;
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -42,10 +52,7 @@ public class social_chat_list extends Fragment {
     public static int chatlist_offset;
     private Bundle bundle;
     public static View v;
-    public static ChatListViewModel chatListViewModel;
     public static ChatListDbViewModel chatListDbViewModel;
-    public DialogsList dialogsList;
-    public static DialogsListAdapter dialogsListAdapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -53,7 +60,7 @@ public class social_chat_list extends Fragment {
     public static social_chat_list_adapter mAdapter;
     public static String cookie;
     private RecyclerView.LayoutManager layoutManager;
-
+    private LiveData<List<ChatListDb>> all;
     private OnFragmentInteractionListener mListener;
 
     public social_chat_list() {
@@ -91,29 +98,6 @@ public class social_chat_list extends Fragment {
         cookie= cvm.getCookie1();
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        View v=inflater.inflate(R.layout.fragment_social_chat_list, container, false);
-//        recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
-//        recyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(v.getContext());
-//        recyclerView.setLayoutManager(layoutManager);
-////        String []myDataset={"apoorva","kumar"};
-//        mAdapter = new social_chat_list_adapter();
-//        recyclerView.setAdapter(mAdapter);
-//        chatListViewModel= ViewModelProviders.of(this).get(ChatListViewModel.class);
-//        chatListViewModel.getTodos().observe(this, new Observer<List<ChatList.chatlist_object>>() {
-//            @Override
-//            public void onChanged(List<ChatList.chatlist_object> newChatlist) {
-//                Log.e("Control","On changed called for social chat list ");
-//                mAdapter.setChatList(newChatlist);
-//            }
-//        });
-//        ChatListRequest.getinitialnews();
-//        return v;
-//    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         v=inflater.inflate(R.layout.fragment_social_chat_list, container, false);
 //        dialogsList = v.findViewById(R.id.dialogsList);
@@ -122,28 +106,32 @@ public class social_chat_list extends Fragment {
         layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new social_chat_list_adapter();
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(v.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(itemDecoration);
 //        dialogsListAdapter = new DialogsListAdapter<>(null);
 //        dialogsList.setAdapter(dialogsListAdapter);
-        chatListDbViewModel= ViewModelProviders.of(this).get(ChatListDbViewModel.class);
-//        dialogsListAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener<DefaultDialog>() {
-//            @Override
-//            public void onDialogClick(DefaultDialog dialog) {
-//                Mlog.e("onclick->",dialog.getId(),dialog.getDialogName());
-//                Bundle bundle=new Bundle();
-//                bundle.putString("chatid",dialog.getId());
-//                bundle.putString("chattype","");
-//                Navigation.findNavController(v).navigate(R.id.action_social_chat_list_to_social_chat_content,bundle);
-//            }
-//        });
-        chatListDbViewModel.getold();
-        ChatListRequest.getinitialnews(cookie);
-//        GETid.getid(cookie);
+        chatListDbViewModel= MainActivity.chatListDbViewModel;
+        all=chatListDbViewModel.getall();
+        final Observer<List<ChatListDb>> nameObserver = new Observer<List<ChatListDb>>() {
+            @Override
+            public void onChanged(@Nullable final List<ChatListDb> newName) {
+                Mlog.e("","OnChanged called",Integer.toString(newName.size()));
+                if(newName.size()==0){
+                    ChatListRequest.getinitial(MainActivity.cookieViewModel.getCookie1());
+                }
+                // Update the UI, in this case, a TextView.
+                List<DefaultDialog> chatList=new ArrayList<>();
+                for(ChatListDb tempf:newName){
+                    chatList.add(new DefaultDialog(tempf.ChatId,tempf.Name,tempf.ChatType));
+                }
+                mAdapter.setChatList(chatList);
+            }
+        };
+        all.observe(this,nameObserver);
         Mlog.e("Aaaya me in social list");
         return v;
-    }
-    public static void empty_table_callback(){
-        ChatListRequest.getinitialnews(cookie);
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -151,8 +139,6 @@ public class social_chat_list extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
-
 
     @Override
     public void onDetach() {

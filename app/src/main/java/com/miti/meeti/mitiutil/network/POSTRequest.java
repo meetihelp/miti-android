@@ -19,7 +19,7 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
     public static final String REQUEST_METHOD = "POST";
     public static final int READ_TIMEOUT = 15000;
     public static final int CONNECTION_TIMEOUT = 15000;
-    public static final String Domain="http://meeti.club:9000";
+    public static final String Domain="http://meeti.club:8000";
     public POSTRequest(){
 
     }

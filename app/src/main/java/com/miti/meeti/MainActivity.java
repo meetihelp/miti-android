@@ -1,6 +1,7 @@
 package com.miti.meeti;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -21,7 +22,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.miti.meeti.database.Chat.ChatListDbViewModel;
+import com.miti.meeti.database.Cookie.Cookie;
+import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Diary.MoodboardViewModel;
+import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.uihelper.PermissionHelper;
 import com.zhihu.matisse.Matisse;
@@ -50,8 +55,12 @@ public class MainActivity extends AppCompatActivity{
     private static BottomNavigationView bottomNavigationView;
     private NavController navController;
     public static MoodboardViewModel moodboardViewModel;
+    public static CookieViewModel cookieViewModel;
+    public static FeedViewModel feedViewModel;
+    public static ChatListDbViewModel chatListDbViewModel;
     private static AppBarLayout appBarLayout;
     public static String RootFolder;
+    public static Context MainActivityContext;
     public static void SetNavigationVisibiltity (boolean b) {
         if (b) {
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -78,6 +87,10 @@ public class MainActivity extends AppCompatActivity{
             setup();
         }
         moodboardViewModel=ViewModelProviders.of(this).get(MoodboardViewModel.class);
+        cookieViewModel=ViewModelProviders.of(this).get(CookieViewModel.class);
+        feedViewModel=ViewModelProviders.of(this).get(FeedViewModel.class);
+        chatListDbViewModel=ViewModelProviders.of(this).get(ChatListDbViewModel.class);
+        MainActivityContext=this;
 //        BottomAppBar curvedBottomNavigationView = findViewById(R.id.bar);
 //        curvedBottomNavigationView.inflateMenu(R.menu.activity_main_drawer);
     }

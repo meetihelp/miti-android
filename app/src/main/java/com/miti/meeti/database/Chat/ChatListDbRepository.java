@@ -97,18 +97,18 @@ public class ChatListDbRepository {
 
         @Override
         protected void onPostExecute(List<ChatListDb> chatListDbs) {
-            if(chatListDbs==null){
-                Mlog.e("Chatlistdbrepository->","nul hun main");
-                social_chat_list.empty_table_callback();
-                return;
-            }
-            List<DefaultDialog>tempy=new ArrayList<>();
-            for(ChatListDb temp:chatListDbs){
-                DefaultDialog temp2=new DefaultDialog(temp.ChatId,"");
-                Mlog.e("Chatlistdbrepository->",temp.ChatId);
-                tempy.add(temp2);
-            }
-            social_chat_list.mAdapter.setChatList(tempy);
+//            if(chatListDbs==null){
+//                Mlog.e("Chatlistdbrepository->","nul hun main");
+//                social_chat_list.empty_table_callback();
+//                return;
+//            }
+//            List<DefaultDialog>tempy=new ArrayList<>();
+//            for(ChatListDb temp:chatListDbs){
+//                DefaultDialog temp2=new DefaultDialog(temp.ChatId,"");
+//                Mlog.e("Chatlistdbrepository->",temp.ChatId);
+//                tempy.add(temp2);
+//            }
+//            social_chat_list.mAdapter.setChatList(tempy);
 //            social_chat_list.dialogsListAdapter.setItems(tempy);
         }
     }

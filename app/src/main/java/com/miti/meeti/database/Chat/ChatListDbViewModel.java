@@ -14,9 +14,9 @@ public class ChatListDbViewModel extends AndroidViewModel {
     public ChatListDbViewModel(@NonNull Application application) {
         super(application);
         repository = new ChatListDbRepository(application);
+        chatlist=repository.getall();
     }
-    public LiveData<List<ChatListDb>>getchatbyid(String chatid){
-        this.chatlist=repository.getall();
+    public LiveData<List<ChatListDb>> getall(){
         return chatlist;
     }
     public void insert(ChatListDb ...chatlist){

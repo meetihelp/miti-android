@@ -69,16 +69,6 @@ public class SocialFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_social, container, false);
-        Button button = v.findViewById(R.id.social_button_chat);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                // do something
-                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_chat_list);
-            }
-        });
         Button button1 = v.findViewById(R.id.social_button_pref);
         button1.setOnClickListener(new View.OnClickListener()
         {

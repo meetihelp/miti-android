@@ -3,38 +3,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/social_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:background="@drawable/border"
+        android:padding="3dp"
         app:cardBackgroundColor="@color/transparent">
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/social_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Tilte"
-                android:textColor="#00f2ff"
-                android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                app:shape_circle_borderColor="@color/transparent"
+                app:shape_circle_borderWidth="2dp">
+                <!-- YOUR CONTENT -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@color/mitiOrange"/>
+            </com.github.florent37.shapeofview.shapes.CircleView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/social_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="Tilte"
+                    android:textColor="#00f2ff"
+                    android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/social_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/social_title"
-                android:text="Description"
-                android:textColor="#2d2d2d"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/chatlist_lastmessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#2d2d2d"
+                    android:textSize="15sp" />
 
-        </RelativeLayout>
-
+            </LinearLayout>
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

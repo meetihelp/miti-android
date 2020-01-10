@@ -30,7 +30,7 @@ public class social_chat_list_adapter extends RecyclerView.Adapter<social_chat_l
 
 //            idTextView = itemView.findViewById(R.id.social_no);
             titleTextView = itemView.findViewById(R.id.social_title);
-            descriptionTextView = itemView.findViewById(R.id.social_description);
+            descriptionTextView = itemView.findViewById(R.id.chatlist_lastmessage);
             card = (MaterialCardView) itemView.findViewById(R.id.social_card);
         }
     }

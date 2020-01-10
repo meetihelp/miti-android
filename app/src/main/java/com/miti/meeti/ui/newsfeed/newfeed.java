@@ -1,12 +1,10 @@
 package com.miti.meeti.ui.newsfeed;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -20,26 +18,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.NetworkObjects.Feed;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieViewModel;
+import com.miti.meeti.database.Feed.FeedDb;
 import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
-import com.miti.meeti.database.Keyvalue.keyvalue;
-import com.miti.meeti.mitiutil.Logging.Mlog;
-import com.miti.meeti.mitiutil.network.Keyvalue;
 import com.miti.meeti.mitiutil.uihelper.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
-
-import static com.miti.meeti.mitiutil.try123.randomAlphaNumeric;
 
 public class newfeed extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
@@ -55,7 +48,8 @@ public class newfeed extends Fragment{
     boolean isLoading = false;
     public static CookieViewModel cvm;
     public static KeyvalueViewModel kvm;
-    public static String cookie;
+    private String cookie;
+    public static View progress;
     public newfeed() {
         // Required empty public constructor
     }
@@ -71,7 +65,9 @@ public class newfeed extends Fragment{
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         v=inflater.inflate(R.layout.fragment_newfeed, container, false);
-        cvm=ViewModelProviders.of(this).get(CookieViewModel.class);
+        progress=v.findViewById(R.id.progressBar2);
+        progress.setVisibility(View.GONE);
+        cvm= MainActivity.cookieViewModel;
         kvm=ViewModelProviders.of(this).get(KeyvalueViewModel.class);
         cookie=cvm.getCookie1();
         if(kvm.get("userid")==null){
@@ -94,13 +90,16 @@ public class newfeed extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(2);
         feedViewModel= ViewModelProviders.of(this).get(FeedViewModel.class);
-        feedViewModel.getTodos().observe(this, new Observer<List<Feed.feed_object>>() {
+        feedViewModel.getAll().observe(this, new Observer<List<FeedDb>>() {
             @Override
-            public void onChanged(List<Feed.feed_object> feeds) {
-                feedAdapter.setTemp(feeds);
+            public void onChanged(List<FeedDb> feeds) {
+                if(feeds.size()==0){
+                    FeedRequest.getinitialnews(cookie);
+                }else{
+                    feedAdapter.setTemp(feeds);
+                }
             }
         });
-        FeedRequest.getinitialnews(cookie);
         return v;
 
     }
@@ -150,6 +149,8 @@ public class newfeed extends Fragment{
                 drawable = DrawableCompat.wrap(drawable);
                 DrawableCompat.setTint(drawable, ContextCompat.getColor(v.getContext(),R.color.mitiOrange));
                 item.setIcon(drawable);
+            case R.id.actionview_messages:
+                Navigation.findNavController(v).navigate(R.id.message_list);
             default:
                 return super.onOptionsItemSelected(item);
         }

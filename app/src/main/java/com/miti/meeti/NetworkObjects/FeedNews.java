@@ -1,11 +1,10 @@
 package com.miti.meeti.NetworkObjects;
 
 import com.google.gson.annotations.SerializedName;
-import com.miti.meeti.database.Feed.FeedDb;
 
 import java.util.List;
 
-public class Feed {
+public class FeedNews {
     public class request_header{
         @SerializedName("Miti-Cookie") public String MitiCookie;
         public request_header(String MitiCookie){
@@ -18,21 +17,13 @@ public class Feed {
             this.Id=id;
         }
     }
-    public class feed_object{
+    public class news_object{
         public int Id;
-        public String Summary;
-        public String Sentiment;
-        public String Location;
-        public String Event;
-        public String Label;
-        public String Title;
-        public String ImageURL;
-        public String ArticeURL;
-        public String Flag;
+        public String Article;
     }
     public class response_object{
         public int Code;
         public String Message;
-        public List<FeedDb>NewsData;
+        public news_object Response;
     }
 }

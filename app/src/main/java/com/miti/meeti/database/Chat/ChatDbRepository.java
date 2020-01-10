@@ -81,7 +81,8 @@ public class ChatDbRepository {
 
         @Override
         protected void onPostExecute(String i) {
-            social_chat_content.dbcallback(i);
+
+//            social_chat_content.dbcallback(i);
         }
     }
     private static class IfrowAsyncTask extends AsyncTask<String, Void,String> {
@@ -100,7 +101,7 @@ public class ChatDbRepository {
         @Override
         protected void onPostExecute(String i) {
             if(i==null){
-                social_chat_content.dbcallback(i);
+//                social_chat_content.dbcallback(i);
             }
         }
     }
@@ -120,7 +121,8 @@ public class ChatDbRepository {
 
         @Override
         protected void onPostExecute(List<ChatDb> i) {
-            social_chat_content.dbcallback_allchat(i);
+
+//            social_chat_content.dbcallback_allchat(i);
         }
     }
     private static class InsertChatAsyncTask extends AsyncTask<ChatDb, Void,Void> {
@@ -152,7 +154,7 @@ public class ChatDbRepository {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            social_chat_content.dbcallbacksendmessage();
+//            social_chat_content.dbcallbacksendmessage();
         }
     }
 }

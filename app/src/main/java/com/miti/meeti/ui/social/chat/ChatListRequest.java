@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatListRequest {
-    public static void getinitialnews(String cookie){
+    public static void getinitial(String cookie){
         List<ChatList.chatlist_object> ret=new ArrayList<>();
         Gson gson = new Gson();
         ChatList.request_body temp=new ChatList().new request_body(0,5);

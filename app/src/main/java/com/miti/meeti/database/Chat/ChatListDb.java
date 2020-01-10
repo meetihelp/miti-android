@@ -13,5 +13,9 @@ public class ChatListDb {
     public String ChatType;
     public String CreatedAt;
     public String LastUpdate;
+    public String ImageURL;
+    public String Name;
+    public String Gender;
+    public String LastMessage;
     public int Sync;
 }

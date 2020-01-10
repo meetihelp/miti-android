@@ -2,21 +2,15 @@ package com.miti.meeti.ui.newsfeed;
 
 import android.util.Log;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import com.google.gson.Gson;
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.NetworkObjects.Feed;
-import com.miti.meeti.database.Cookie.CookieViewModel;
-import com.miti.meeti.database.Feed.FeedObject;
 import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
-import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.miti.meeti.ui.newsfeed.newfeed.cvm;
 
 public class FeedRequest {
     public static void getinitialnews(String cookie){
@@ -35,7 +29,7 @@ public class FeedRequest {
     public static void getlaternews(String cookie){
         String ret=new String();
         Gson gson = new Gson();
-        Feed.request_body temp=new Feed().new request_body(FeedViewModel.templkh);
+        Feed.request_body temp=new Feed().new request_body(MainActivity.feedViewModel.getmax());
         String jsonInString = gson.toJson(temp);
         FeedPOSTRequest postRequest=new FeedPOSTRequest();
         RequestHelper requestHelper;
