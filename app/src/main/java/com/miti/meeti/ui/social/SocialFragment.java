@@ -71,38 +71,37 @@ public class SocialFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_social, container, false);
-        Button button1 = v.findViewById(R.id.social_button_pref);
-        button1.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                // do something
-                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_interest);
-            }
-        });
-        Button button2 = v.findViewById(R.id.ipip);
-        button2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                // do something
-                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_ipip);
-            }
-        });
-        Button button3 = v.findViewById(R.id.event);
-        button3.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                // do something
-                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_event_creation);
-            }
-        });
-        recyclerView=v.findViewById(R.id.social_options);
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.HORIZONTAL, true));
+//        Button button1 = v.findViewById(R.id.social_button_pref);
+//        button1.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                // do something
+//                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_interest);
+//            }
+//        });
+//        Button button2 = v.findViewById(R.id.ipip);
+//        button2.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                // do something
+//                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_ipip);
+//            }
+//        });
+//        Button button3 = v.findViewById(R.id.event);
+//        button3.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                // do something
+//                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_event_creation);
+//            }
+//        });
+
         return v;
     }
 

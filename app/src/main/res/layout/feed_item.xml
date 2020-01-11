@@ -62,7 +62,7 @@
         android:padding="10dp"
         android:letterSpacing="0.05"
         android:text="hey jude"
-        android:textColor="#cae9f6"
+        android:textColor="@color/mitiTextSkyBlue"
         android:textSize="18sp"
         app:fontFamily="@font/montserrat" />
     <LinearLayout

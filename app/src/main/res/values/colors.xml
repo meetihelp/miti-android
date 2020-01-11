@@ -13,7 +13,7 @@
     <color name="mitiTextBlue1" tools:override="true">#77cced</color>
     <color name="mitiTextBlue2" tools:override="true">#71c3e3</color>
     <color name="mitiTextBlue3">#538fa6</color>
-
+    <color name="mitiTextSkyBlue">#cae9f6</color>
     <color name="mitiRed" tools:override="true">#FF4136</color>
     
     <color name="mitiGreen" tools:override="true">#01FF70</color>

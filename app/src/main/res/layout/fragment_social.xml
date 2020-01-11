@@ -2,30 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
     android:background="@color/black">
 
-    <Button
-        android:id="@+id/social_button_pref"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Preference" />
-    <Button
-        android:id="@+id/ipip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ipip" />
-    <Button
-        android:id="@+id/event"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ipip"
-        android:text="Create Event" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <include layout="@layout/fragment_social_pooling"/>
+            <include layout="@layout/fragment_social_events"/>
+            <include layout="@layout/fragment_social_barter"/>
+        </LinearLayout>
+    </HorizontalScrollView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:id="@+id/social_options"
-        android:layout_height="match_parent" />
+
 </LinearLayout>
