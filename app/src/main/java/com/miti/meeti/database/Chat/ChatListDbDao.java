@@ -20,6 +20,8 @@ public interface ChatListDbDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public void insert(ChatListDb...chatlist);
 
+    @Query("Select * from MeetiChatList order by CreatedAt desc limit 1")
+    public ChatListDb getmax();
     @Query("Delete FROM MeetiChatList where ChatId = :chatId")
     void deleteChat(String chatId);
 

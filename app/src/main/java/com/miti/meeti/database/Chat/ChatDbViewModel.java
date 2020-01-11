@@ -25,8 +25,8 @@ public class ChatDbViewModel extends AndroidViewModel {
     public void insertnew(ChatDb ...chats){
         repository.insertnew(chats);
     }
-    public void getmax(String ...chatid){
-        repository.getmax(chatid[0]);
+    public String getmax(String ...chatid){
+        return repository.getmax(chatid[0]);
     }
     public void delete(String ...chatid){
         repository.delete(chatid[0]);

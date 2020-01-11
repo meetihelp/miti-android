@@ -12,6 +12,9 @@ import android.os.Bundle;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatMessages;
+import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatlist;
+import com.miti.meeti.MitiExecutors.MitiService;
 import com.miti.meeti.bottomnav.CurvedBottomNavigationView;
 
 import androidx.core.app.ActivityCompat;
@@ -22,6 +25,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.miti.meeti.database.Chat.ChatDb;
+import com.miti.meeti.database.Chat.ChatDbViewModel;
 import com.miti.meeti.database.Chat.ChatListDbViewModel;
 import com.miti.meeti.database.Cookie.Cookie;
 import com.miti.meeti.database.Cookie.CookieViewModel;
@@ -47,6 +52,7 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -58,6 +64,7 @@ public class MainActivity extends AppCompatActivity{
     public static CookieViewModel cookieViewModel;
     public static FeedViewModel feedViewModel;
     public static ChatListDbViewModel chatListDbViewModel;
+    public static ChatDbViewModel chatDbViewModel;
     private static AppBarLayout appBarLayout;
     public static String RootFolder;
     public static Context MainActivityContext;
@@ -90,7 +97,11 @@ public class MainActivity extends AppCompatActivity{
         cookieViewModel=ViewModelProviders.of(this).get(CookieViewModel.class);
         feedViewModel=ViewModelProviders.of(this).get(FeedViewModel.class);
         chatListDbViewModel=ViewModelProviders.of(this).get(ChatListDbViewModel.class);
+        chatDbViewModel=ViewModelProviders.of(this).get(ChatDbViewModel.class);
         MainActivityContext=this;
+        MitiService mitiService=new MitiService(1);
+        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
+        mitiService.schedule(new UpdateChatMessages(),0,60, TimeUnit.SECONDS);
 //        BottomAppBar curvedBottomNavigationView = findViewById(R.id.bar);
 //        curvedBottomNavigationView.inflateMenu(R.menu.activity_main_drawer);
     }

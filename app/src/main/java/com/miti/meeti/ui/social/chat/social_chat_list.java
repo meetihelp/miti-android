@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,20 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.miti.meeti.MainActivity;
-import com.miti.meeti.NetworkObjects.ChatList;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Chat.ChatListDb;
 import com.miti.meeti.database.Chat.ChatListDbViewModel;
-import com.miti.meeti.database.Chat.ChatListViewModel;
 import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
-import com.miti.meeti.ui.newsfeed.GETid;
-import com.stfalcon.chatkit.dialogs.DialogsList;
-import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
-import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,9 +110,9 @@ public class social_chat_list extends Fragment {
             @Override
             public void onChanged(@Nullable final List<ChatListDb> newName) {
                 Mlog.e("","OnChanged called",Integer.toString(newName.size()));
-                if(newName.size()==0){
-                    ChatListRequest.getinitial(MainActivity.cookieViewModel.getCookie1());
-                }
+//                if(newName.size()==0){
+//                    ChatListRequest.getinitial(MainActivity.cookieViewModel.getCookie1());
+//                }
                 // Update the UI, in this case, a TextView.
                 List<DefaultDialog> chatList=new ArrayList<>();
                 for(ChatListDb tempf:newName){

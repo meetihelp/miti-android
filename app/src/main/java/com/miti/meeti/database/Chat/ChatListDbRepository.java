@@ -25,8 +25,19 @@ public class ChatListDbRepository {
     public LiveData<List<ChatListDb>> getall(){
         return this.chatlist;
     }
-    public void getallold(){
-        new GetAllNotLiveAsyncTask(chatListDbDao).execute("");
+    public ChatListDb getmax(){
+        try{
+            return new GetMaxAsyncTask(chatListDbDao).execute().get();
+        }catch (Exception e){
+            return null;
+        }
+    }
+    public List<ChatListDb> getallold(){
+        try{
+            return new GetAllNotLiveAsyncTask(chatListDbDao).execute("").get();
+        }catch (Exception e){
+            return null;
+        }
     }
     public void updatelast(String chatid, String lastupdate){
         new UpdateLastAsyncTask(chatListDbDao).execute(chatid,lastupdate);
@@ -84,6 +95,16 @@ public class ChatListDbRepository {
             return null;
         }
     }
+    private static class GetMaxAsyncTask extends AsyncTask<Void, Void,ChatListDb> {
+        private ChatListDbDao chatListDbDao;
+        private GetMaxAsyncTask(ChatListDbDao ChatListDbDao){
+            this.chatListDbDao=ChatListDbDao;
+        }
+        @Override
+        protected ChatListDb doInBackground(Void... config) {
+            return chatListDbDao.getmax();
+        }
+    }
     private static class GetAllNotLiveAsyncTask extends AsyncTask<String, Void,List<ChatListDb>> {
         private ChatListDbDao chatListDbDao;
         private GetAllNotLiveAsyncTask(ChatListDbDao ChatListDbDao){
@@ -93,23 +114,6 @@ public class ChatListDbRepository {
         @Override
         protected List<ChatListDb> doInBackground(String ...temp) {
             return chatListDbDao.getallnotlive();
-        }
-
-        @Override
-        protected void onPostExecute(List<ChatListDb> chatListDbs) {
-//            if(chatListDbs==null){
-//                Mlog.e("Chatlistdbrepository->","nul hun main");
-//                social_chat_list.empty_table_callback();
-//                return;
-//            }
-//            List<DefaultDialog>tempy=new ArrayList<>();
-//            for(ChatListDb temp:chatListDbs){
-//                DefaultDialog temp2=new DefaultDialog(temp.ChatId,"");
-//                Mlog.e("Chatlistdbrepository->",temp.ChatId);
-//                tempy.add(temp2);
-//            }
-//            social_chat_list.mAdapter.setChatList(tempy);
-//            social_chat_list.dialogsListAdapter.setItems(tempy);
         }
     }
 }

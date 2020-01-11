@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Delete;
 
 import com.miti.meeti.database.DatabaseInit;
+import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.ui.social.chat.social_chat_content;
 
 import java.util.List;
@@ -37,8 +38,13 @@ public class ChatDbRepository {
     public void getnotlive(String chatid){
         new GetNotLiveAsyncTask(chatDbDao).execute(chatid);
     }
-    public void getmax(String ...chatid){
-        new GetMaxAsyncTask(chatDbDao).execute(chatid[0]);
+    public String getmax(String ...chatid){
+        try{
+            return new GetMaxAsyncTask(chatDbDao).execute(chatid[0]).get();
+        }catch (Exception e){
+            return null;
+        }
+
     }
     public void ifrow(String ...chatid){
         new IfrowAsyncTask(chatDbDao).execute(chatid[0]);
@@ -72,17 +78,14 @@ public class ChatDbRepository {
         }
         @Override
         protected String doInBackground(String ...chatid) {
+            Mlog.e("chatid->",chatid[0],"ingetmaxasynctask");
             ChatDb temp=chatDbDao.getmax(chatid[0]);
             if(temp==null){
+                Mlog.e("max->","");
                 return new String("");
             }
+            Mlog.e("max->",temp.CreatedAt);
             return temp.CreatedAt;
-        }
-
-        @Override
-        protected void onPostExecute(String i) {
-
-//            social_chat_content.dbcallback(i);
         }
     }
     private static class IfrowAsyncTask extends AsyncTask<String, Void,String> {
@@ -97,12 +100,6 @@ public class ChatDbRepository {
                 return new String("");
             }
             return temp.CreatedAt;
-        }
-        @Override
-        protected void onPostExecute(String i) {
-            if(i==null){
-//                social_chat_content.dbcallback(i);
-            }
         }
     }
     private static class GetNotLiveAsyncTask extends AsyncTask<String, Void,List<ChatDb>> {

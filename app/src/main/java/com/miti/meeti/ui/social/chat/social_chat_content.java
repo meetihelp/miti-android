@@ -121,6 +121,7 @@ public class social_chat_content extends Fragment{
             }
         };
         chatDbViewModel.getchatbyid(chatid).observe(this,nameObserver);
+        chatDbViewModel.getmax(chatid);
         LiveData<List<ChatDb>>lkjh=chatDbViewModel.getchatbyid(chatid);
         MainActivity.SetNavigationVisibiltity(false);
         MessageInput inputView=v.findViewById(R.id.input);
@@ -149,13 +150,7 @@ public class social_chat_content extends Fragment{
         });
         return v;
     }
-    public static void dbcallback(String datetime){
-        //coming callback from getmax;
-        //coming callback from ifrow
-        //coming callback from onchanged1
-        Mlog.e("in chat content dbcalback, got datetime->",datetime);
-        ChatContentRequest.getmessage(new GetChatContent().new request_body(chatid,10,datetime),cookie);
-    }
+
     public static synchronized void setall(List<ChatDb> allchat){
         allchatsynchronized=allchat;
     }
@@ -175,7 +170,6 @@ public class social_chat_content extends Fragment{
     public static synchronized void onChanged1(@Nullable final List<ChatDb>messages) {
         Mlog.e("callback","onchanged in message content",Integer.toString(messages.size()));
         if(messages.size()==0){
-            dbcallback("");
             return;
         }
         if(allchatsynchronized==null){

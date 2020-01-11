@@ -14,7 +14,21 @@ public class ChatListRequest {
     public static void getinitial(String cookie){
         List<ChatList.chatlist_object> ret=new ArrayList<>();
         Gson gson = new Gson();
-        ChatList.request_body temp=new ChatList().new request_body(0,5);
+        ChatList.request_body temp=new ChatList().new request_body("",5);
+        String jsonInString = gson.toJson(temp);
+        ChatListPost postRequest=new ChatListPost();
+        RequestHelper requestHelper;
+        try{
+            postRequest.execute("getChatDetail",jsonInString,cookie);
+            Log.e("Control","returned");
+        }catch (Exception e){
+            Mlog.e("Control-chatlist->",e.toString());
+        }
+    }
+    public static void getlater(String cookie,String createdAt){
+        List<ChatList.chatlist_object> ret=new ArrayList<>();
+        Gson gson = new Gson();
+        ChatList.request_body temp=new ChatList().new request_body(createdAt,5);
         String jsonInString = gson.toJson(temp);
         ChatListPost postRequest=new ChatListPost();
         RequestHelper requestHelper;

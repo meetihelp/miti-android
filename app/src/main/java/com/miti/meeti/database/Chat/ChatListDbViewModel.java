@@ -19,6 +19,9 @@ public class ChatListDbViewModel extends AndroidViewModel {
     public LiveData<List<ChatListDb>> getall(){
         return chatlist;
     }
+    public ChatListDb getmax(){
+        return repository.getmax();
+    }
     public void insert(ChatListDb ...chatlist){
         repository.insert(chatlist);
     }
@@ -28,5 +31,5 @@ public class ChatListDbViewModel extends AndroidViewModel {
     public void synced(String ...chatid){
         repository.Synced(chatid[0]);
     }
-    public void getold(){repository.getallold();}
+    public List<ChatListDb> getold(){return repository.getallold();}
 }

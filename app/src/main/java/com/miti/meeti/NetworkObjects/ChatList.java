@@ -12,10 +12,10 @@ public class ChatList {
         }
     }
     public class request_body{
-        public int Offset;
+        public String CreatedAt;
         public int NumOfChat;
-        public request_body(int offset,int numOfChat){
-            this.Offset=offset;
+        public request_body(String createdAt,int numOfChat){
+            this.CreatedAt=createdAt;
             this.NumOfChat=numOfChat;
         }
     }

@@ -37,6 +37,7 @@ public class ChatContentRequest {
         }
         Gson gson=new Gson();
         String jsonInString = gson.toJson(body);
+        Mlog.e("Chatcontentrequest->",jsonInString);
         GetChatPost postRequest=new GetChatPost();
         try{
             postRequest.execute("getChatAfterIndex",jsonInString,cookie);
