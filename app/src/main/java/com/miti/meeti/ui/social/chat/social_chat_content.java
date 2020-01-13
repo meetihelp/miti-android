@@ -144,7 +144,7 @@ public class social_chat_content extends Fragment{
         ImageLoader imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                Glide.with(social_chat_content.this).load(new File(url)).into(imageView);
+                Glide.with(social_chat_content.this).load(url).into(imageView);
             }
         };
         adapterx = new MessagesListAdapter<>(userid, imageLoader);

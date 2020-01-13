@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private LocationManager locationManager;
     public static String RootFolder;
     public static Context MainActivityContext;
+    public static TextView toolbar_text;
     public static void SetNavigationVisibiltity (boolean b) {
         if (b) {
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -169,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar_text=findViewById(R.id.toolbar_title);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setHomeButtonEnabled(true);
@@ -215,16 +217,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }catch (SecurityException e){
             Mlog.e(e);
         }
-
-//        try{
-//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 600, 0, this);
-//        }catch (SecurityException e){
-//            Mlog.e(e);
-//            Mlog.e("Security Exception");
-//        }
-
-
-//        getLocationRequest();
     }
     @Override
     public void onLocationChanged(Location location) {
@@ -272,13 +264,3 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         alert.show();
     }
 }
-
-//        setSupportActionBar(toolbar);
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });

@@ -24,11 +24,25 @@ public class MoodboardRepository {
     public void insert(Moodboard ...moodboard){
         new InsertmoodboardAsyncTask(moodboardDao).execute(moodboard);
     }
+    public void delete(Moodboard ...moodboard){
+        new DeletemoodboardAsyncTask(moodboardDao).execute(moodboard);
+    }
     public void update(String ...temp){
         new UpdatemoodboardAsyncTask(moodboardDao).execute(temp);
     }
     public void updateContent(String ...temp){
         new UpdateContentmoodboardAsyncTask(moodboardDao).execute(temp);
+    }
+    private static class DeletemoodboardAsyncTask extends AsyncTask<Moodboard, Void,Void> {
+        private MoodboardDao moodboardDao;
+        private DeletemoodboardAsyncTask(MoodboardDao moodboardDao){
+            this.moodboardDao=moodboardDao;
+        }
+        @Override
+        protected Void doInBackground(Moodboard... moodboard) {
+            moodboardDao.delete(moodboard);
+            return null;
+        }
     }
     private static class InsertmoodboardAsyncTask extends AsyncTask<Moodboard, Void,Void> {
         private MoodboardDao moodboardDao;

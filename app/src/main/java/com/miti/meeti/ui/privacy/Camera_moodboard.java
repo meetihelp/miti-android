@@ -107,7 +107,7 @@ public class Camera_moodboard extends Fragment {
                     public void onFileReady(@Nullable File file) {
                         Mlog.e("In camera callback","Control",file.getAbsolutePath());
                         if(file!=null){
-                            new ImageSaver().execute(filename);
+                            new BoardImageSaver().execute("Moodboards","Moodboard",filename);
                         }
                         Navigation.findNavController(v).navigateUp();
                     }

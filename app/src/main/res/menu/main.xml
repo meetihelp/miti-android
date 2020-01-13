@@ -6,6 +6,7 @@
         android:id="@+id/actionview_miti_utility"
         android:orderInCategory="101"
         android:title="Privacy"
+        app:iconTint="@color/white"
         android:icon="@drawable/ic_menu_manage"
         app:showAsAction="always"/>
     <item

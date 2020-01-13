@@ -27,7 +27,7 @@
             android:id="@+id/miti_privacy"
             android:icon="@drawable/ic_woman_thinking_svgrepo_com"
             app:showAsAction="always"
-            android:title="Moodboard" />
+            android:title="Moods" />
 
     </group>
 

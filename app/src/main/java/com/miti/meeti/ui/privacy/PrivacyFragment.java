@@ -1,13 +1,16 @@
 package com.miti.meeti.ui.privacy;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
@@ -72,6 +75,7 @@ public class PrivacyFragment extends Fragment {
     private FloatingActionButton fabSettings;
     private StaggeredGridLayoutManager _sGridLayoutManager;
     private MoodboardAdapter moodboardAdapter;
+    public static FragmentActivity myContext;
     public PrivacyFragment() {
         // Required empty public constructor
     }
@@ -85,7 +89,11 @@ public class PrivacyFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        myContext=(FragmentActivity) context;
+        super.onAttach(context);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +107,8 @@ public class PrivacyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        MainActivity.toolbar_text.setText("MoodBoards");
+        setHasOptionsMenu(true);
         v=inflater.inflate(R.layout.fragment_moodboard, container, false);
         FabCamera = v.findViewById(R.id.fabCam);
         FabCamera.setOnClickListener(new View.OnClickListener(){
@@ -114,6 +124,7 @@ public class PrivacyFragment extends Fragment {
         _sGridLayoutManager = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(_sGridLayoutManager);
+        moodboardAdapter.setHasStableIds(true);
         recyclerView.setAdapter(moodboardAdapter);
         moodboardViewModel= MainActivity.moodboardViewModel;
         all=moodboardViewModel.getAll();
@@ -217,6 +228,8 @@ public class PrivacyFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        MainActivity.SetNavigationVisibiltity(true);
+        MainActivity.toolbar_text.setText("Meeti");
         mListener = null;
     }
     @Override

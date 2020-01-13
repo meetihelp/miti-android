@@ -24,6 +24,9 @@ public class MoodboardViewModel extends AndroidViewModel {
     public void insert(Moodboard ...moodboards){
         moodboardRepository.insert(moodboards);
     }
+    public void delete(Moodboard ...moodboards){
+        moodboardRepository.delete(moodboards);
+    }
     public void update(String ...temp){
         moodboardRepository.update(temp);
     }
