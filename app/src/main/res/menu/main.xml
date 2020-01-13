@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
-        android:id="@+id/actionview_messages"
+        android:id="@+id/actionview_miti_utility"
         android:orderInCategory="101"
-        android:title="Messages"
-        android:iconTint="@color/white"
-        android:icon="@drawable/ic_message_black_24dp"
-        app:showAsAction="always" />
+        android:title="Privacy"
+        android:icon="@drawable/ic_menu_manage"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/autismfont"
         android:orderInCategory="100"

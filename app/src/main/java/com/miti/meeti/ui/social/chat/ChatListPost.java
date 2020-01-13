@@ -21,6 +21,9 @@ public class ChatListPost extends POSTRequest {
         //Log.e("Control-Chatlistpost",result.getData());
         try{
             List<ChatList.chatlist_object>temp1=temp.fromJson(result.getData(),ChatList.response_object.class).ChatDetail;
+            if(temp1.size()==0){
+                return;
+            }
 //             ChatList.response_object temp1=chat_list_helper.fromJson(result.getData(),ChatList.response_object.class);
             List<ChatListDb>temp3=new ArrayList<>();
             for(ChatList.chatlist_object temp2:temp1){

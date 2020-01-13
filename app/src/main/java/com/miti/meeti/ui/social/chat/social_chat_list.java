@@ -1,10 +1,13 @@
 package com.miti.meeti.ui.social.chat;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -53,6 +56,7 @@ public class social_chat_list extends Fragment {
     public static String cookie;
     private RecyclerView.LayoutManager layoutManager;
     private LiveData<List<ChatListDb>> all;
+    public static FragmentActivity myContext;
     private OnFragmentInteractionListener mListener;
 
     public social_chat_list() {
@@ -90,9 +94,16 @@ public class social_chat_list extends Fragment {
         cookie= cvm.getCookie1();
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    @Override
+    public void onAttach(@NonNull Context context) {
+        myContext=(FragmentActivity) context;
+        super.onAttach(context);
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v=inflater.inflate(R.layout.fragment_social_chat_list, container, false);
 //        dialogsList = v.findViewById(R.id.dialogsList);
+        MainActivity.SetNavigationVisibiltity(false);
         recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(v.getContext());
@@ -116,7 +127,7 @@ public class social_chat_list extends Fragment {
                 // Update the UI, in this case, a TextView.
                 List<DefaultDialog> chatList=new ArrayList<>();
                 for(ChatListDb tempf:newName){
-                    chatList.add(new DefaultDialog(tempf.ChatId,tempf.Name,tempf.ChatType));
+                    chatList.add(new DefaultDialog(tempf.ChatId,tempf.Name,tempf.ChatType,tempf.UserId2));
                 }
                 mAdapter.setChatList(chatList);
             }

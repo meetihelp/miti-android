@@ -10,19 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -33,16 +29,11 @@ import com.miti.meeti.database.Diary.Moodboard;
 import com.miti.meeti.database.Diary.MoodboardViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.try123;
-import com.otaliastudios.cameraview.CameraListener;
-import com.otaliastudios.cameraview.CameraView;
-import com.otaliastudios.cameraview.FileCallback;
-import com.otaliastudios.cameraview.PictureResult;
-import com.otaliastudios.cameraview.controls.Mode;
+import com.miti.meeti.mitiutil.uihelper.ImageSaver;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -235,7 +226,7 @@ public class PrivacyFragment extends Fragment {
             mSelected = Matisse.obtainResult(data);
             Log.e("Matisse", "mSelected: " + Matisse.obtainPathResult(data));
             List<String>templ=Matisse.obtainPathResult(data);
-            new ImageSaver().execute(templ.get(0));
+            new BoardImageSaver().execute("Moodboards","Moodboard",templ.get(0));
         }
     }
     /**

@@ -17,16 +17,18 @@
             app:showAsAction="always"
             android:title="@string/miti_social" />
         <item/>
+
+        <item
+            android:id="@+id/social_chat_list"
+            android:icon="@drawable/ic_message_black_24dp"
+            app:showAsAction="always"
+            android:title="Chat" />
         <item
             android:id="@+id/miti_privacy"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_woman_thinking_svgrepo_com"
             app:showAsAction="always"
-            android:title="@string/miti_privacy" />
-        <item
-            android:id="@+id/miti_utility"
-            android:icon="@drawable/ic_menu_manage"
-            app:showAsAction="always"
-            android:title="@string/miti_utility" />
+            android:title="Moodboard" />
+
     </group>
 
 <!--    <item android:title="Communicate">-->

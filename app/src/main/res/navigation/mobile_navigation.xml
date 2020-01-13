@@ -115,8 +115,8 @@
         android:label="fragment_feed_view"
         tools:layout="@layout/fragment_feed_view" />
     <action
-        android:id="@+id/message_list"
-        app:destination="@id/social_chat_list"
+        android:id="@+id/action_move_to_utility"
+        app:destination="@id/miti_utility"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
 

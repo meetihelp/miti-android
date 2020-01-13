@@ -21,12 +21,13 @@ public class ChatList {
     }
     public class chatlist_object{
         public int Index;
-        public String TempUserId;
-        public String ActualUserId;
+        public String UserId;
+        public String UserId2;
         public String ChatId;
         public String ChatType;
         public String CreatedAt;
         public String LastUpdate;
+        public String Name;
     }
     public class response_object{
         public int Code;

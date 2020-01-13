@@ -14,6 +14,7 @@ public class ChatDb {
     public String MessageId;
     public String MessageType;
     public String MessageContent;
+    public String ImageUrl;
     public String CreatedAt;
     public String RequestId;
     public int Read;
@@ -29,5 +30,12 @@ public class ChatDb {
         this.RequestId=requestId;
         this.ChatId=chatId;
         this.CreatedAt=createdAt;
+    }
+    public ChatDb(String userId,String chatId,String messageType,String messageContent,String requestId){
+        this.UserId=userId;
+        this.MessageType=messageType;
+        this.MessageContent=messageContent;
+        this.RequestId=requestId;
+        this.ChatId=chatId;
     }
 }

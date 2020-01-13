@@ -1,6 +1,5 @@
 package com.miti.meeti.ui.privacy;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,6 +18,7 @@ import android.widget.ImageButton;
 import com.miti.meeti.R;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.try123;
+import com.miti.meeti.mitiutil.uihelper.ImageSaver;
 import com.otaliastudios.cameraview.CameraListener;
 import com.otaliastudios.cameraview.CameraView;
 import com.otaliastudios.cameraview.FileCallback;
@@ -109,7 +109,7 @@ public class Camera_moodboard extends Fragment {
                         if(file!=null){
                             new ImageSaver().execute(filename);
                         }
-                        Navigation.findNavController(v).navigate(R.id.action_camera_moodboard_to_miti_privacy);
+                        Navigation.findNavController(v).navigateUp();
                     }
                 });
             }

@@ -27,6 +27,9 @@ public class GetChatPost extends POSTRequest {
             return;
         }
         List<GetChatContent.chat_object>messages=response_object.Chat;
+        if(messages.size()==0){
+            return;
+        }
         List<ChatDb>tempxy=new ArrayList<>();
         for(GetChatContent.chat_object tempx:messages){
             String json=gson.toJson(tempx);

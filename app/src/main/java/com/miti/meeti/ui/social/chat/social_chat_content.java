@@ -1,5 +1,8 @@
 package com.miti.meeti.ui.social.chat;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,39 +16,35 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.miti.meeti.MainActivity;
-import com.miti.meeti.NetworkObjects.GetChatContent;
-import com.miti.meeti.NetworkObjects.SendChatContent;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Chat.ChatDb;
 import com.miti.meeti.database.Chat.ChatDbViewModel;
-import com.miti.meeti.database.Cookie.Cookie;
 import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
+import com.miti.meeti.mitiutil.try123;
 import com.miti.meeti.mitiutil.uihelper.MitiDiff;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
+import com.miti.meeti.mitiutil.uihelper.ImageSaver;
+import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link social_chat_content.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link social_chat_content#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class social_chat_content extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,8 +65,7 @@ public class social_chat_content extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    List<Uri>mSelected;
 
     public social_chat_content() {
         // Required empty public constructor
@@ -125,10 +123,31 @@ public class social_chat_content extends Fragment{
         LiveData<List<ChatDb>>lkjh=chatDbViewModel.getchatbyid(chatid);
         MainActivity.SetNavigationVisibiltity(false);
         MessageInput inputView=v.findViewById(R.id.input);
+        inputView.setAttachmentsListener(new MessageInput.AttachmentsListener() {
+            @Override
+            public void onAddAttachments() {
+                Matisse.from(social_chat_content.this)
+                        .choose(MimeType.ofAll())
+                        .countable(true)
+                        .maxSelectable(9)
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new GlideEngine())
+                        .showPreview(false)
+                        .theme(R.style.Matisse_Dracula)
+                        .forResult(10); // Default is `true
+            }
+        });
         MessagesList inputlist=v.findViewById(R.id.messagesList);
         System.out.println("Aaya me - Apoorva");
         Author temp=new Author("","apoorva kumar","");
-        adapterx = new MessagesListAdapter<>(userid, null);
+        ImageLoader imageLoader = new ImageLoader() {
+            @Override
+            public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
+                Glide.with(social_chat_content.this).load(new File(url)).into(imageView);
+            }
+        };
+        adapterx = new MessagesListAdapter<>(userid, imageLoader);
         inputlist.setAdapter(adapterx);
         inputView.setInputListener(new MessageInput.InputListener() {
             @Override
@@ -155,11 +174,6 @@ public class social_chat_content extends Fragment{
         allchatsynchronized=allchat;
     }
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onDetach() {
@@ -199,11 +213,35 @@ public class social_chat_content extends Fragment{
         List<Message>temp12=new ArrayList<>();
         for (ChatDb tempx:messages){
             Author temp45=new Author(tempx.UserId,tempx.UserId,"");
-            Mlog.e(tempx.UserId,tempx.MessageContent);
-            Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,tempx.CreatedAt);
+//            Mlog.e(tempx.UserId,tempx.MessageContent);
+            String date=new String();
+            if(tempx.CreatedAt!=null){
+                date=tempx.CreatedAt;
+            }else{
+                date= try123.mitidt();
+            }
+            Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,date);
+            if(tempx.MessageType.contains("image")){
+                if(tempx.MessageContent==null){
+                    temp34.setUrl(tempx.ImageUrl);
+                }else{
+                    temp34.setUrl(tempx.MessageContent);
+//                    Mlog.e(temp34.Imageurl);
+                }
+            }
             temp12.add(temp34);
         }
-        social_chat_content.adapterx.addToEnd(temp12,false);
+        social_chat_content.adapterx.addToEnd(temp12,true);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10 && resultCode == Activity.RESULT_OK) {
+            mSelected = Matisse.obtainResult(data);
+            Log.e("Matisse", "mSelected: " + Matisse.obtainPathResult(data));
+            List<String> templ = Matisse.obtainPathResult(data);
+            new ChatSaveImage().execute("ChatImages","Chats",templ.get(0));
+        }
     }
         /**
          * This interface must be implemented by activities that contain this
@@ -215,8 +253,5 @@ public class social_chat_content extends Fragment{
          * "http://developer.android.com/training/basics/fragments/communicating.html"
          * >Communicating with Other Fragments</a> for more information.
          */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }

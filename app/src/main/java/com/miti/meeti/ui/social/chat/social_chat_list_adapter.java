@@ -12,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
 import com.google.android.material.card.MaterialCardView;
 
@@ -62,7 +65,7 @@ public class social_chat_list_adapter extends RecyclerView.Adapter<social_chat_l
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 //        Log.e("Control-ONbindd for->",chatlist.get(position).TempUserId);
 //        holder.idTextView.setText(chatlist.get(position).getId());
         holder.titleTextView.setText(chatlist.get(position).getDialogName());
@@ -74,16 +77,11 @@ public class social_chat_list_adapter extends RecyclerView.Adapter<social_chat_l
         holder.imageView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-//                View view = inflate(R.layout.chatlist_modal_bottom_dialog, null);
-                DisplayMetrics metrics = social_chat_list.v.getResources().getDisplayMetrics();
-                int DeviceTotalWidth = metrics.widthPixels;
-                int DeviceTotalHeight = metrics.heightPixels;
-                final BottomSheetDialog dialog=new BottomSheetDialog(social_chat_list.v.getContext());
-//                final Dialog dialog = new Dialog(social_chat_list.v.getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.chatlist_modal_bottom_dialog);
-                dialog.getWindow().setLayout(DeviceTotalWidth ,DeviceTotalHeight);
-                dialog.show();
+                Bundle args = new Bundle();
+                args.putString("userId", chatlist.get(position).userid);
+               BottomDialogFragment bottomSheetDialog = BottomDialogFragment.getInstance();
+               bottomSheetDialog.setArguments(args);
+                bottomSheetDialog.show(social_chat_list.myContext.getSupportFragmentManager(),"hithere");
             }
         });
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {

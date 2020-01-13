@@ -14,15 +14,17 @@ public class DefaultDialog implements IDialog {
     private  IMessage lastMessage;
     private String id,Name;
     public String Type;
-    public DefaultDialog(String mid,String mName,String type){
+    public String userid;
+    public DefaultDialog(String mid,String mName,String type,String userid){
         Mlog.e("Default Dialog",id);
         this.id=mid;
-        if(mName==null){
+        if(mName==null || mName.contentEquals("")){
             this.Name="AdamEve-"+mid.substring(0,3);
         }else{
             this.Name=mName;
         }
         this.Type=type;
+        this.userid=userid;
     }
     @Override
     public String getId() {

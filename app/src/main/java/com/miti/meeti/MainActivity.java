@@ -1,22 +1,32 @@
 package com.miti.meeti;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatMessages;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatlist;
 import com.miti.meeti.MitiExecutors.MitiService;
+import com.miti.meeti.NetworkObjects.Mitigps;
 import com.miti.meeti.bottomnav.CurvedBottomNavigationView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
@@ -32,7 +42,10 @@ import com.miti.meeti.database.Cookie.Cookie;
 import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Diary.MoodboardViewModel;
 import com.miti.meeti.database.Feed.FeedViewModel;
+import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
+import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.Logging.Mlog;
+import com.miti.meeti.mitiutil.network.Keyvalue;
 import com.miti.meeti.mitiutil.uihelper.PermissionHelper;
 import com.zhihu.matisse.Matisse;
 
@@ -48,13 +61,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity{
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
+public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private AppBarConfiguration mAppBarConfiguration1;
@@ -62,10 +78,12 @@ public class MainActivity extends AppCompatActivity{
     private NavController navController;
     public static MoodboardViewModel moodboardViewModel;
     public static CookieViewModel cookieViewModel;
+    public static KeyvalueViewModel keyvalueViewModel;
     public static FeedViewModel feedViewModel;
     public static ChatListDbViewModel chatListDbViewModel;
     public static ChatDbViewModel chatDbViewModel;
     private static AppBarLayout appBarLayout;
+    private LocationManager locationManager;
     public static String RootFolder;
     public static Context MainActivityContext;
     public static void SetNavigationVisibiltity (boolean b) {
@@ -89,19 +107,22 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boolean temp=PermissionHelper.PermissionGranted(new String[] {android.Manifest.permission.READ_EXTERNAL_STORAGE
-                , Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},this);
-        if(temp){
-            setup();
-        }
+                , Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_CONTACTS,
+                ACCESS_FINE_LOCATION},this);
+        keyvalueViewModel=ViewModelProviders.of(this).get(KeyvalueViewModel.class);
         moodboardViewModel=ViewModelProviders.of(this).get(MoodboardViewModel.class);
         cookieViewModel=ViewModelProviders.of(this).get(CookieViewModel.class);
         feedViewModel=ViewModelProviders.of(this).get(FeedViewModel.class);
         chatListDbViewModel=ViewModelProviders.of(this).get(ChatListDbViewModel.class);
         chatDbViewModel=ViewModelProviders.of(this).get(ChatDbViewModel.class);
         MainActivityContext=this;
-        MitiService mitiService=new MitiService(1);
-        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
-        mitiService.schedule(new UpdateChatMessages(),0,60, TimeUnit.SECONDS);
+//        MitiService mitiService=new MitiService(1);
+//        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
+//        mitiService.schedule(new UpdateChatMessages(),0,60, TimeUnit.SECONDS);
+        if(temp){
+            setup();
+        }
+
 //        BottomAppBar curvedBottomNavigationView = findViewById(R.id.bar);
 //        curvedBottomNavigationView.inflateMenu(R.menu.activity_main_drawer);
     }
@@ -178,7 +199,77 @@ public class MainActivity extends AppCompatActivity{
         bottomNavigationView.inflateMenu(R.menu.activity_main_drawer1);
         NavigationUI.setupWithNavController(bottomNavigationView,
                 navController);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        try{
+            Location loc =  locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            if(loc!=null){
+                Mlog.e("loc not null");
+                Mitigps gps=new Mitigps(new Double(loc.getLatitude()).toString(),new Double(loc.getLongitude()).toString());
+                keyvalue kv=new keyvalue("gps",new Gson().toJson(gps));
 
+                keyvalueViewModel.insert(kv);
+            }else{
+                Mlog.e("loc null");
+            }
+
+        }catch (SecurityException e){
+            Mlog.e(e);
+        }
+
+//        try{
+//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 600, 0, this);
+//        }catch (SecurityException e){
+//            Mlog.e(e);
+//            Mlog.e("Security Exception");
+//        }
+
+
+//        getLocationRequest();
+    }
+    @Override
+    public void onLocationChanged(Location location) {
+        if(location==null){
+            Mlog.e("Apoorva location null");
+            return;
+        }
+        Mlog.e("","Apoorva Location",new Double(location.getLatitude()).toString());
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d("Latitude","disable");
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d("Latitude","enable");
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d("Latitude","status");
+    }
+
+    private void showGPSDisabledAlertToUser(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Goto Settings Page To Enable GPS",
+                        new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                Intent callGPSSettingIntent = new Intent(
+                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(callGPSSettingIntent);
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 }
 

@@ -1,14 +1,12 @@
 package com.miti.meeti.mitiutil;
 
-import android.os.Environment;
-
 import com.miti.meeti.mitiutil.Logging.Mlog;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 public class try123 {
+
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     public static String randomAlphaNumeric(int count) {
         StringBuilder builder = new StringBuilder();
