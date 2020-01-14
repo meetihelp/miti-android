@@ -9,19 +9,24 @@ public class Moodboard {
     @PrimaryKey(autoGenerate = true)
     public int uid;
     public String Content;
+    public String BoardId;
+    public String Contentid;
     public String Mimetype;
     public String UserCreatedAt;
     public String CreatedAt;
     public String RequestId;
     public String Tag;
     public String ImagePath;
+    public String ImageId;
     public int Sync;
     public Moodboard(){}
-    public Moodboard(String requestId,String userCreatedAt,String mimetype,String content,String image_path){
+    public Moodboard(String BoardId,String requestId,String userCreatedAt,String mimetype,String content,String image_path,int sync){
+        this.BoardId=BoardId;
         this.RequestId=requestId;
         this.UserCreatedAt=userCreatedAt;
         this.Mimetype=mimetype;
         this.Content=content;
         this.ImagePath=image_path;
+        this.Sync=sync;
     }
 }

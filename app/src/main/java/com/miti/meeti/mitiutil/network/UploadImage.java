@@ -19,16 +19,14 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ImageUpload {
 
     public class UploadImage extends AsyncTask<String, Void, String> {
-        //param1 suburl, param2 fileaddress, param3 filename, param4 requestid
+        //param1 suburl, param2 fileaddress, param3 filename, param4 requestid, param5 public
         public String url="http://meeti.club:8000/";
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
-
         @Override
         protected  String doInBackground(String... params){
             OkHttpClient client = new OkHttpClient().newBuilder()
@@ -54,12 +52,12 @@ public class ImageUpload {
                     .url(url+params[0])
                     .method("POST", body)
                     .addHeader("Miti-Cookie", cookie)
-                    .addHeader("Access-Type", "Public")
-                    .addHeader("ActualFileName", params[2])
+                    .addHeader("Access-Type", params[5])
+                    .addHeader("Actual-Filename", params[2])
                     .addHeader("Format", "png")
                     .addHeader("Latitude", gps.latitude)
                     .addHeader("Longitude", gps.longitude)
-                    .addHeader("RequestId", params[3])
+                    .addHeader("Request-Id", params[3])
                     .addHeader("Content-Type", "multipart/form-data; boundary=--------------------------539616771520821553345336")
                     .build();
             try{
@@ -71,4 +69,4 @@ public class ImageUpload {
             }
         }
     }
-}
+

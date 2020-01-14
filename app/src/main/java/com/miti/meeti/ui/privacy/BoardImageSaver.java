@@ -10,7 +10,7 @@ import java.io.File;
 public class BoardImageSaver extends ImageSaver {
     @Override
     protected void onPostExecute(String s) {
-        MainActivity.moodboardViewModel.insert(new Moodboard(try123.randomAlphaNumeric(32),
-                try123.mitidt(),"image",null,s));
+//        MainActivity.moodboardViewModel.insert(new Moodboard(try123.randomAlphaNumeric(32),
+//                try123.mitidt(),"image",null,s,-1));
     }
 }

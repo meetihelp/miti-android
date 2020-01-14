@@ -34,6 +34,18 @@ public class ChatDbViewModel extends AndroidViewModel {
     public void synced(String ...chatid){
         repository.Synced(chatid);
     }
+    public void syncedimage(String ...chatid){
+        repository.SyncedImage(chatid);
+    }
+    public void updatesyncimage(String messageid,String content){
+        repository.updatesyncimage(messageid,content);
+    }
+    public List<ChatDb> getnotsync(){
+        return repository.getnotsync();
+    }
+    public List<ChatDb> getnotsyncedimage(){
+        return repository.getnotsyncedimage();
+    }
     public void getnotlive(String chatid){repository.getnotlive(chatid);}
     public void ifrow(String chatid){repository.ifrow(chatid);}
 }

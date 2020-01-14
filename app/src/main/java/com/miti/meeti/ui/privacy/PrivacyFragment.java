@@ -142,8 +142,9 @@ public class PrivacyFragment extends Fragment {
         save.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                moodboardViewModel.insert(new Moodboard(try123.randomAlphaNumeric(32),try123.mitidt(),
-                        "text",text.getText().toString(),null));
+//                String BoardId,String requestId,String userCreatedAt,String mimetype,String content,String image_path,int sync
+                moodboardViewModel.insert(new Moodboard(try123.mitidt(),try123.randomAlphaNumeric(32),try123.mitidt(),
+                        "text",text.getText().toString(),null,-1));
                 text.setText("");
                 temp.setVisibility(View.GONE);
             }

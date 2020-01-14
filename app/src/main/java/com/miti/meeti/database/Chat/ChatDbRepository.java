@@ -35,11 +35,34 @@ public class ChatDbRepository {
     public void Synced(String ...strings){
         new UpdateSyncAsyncTask(chatDbDao).execute(strings);
     }
+    public void SyncedImage(String ...strings){
+        new UpdateImageSyncAsyncTask(chatDbDao).execute(strings);
+    }
     public void getnotlive(String chatid){
         new GetNotLiveAsyncTask(chatDbDao).execute(chatid);
     }
+    //UpdatesyncimageAsyncTask
+    public void updatesyncimage(String messageid,String content){
+        new UpdatesyncimageAsyncTask(chatDbDao).execute(messageid,content);
+    }
+    public List<ChatDb> getnotsync(){
+        try{
+            return new GetNotSyncAsyncTask(chatDbDao).execute().get();
+        }catch (Exception e){
+            return null;
+        }
+
+    }
+    public List<ChatDb> getnotsyncedimage(){
+        try{
+            return new Getnotsyncedimage(chatDbDao).execute().get();
+        }catch (Exception e){
+            return null;
+        }
+    }
     public String getmax(String ...chatid){
         try{
+            Mlog.e("ingetmax");
             return new GetMaxAsyncTask(chatDbDao).execute(chatid[0]).get();
         }catch (Exception e){
             return null;
@@ -57,6 +80,28 @@ public class ChatDbRepository {
         @Override
         protected Void doInBackground(String ...chatid) {
             chatDbDao.deleteChat(chatid[0]);
+            return null;
+        }
+    }
+    private static class UpdatesyncimageAsyncTask extends AsyncTask<String, Void,Void> {
+        private ChatDbDao chatDbDao;
+        private UpdatesyncimageAsyncTask(ChatDbDao chatDbDao){
+            this.chatDbDao=chatDbDao;
+        }
+        @Override
+        protected Void doInBackground(String ...chatid) {
+            chatDbDao.updatesyncimage(chatid[0],chatid[1]);
+            return null;
+        }
+    }
+    private static class UpdateImageSyncAsyncTask extends AsyncTask<String, Void,Void> {
+        private ChatDbDao chatDbDao;
+        private UpdateImageSyncAsyncTask(ChatDbDao chatDbDao){
+            this.chatDbDao=chatDbDao;
+        }
+        @Override
+        protected Void doInBackground(String ...chatid) {
+            chatDbDao.SyncedImage(chatid[0],chatid[1],chatid[2],chatid[3],chatid[4]);
             return null;
         }
     }
@@ -102,6 +147,34 @@ public class ChatDbRepository {
             return temp.CreatedAt;
         }
     }
+    private static class GetNotSyncAsyncTask extends AsyncTask<Void, Void,List<ChatDb>> {
+        private ChatDbDao chatDbDao;
+        private GetNotSyncAsyncTask(ChatDbDao chatDbDao){
+            this.chatDbDao=chatDbDao;
+        }
+        @Override
+        protected List<ChatDb> doInBackground(Void ...chatid) {
+            List<ChatDb> temp=chatDbDao.getchatnotsynced();
+            if(temp==null){
+                return null;
+            }
+            return temp;
+        }
+    }
+    private static class Getnotsyncedimage extends AsyncTask<String, Void,List<ChatDb>> {
+        private ChatDbDao chatDbDao;
+        private Getnotsyncedimage(ChatDbDao chatDbDao){
+            this.chatDbDao=chatDbDao;
+        }
+        @Override
+        protected List<ChatDb> doInBackground(String ...chatid) {
+            List<ChatDb> temp=chatDbDao.getnotsyncedimage();
+            if(temp==null){
+                return null;
+            }
+            return temp;
+        }
+    }
     private static class GetNotLiveAsyncTask extends AsyncTask<String, Void,List<ChatDb>> {
         private ChatDbDao chatDbDao;
         private GetNotLiveAsyncTask(ChatDbDao chatDbDao){
@@ -114,12 +187,6 @@ public class ChatDbRepository {
                 return null;
             }
             return temp;
-        }
-
-        @Override
-        protected void onPostExecute(List<ChatDb> i) {
-
-//            social_chat_content.dbcallback_allchat(i);
         }
     }
     private static class InsertChatAsyncTask extends AsyncTask<ChatDb, Void,Void> {

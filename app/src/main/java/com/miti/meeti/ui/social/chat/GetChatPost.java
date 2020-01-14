@@ -27,6 +27,10 @@ public class GetChatPost extends POSTRequest {
             return;
         }
         List<GetChatContent.chat_object>messages=response_object.Chat;
+        if(messages==null){
+            Mlog.e("GetChatPost","gson returned nul");
+            return;
+        }
         if(messages.size()==0){
             return;
         }
@@ -34,6 +38,10 @@ public class GetChatPost extends POSTRequest {
         for(GetChatContent.chat_object tempx:messages){
             String json=gson.toJson(tempx);
             ChatDb tempcv=gson.fromJson(json,ChatDb.class);
+            tempcv.Sync=1;
+            if(tempcv.MessageContent.contains("image")){
+                tempcv.Sync=-3;
+            }
             tempxy.add(tempcv);
             Mlog.e("GetChatPost",tempx.CreatedAt);
             Mlog.e("GetChatPost",tempcv.CreatedAt);

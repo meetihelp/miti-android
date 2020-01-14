@@ -21,6 +21,14 @@ public class MoodboardRepository {
     public LiveData<List<Moodboard>> getall(){
         return allmoodboards;
     }
+    public List<Moodboard> getallnotsynced(){
+        try{
+            return new NotSyncedmoodboard(moodboardDao).execute().get();
+        }catch (Exception e){
+            return null;
+        }
+
+    }
     public void insert(Moodboard ...moodboard){
         new InsertmoodboardAsyncTask(moodboardDao).execute(moodboard);
     }
@@ -29,6 +37,9 @@ public class MoodboardRepository {
     }
     public void update(String ...temp){
         new UpdatemoodboardAsyncTask(moodboardDao).execute(temp);
+    }
+    public void updateimage(String ...temp){
+        new UpdateImageAsyncTask(moodboardDao).execute(temp[0],temp[1],temp[2]);
     }
     public void updateContent(String ...temp){
         new UpdateContentmoodboardAsyncTask(moodboardDao).execute(temp);
@@ -52,6 +63,29 @@ public class MoodboardRepository {
         @Override
         protected Void doInBackground(Moodboard... moodboard) {
             moodboardDao.insert(moodboard);
+            return null;
+        }
+    }
+    private static class NotSyncedmoodboard extends AsyncTask<Void,Void,List<Moodboard>>{
+        private MoodboardDao moodboardDao;
+        public NotSyncedmoodboard(MoodboardDao moodboardDao) {
+            this.moodboardDao=moodboardDao;
+        }
+
+        @Override
+        protected List<Moodboard> doInBackground(Void... voids) {
+            List<Moodboard>temp=moodboardDao.getallnotsynced();
+            return temp;
+        }
+    }
+    private static class UpdateImageAsyncTask extends AsyncTask<String, Void,Void> {
+        private MoodboardDao moodboardDao;
+        private UpdateImageAsyncTask(MoodboardDao moodboardDao){
+            this.moodboardDao=moodboardDao;
+        }
+        @Override
+        protected Void doInBackground(String ...temp) {
+            moodboardDao.updateimage(temp[0],temp[1],temp[2]);
             return null;
         }
     }

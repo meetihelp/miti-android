@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.miti.meeti.MitiExecutors.MitiRunnables.ChatSync;
+import com.miti.meeti.MitiExecutors.MitiRunnables.DownloadChatImage;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatMessages;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatlist;
 import com.miti.meeti.MitiExecutors.MitiService;
@@ -117,9 +119,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         chatListDbViewModel=ViewModelProviders.of(this).get(ChatListDbViewModel.class);
         chatDbViewModel=ViewModelProviders.of(this).get(ChatDbViewModel.class);
         MainActivityContext=this;
-//        MitiService mitiService=new MitiService(1);
-//        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
-//        mitiService.schedule(new UpdateChatMessages(),0,60, TimeUnit.SECONDS);
+        MitiService mitiService=new MitiService(1);
+//        mitiService.schedule(new UpdateChatlist(),0,30, TimeUnit.SECONDS);
+//        mitiService.schedule(new UpdateChatMessages(),0,30, TimeUnit.SECONDS);
+        mitiService.schedule(new ChatSync(),0,30, TimeUnit.SECONDS);
+//        mitiService.schedule(new DownloadChatImage(),0,60, TimeUnit.SECONDS);
         if(temp){
             setup();
         }

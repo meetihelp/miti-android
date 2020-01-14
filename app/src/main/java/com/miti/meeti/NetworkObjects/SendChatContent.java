@@ -1,6 +1,9 @@
 package com.miti.meeti.NetworkObjects;
 
 import com.google.gson.annotations.SerializedName;
+import com.miti.meeti.database.Chat.ChatDb;
+
+import java.util.List;
 
 public class SendChatContent {
     public class request_header{
@@ -14,11 +17,13 @@ public class SendChatContent {
         public String MessageContent;
         public String ChatId;
         public String RequestId;
-        public request_body(String messageType, String messageContent,String chatId,String requestId){
+        public String CreatedAt;
+        public request_body(String messageType, String messageContent,String chatId,String requestId,String createdAt){
             this.ChatId=chatId;
             this.MessageContent=messageContent;
             this.MessageType=messageType;
             this.RequestId=requestId;
+            this.CreatedAt=createdAt;
         }
     }
     public class response_object{
@@ -27,5 +32,6 @@ public class SendChatContent {
         public String MessageId;
         public String CreatedAt;
         public String RequestId;
+        public List<ChatDb>Chat;
     }
 }

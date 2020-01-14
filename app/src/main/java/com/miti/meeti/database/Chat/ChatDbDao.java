@@ -10,20 +10,27 @@ import java.util.List;
 
 @Dao
 public interface ChatDbDao {
-    @Query("SELECT * FROM MeetiChat where ChatId = :chatId order by CreatedAt desc limit 100")
+    @Query("SELECT * FROM MeetiChat where ChatId = :chatId and Sync!=-3 order by CreatedAt desc limit 100")
     LiveData<List<ChatDb>> getchatbyid(String chatId);
     @Query("SELECT * FROM MeetiChat where ChatId = :chatId order by CreatedAt desc limit 100")
     List<ChatDb> getchatnotlive(String chatId);
+    @Query("SELECT * FROM MeetiChat where Sync = -1")
+    List<ChatDb> getchatnotsynced();
 
+    @Query("SELECT * FROM MeetiChat where Sync = -3")
+    List<ChatDb> getnotsyncedimage();
+    @Query("Update MeetiChat set Sync=1,MessageContent =:MessageContent where MessageId = :MessageId")
+    void updatesyncimage(String MessageId,String MessageContent);
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertChat(ChatDb ...chat);
 
     @Query("Delete FROM MeetiChat where ChatId = :chatId")
     void deleteChat(String chatId);
 
-    @Query("Update MeetiChat set Sync=1,CreatedAt =:CreatedAt,MessageId =:messageid where RequestId = :requestid")
-    void Synced(String requestid,String CreatedAt,String messageid);
-
+    @Query("Update MeetiChat set Sync=1,MessageId =:messageid,CreatedAt=:createdAt where RequestId = :requestid")
+    void Synced(String requestid,String messageid,String createdAt);
+    @Query("Update MeetiChat set Sync=1,MessageId =:messageid,ImageUrl=:imageurl,ImageId=:imageid,CreatedAt=:createdAt where RequestId = :requestid")
+    void SyncedImage(String requestid,String messageid, String imageurl,String imageid,String createdAt);
     @Query("Select * from MeetiChat where ChatId = :chatId order by CreatedAt desc limit 1")
     ChatDb getmax(String chatId);
 

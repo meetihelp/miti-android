@@ -20,6 +20,9 @@ public class MoodboardViewModel extends AndroidViewModel {
     public LiveData<List<Moodboard>> getAll() {
         return all;
     }
+    public List<Moodboard> getallnotsynced() {
+        return moodboardRepository.getallnotsynced();
+    }
 
     public void insert(Moodboard ...moodboards){
         moodboardRepository.insert(moodboards);
@@ -29,6 +32,9 @@ public class MoodboardViewModel extends AndroidViewModel {
     }
     public void update(String ...temp){
         moodboardRepository.update(temp);
+    }
+    public void updateimage(String ...temp){
+        moodboardRepository.updateimage(temp);
     }
     public void updateContent(String ...temp){
         moodboardRepository.updateContent(temp);

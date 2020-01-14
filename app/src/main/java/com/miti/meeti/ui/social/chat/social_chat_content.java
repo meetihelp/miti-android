@@ -157,7 +157,7 @@ public class social_chat_content extends Fragment{
                     Author temp=new Author("","apoorva kumar","");
                     String mitidt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
                     requestid=UUID.randomUUID().toString().replace("-","").substring(0,32);
-                    chatDbViewModel.insertnew(new ChatDb(userid,"Text",input.toString(),requestid,chatid,mitidt));
+                    chatDbViewModel.insertnew(new ChatDb(userid,"Text",input.toString(),requestid,chatid,mitidt,-1));
                     content=input.toString();
 //                    adapterx.addToStart(tempx, true);
                     return true;
@@ -231,7 +231,7 @@ public class social_chat_content extends Fragment{
             }
             temp12.add(temp34);
         }
-        social_chat_content.adapterx.addToEnd(temp12,true);
+        social_chat_content.adapterx.addToEnd(temp12,false);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -16,9 +16,13 @@ public interface MoodboardDao {
     @Query("Select * from Moodboard order by UserCreatedAt desc")
     public LiveData<List<Moodboard>>getall();
 
-    @Query("Update Moodboard set CreatedAt = :createdAt, sync=1 where RequestId=:requestId")
-    public void update(String createdAt,String requestId);
+    @Query("Select * from Moodboard where Sync=-1 order by UserCreatedAt asc")
+    public List<Moodboard>getallnotsynced();
+    @Query("Update Moodboard set sync=1,Contentid=:contentid where RequestId=:requestId")
+    public void update(String requestId,String contentid);
 
+    @Query("Update Moodboard set sync=1,ImageId=:imageId,Contentid=:contentid where RequestId=:requestId")
+    public void updateimage(String requestId,String imageId,String contentid);
     @Query("Update Moodboard set Content = :content where RequestId=:requestId")
     public void updateContent(String content,String requestId);
 
