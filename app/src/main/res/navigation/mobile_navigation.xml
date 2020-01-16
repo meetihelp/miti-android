@@ -119,6 +119,10 @@
         app:destination="@id/miti_utility"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
-
+    <action
+        android:id="@+id/action_move_to_security"
+        app:destination="@id/miti_security"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
 
 </navigation>

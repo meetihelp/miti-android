@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
+        android:id="@+id/actionview_miti_security"
+        android:orderInCategory="100"
+        android:title="Security"
+        app:iconTint="@color/mitiGreen"
+        android:icon="@drawable/ic_shield_alt"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/actionview_miti_utility"
         android:orderInCategory="101"
         android:title="Privacy"

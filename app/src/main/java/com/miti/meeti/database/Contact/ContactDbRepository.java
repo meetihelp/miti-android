@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import com.miti.meeti.database.DatabaseInit;
+import com.miti.meeti.mitiutil.Logging.Mlog;
 
 import java.util.List;
 
@@ -20,6 +21,14 @@ public class ContactDbRepository {
     }
     public LiveData<List<ContactDb>> getall(){
         return allcontactDbs;
+    }
+    public List<ContactDb> getallnotsynced(){
+        try{
+            return new GetcontactDbAsyncTask(contactDbDao).execute().get();
+        }catch (Exception e){
+            return null;
+        }
+
     }
     public void insert(ContactDb ...contactDb){
         new InsertcontactDbAsyncTask(contactDbDao).execute(contactDb);
@@ -36,6 +45,16 @@ public class ContactDbRepository {
         protected Void doInBackground(ContactDb... contactDb) {
             contactDbDao.insert(contactDb);
             return null;
+        }
+    }
+    private static class GetcontactDbAsyncTask extends AsyncTask<Void, Void,List<ContactDb>> {
+        private ContactDbDao contactDbDao;
+        private GetcontactDbAsyncTask(ContactDbDao contactDbDao){
+            this.contactDbDao=contactDbDao;
+        }
+        @Override
+        protected List<ContactDb> doInBackground(Void ...temp) {
+            return contactDbDao.getallcontact();
         }
     }
     private static class UpdatecontactDbAsyncTask extends AsyncTask<String, Void,Void> {

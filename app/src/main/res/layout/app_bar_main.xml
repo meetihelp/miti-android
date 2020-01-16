@@ -21,14 +21,14 @@
             android:background="?attr/colorPrimary"
             app:title=""
             app:popupTheme="@style/AppTheme.PopupOverlay">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="MEETi"
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            app:fontFamily="@font/kaushan_script"
-            android:id="@+id/toolbar_title" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="MEETi"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                app:fontFamily="@font/kaushan_script"
+                android:id="@+id/toolbar_title" />
 
         </androidx.appcompat.widget.Toolbar>
 

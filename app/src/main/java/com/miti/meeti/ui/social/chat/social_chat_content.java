@@ -157,7 +157,7 @@ public class social_chat_content extends Fragment{
                     Author temp=new Author("","apoorva kumar","");
                     String mitidt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
                     requestid=UUID.randomUUID().toString().replace("-","").substring(0,32);
-                    chatDbViewModel.insertnew(new ChatDb(userid,"Text",input.toString(),requestid,chatid,mitidt,-1));
+                    chatDbViewModel.insertnew(new ChatDb(userid,"text",input.toString(),requestid,chatid,mitidt,-1));
                     content=input.toString();
 //                    adapterx.addToStart(tempx, true);
                     return true;
@@ -222,12 +222,7 @@ public class social_chat_content extends Fragment{
             }
             Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,date);
             if(tempx.MessageType.contains("image")){
-                if(tempx.MessageContent==null){
-                    temp34.setUrl(tempx.ImageUrl);
-                }else{
-                    temp34.setUrl(tempx.MessageContent);
-//                    Mlog.e(temp34.Imageurl);
-                }
+                temp34.setUrl(tempx.ImageUrl);
             }
             temp12.add(temp34);
         }

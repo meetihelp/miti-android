@@ -1,9 +1,12 @@
 package com.miti.meeti.ui.social;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.miti.meeti.R;
+import com.miti.meeti.mitiutil.uihelper.MitiLoadingDialog;
+import com.miti.meeti.ui.privacy.MoodboardAdapter;
+import com.miti.meeti.ui.social.DatePooling.GetPoolStatus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,9 +40,17 @@ public class SocialFragment extends Fragment {
     private String mParam2;
     private RecyclerView recyclerView;
     private OnFragmentInteractionListener mListener;
-
+    public static FragmentActivity myContext;
+    public static MitiLoadingDialog bottomSheetDialog;
+    public static View v;
     public SocialFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        myContext=(FragmentActivity) context;
+        super.onAttach(context);
     }
 
     /**
@@ -70,17 +84,18 @@ public class SocialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_social, container, false);
-//        Button button1 = v.findViewById(R.id.social_button_pref);
-//        button1.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                // do something
-//                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_interest);
-//            }
-//        });
+        v=inflater.inflate(R.layout.fragment_social, container, false);
+        Button button1 = v.findViewById(R.id.dating_pool);
+        button1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                bottomSheetDialog = MitiLoadingDialog.newInstance();
+                bottomSheetDialog.show(myContext.getSupportFragmentManager(),"hithere");
+                GetPoolStatus.helper();
+            }
+        });
 //        Button button2 = v.findViewById(R.id.ipip);
 //        button2.setOnClickListener(new View.OnClickListener()
 //        {

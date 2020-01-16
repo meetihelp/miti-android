@@ -30,19 +30,28 @@ public class DownloadChatImage implements Runnable{
         Mlog.e("inDownloadChatImage","started");
         ChatDbViewModel chatDbViewModel=MainActivity.chatDbViewModel;
         CookieViewModel cookieViewModel=MainActivity.cookieViewModel;
+        String cookie=cookieViewModel.getCookie1();
         List<ChatDb>notsync=chatDbViewModel.getnotsyncedimage();
+        Mlog.e("inDownloadChatImage","line 34");
         if(notsync==null || notsync.size()==0){return;}
+        Mlog.e("inDownloadChatImage","line 36 not null");
         for(ChatDb temp:notsync){
             String path=pathhelper("Received","Chats");
             POSTRequest postRequest=new POSTRequest();
             try{
+                Mlog.e("inDownloadChatImage41",temp.MessageContent);
                 String json=gson.toJson(new GetImageUrl().new request_body(temp.MessageContent));
-                String response=postRequest.execute("getImageById",json,cookieViewModel.getCookie1()).get().getData();
+                String response=postRequest.execute("getImageById",json,cookie).get().getData();
                 GetImageUrl.response_body rb=gson.fromJson(response,GetImageUrl.response_body.class);
                 if(rb==null){
                     continue;
                 }
+                Mlog.e("inDownloadChatImage48",response);
                 if(rb.Code==200){
+                    if(rb.ImageURL.length()==0 || rb.ImageURL==null){
+                        Mlog.e("inDownloadChatImage","image url empty");
+                        continue;
+                    }
                     Boolean ast=new DownloadAndSaveImage(path).execute(rb.ImageURL).get();
                     if(ast){
                         chatDbViewModel.updatesyncimage(temp.MessageId,path);

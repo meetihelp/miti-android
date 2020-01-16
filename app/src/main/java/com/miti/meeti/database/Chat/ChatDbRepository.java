@@ -101,7 +101,13 @@ public class ChatDbRepository {
         }
         @Override
         protected Void doInBackground(String ...chatid) {
-            chatDbDao.SyncedImage(chatid[0],chatid[1],chatid[2],chatid[3],chatid[4]);
+            try{
+                //String requestid,String messageid, String imageid,String createdAt
+                chatDbDao.SyncedImage(chatid[0],chatid[1],chatid[2],chatid[3]);
+            }catch (Exception e){
+                Mlog.e("imgur","updateimgeasynctask",chatid[0],chatid[1],chatid[2],chatid[3]);
+            }
+
             return null;
         }
     }

@@ -21,9 +21,9 @@ public class ContactDbViewModel extends AndroidViewModel {
     public LiveData<List<ContactDb>> getAll() {
         return all;
     }
-
-    public void insert(ContactDb ...moodboards){
-        moodboardRepository.insert(moodboards);
+    public List<ContactDb>getallnotsynced(){return moodboardRepository.getallnotsynced();}
+    public void insert(ContactDb ...contacts){
+        moodboardRepository.insert(contacts);
     }
     public void update(String ...temp){
         moodboardRepository.update(temp);

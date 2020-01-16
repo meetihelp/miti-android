@@ -77,8 +77,10 @@ public class social_pref_ipip extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_social_pref_ipip, container, false);
+        Bundle bundle=getArguments();
+        int screen=bundle.getInt("screen");
         this.v1=(ViewGroup)v.findViewById(R.id.llipip);
-        createScreen(0);
+        createScreen(screen);
         Button b1=v.findViewById(R.id.button4);
         b1.setOnClickListener(this);
         return v;

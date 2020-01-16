@@ -39,12 +39,14 @@ public class GetChatPost extends POSTRequest {
             String json=gson.toJson(tempx);
             ChatDb tempcv=gson.fromJson(json,ChatDb.class);
             tempcv.Sync=1;
-            if(tempcv.MessageContent.contains("image")){
+            Mlog.e("GetChatPost0",tempcv.MessageType);
+            if(tempcv.MessageType.contains("image")){
+                Mlog.e("GetChatPost1","inside if");
                 tempcv.Sync=-3;
             }
             tempxy.add(tempcv);
-            Mlog.e("GetChatPost",tempx.CreatedAt);
-            Mlog.e("GetChatPost",tempcv.CreatedAt);
+            Mlog.e("GetChatPost2",tempx.CreatedAt);
+            Mlog.e("GetChatPost3",tempcv.CreatedAt);
         }
         MainActivity.chatDbViewModel.insert(tempxy.toArray(new ChatDb[tempxy.size()]));
     }

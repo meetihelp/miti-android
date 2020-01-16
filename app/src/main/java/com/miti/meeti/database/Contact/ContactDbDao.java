@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.miti.meeti.database.Cookie.Cookie;
@@ -17,8 +18,8 @@ public interface ContactDbDao {
     LiveData<List<ContactDb>> getall();
 
     @Query("SELECT * FROM ContactDb where Status=-1")
-    List<ContactDb> getallstatus();
-    @Insert
+    List<ContactDb> getallcontact();
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(ContactDb... contactDbs);
 
     @Delete

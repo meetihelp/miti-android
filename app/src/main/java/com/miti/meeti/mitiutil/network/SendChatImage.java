@@ -23,7 +23,7 @@ import okhttp3.Response;
 
 public class SendChatImage extends AsyncTask<String, Void, String> {
     //param0 suburl, param1 fileaddress, param2 filename, param3 requestid, param4 public, parms5 createdat,
-    // param6 cookie
+    // param6 cookie, params 7
     public String url="http://meeti.club:8000/";
     @Override
     protected void onPreExecute() {
@@ -31,7 +31,7 @@ public class SendChatImage extends AsyncTask<String, Void, String> {
     }
     @Override
     protected  String doInBackground(String... params){
-        Mlog.e("inSendchatImage",params[0],params[1],params[2],params[3]);
+        Mlog.e("inSendchatImage",params[0],params[1],params[2],params[3],params[4],params[5],params[6]);
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("multipart/form-data; boundary=--------------------------539616771520821553345336");
@@ -66,6 +66,7 @@ public class SendChatImage extends AsyncTask<String, Void, String> {
                 .addHeader("Longitude", "1.0486194")
                 .addHeader("Request-Id", params[3])
                 .addHeader("Created-At", params[5])
+                .addHeader("Chat-Id",params[7])
                 .addHeader("Content-Type", "multipart/form-data; boundary=--------------------------539616771520821553345336")
                 .build();
         Mlog.e("inSendchatImage","line67");
@@ -73,7 +74,7 @@ public class SendChatImage extends AsyncTask<String, Void, String> {
             Mlog.e("inSendchatImage","line69");
             Response response = client.newCall(request).execute();
             Mlog.e("inSendchatImage","Success");
-            return response.toString();
+            return response.body().string().toString();
         }catch (Exception e){
             Mlog.e("inSendchatImage",e.toString());
             return null;

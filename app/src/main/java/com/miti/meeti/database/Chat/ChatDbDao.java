@@ -19,8 +19,8 @@ public interface ChatDbDao {
 
     @Query("SELECT * FROM MeetiChat where Sync = -3")
     List<ChatDb> getnotsyncedimage();
-    @Query("Update MeetiChat set Sync=1,MessageContent =:MessageContent where MessageId = :MessageId")
-    void updatesyncimage(String MessageId,String MessageContent);
+    @Query("Update MeetiChat set Sync=1,ImageUrl =:imageUrl where MessageId = :MessageId")
+    void updatesyncimage(String MessageId,String imageUrl);
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertChat(ChatDb ...chat);
 
@@ -29,8 +29,8 @@ public interface ChatDbDao {
 
     @Query("Update MeetiChat set Sync=1,MessageId =:messageid,CreatedAt=:createdAt where RequestId = :requestid")
     void Synced(String requestid,String messageid,String createdAt);
-    @Query("Update MeetiChat set Sync=1,MessageId =:messageid,ImageUrl=:imageurl,ImageId=:imageid,CreatedAt=:createdAt where RequestId = :requestid")
-    void SyncedImage(String requestid,String messageid, String imageurl,String imageid,String createdAt);
+    @Query("Update MeetiChat set Sync=1,MessageId =:messageid,MessageContent=:imageid,CreatedAt=:createdAt where RequestId = :requestid")
+    void SyncedImage(String requestid,String messageid, String imageid,String createdAt);
     @Query("Select * from MeetiChat where ChatId = :chatId order by CreatedAt desc limit 1")
     ChatDb getmax(String chatId);
 

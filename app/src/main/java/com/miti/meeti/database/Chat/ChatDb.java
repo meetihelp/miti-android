@@ -34,10 +34,10 @@ public class ChatDb {
         this.UserCreatedAt=usercreatedAt;
         this.Sync=sync;
     }
-    public ChatDb(String userId,String chatId,String messageType,String messageContent,String requestId,int sync, String userCreatedAt){
+    public ChatDb(String userId,String chatId,String messageType,String imageUrl,String requestId,int sync, String userCreatedAt){
         this.UserId=userId;
         this.MessageType=messageType;
-        this.MessageContent=messageContent;
+        this.ImageUrl=imageUrl;
         this.RequestId=requestId;
         this.ChatId=chatId;
         this.Sync=sync;

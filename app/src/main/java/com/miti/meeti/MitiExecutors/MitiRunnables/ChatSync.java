@@ -43,8 +43,11 @@ public class ChatSync implements Runnable{
         Mlog.e("inChatSync","sizeofarray",Integer.toString(temp.size()));
         for(ChatDb tempx:temp){
             String maxdate=chatDbViewModel.getmax(tempx.ChatId);
+            if(maxdate==null){
+                maxdate="";
+            }
             Mlog.e("inChatSync","getmax",maxdate);
-            Mlog.e("Chat syncing for data","",tempx.MessageContent);
+            Mlog.e("inChatSync","",tempx.MessageContent,tempx.MessageType);
             if(tempx.MessageType.contains("text")){
                 //String messageType, String messageContent,String chatId,String requestId
                 SendChatContent.request_body message=new SendChatContent().new request_body(tempx.MessageType,
@@ -52,8 +55,11 @@ public class ChatSync implements Runnable{
                 String jsonInString = gson.toJson(message);
                 POSTRequest postRequest=new POSTRequest();
                 try{
+                    Mlog.e("inChatSync","in line 58");
                     String response=postRequest.execute("chat",jsonInString,cookie).get().getData();
+                    Mlog.e("inChatSync","in line 59",response);
                     SendChatContent.response_object response_object=gson.fromJson(response,SendChatContent.response_object.class);
+                    Mlog.e("inChatSync","in line 62");
                     if(response_object==null){
                         Mlog.e("inChatSync","response object null");
                         continue;
@@ -77,13 +83,14 @@ public class ChatSync implements Runnable{
                 SendChatImage imgu=new SendChatImage();
                 try{
                     Mlog.e("imgur","in try block");
-                    String imgurs=imgu.execute("sendChatImage",tempx.MessageContent,tempx.MessageContent
-                    ,tempx.RequestId,"private",maxdate,cookie).get();
+                    String imgurs=imgu.execute("sendChatImage",tempx.ImageUrl,tempx.ImageUrl
+                    ,tempx.RequestId,"Private",maxdate,cookie,tempx.ChatId).get();
                     //String requestid,String messageid, String imageurl,String imageid
                     if(imgurs==null){
                         Mlog.e("Chat syncing for data","imgur null");
                         continue;
                     }
+                    Mlog.e("imgurs",imgurs);
                     ChatUploadResponse imgur=gson.fromJson(imgurs, ChatUploadResponse.class);
                     Mlog.e("imgur",Integer.toString(imgur.Code));
                     if(imgur.Code==200){
@@ -92,8 +99,8 @@ public class ChatSync implements Runnable{
                         if(tempu.size()!=0){
                             helper_insert(imgur.Chat);
                         }
-                        //String requestid,String messageid, String imageurl,String imageid,String createdAt
-                        chatDbViewModel.syncedimage(tempx.RequestId,imgur.Messageid,imgur.URL,imgur.ImageId,imgur.CreatedAt);
+                        //String requestid,String messageid, String imageid,String createdAt
+                        chatDbViewModel.syncedimage(tempx.RequestId,imgur.Messageid,imgur.ImageId,imgur.CreatedAt);
                         maxdate=imgur.CreatedAt;
                     }
                     //String requestid,String CreatedAt,String messageid, String imageurl

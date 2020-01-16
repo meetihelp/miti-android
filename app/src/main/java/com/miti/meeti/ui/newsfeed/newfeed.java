@@ -149,8 +149,13 @@ public class newfeed extends Fragment{
                 drawable = DrawableCompat.wrap(drawable);
                 DrawableCompat.setTint(drawable, ContextCompat.getColor(v.getContext(),R.color.mitiOrange));
                 item.setIcon(drawable);
+                return true;
             case R.id.actionview_miti_utility:
                 Navigation.findNavController(v).navigate(R.id.action_move_to_utility);
+                return true;
+            case R.id.actionview_miti_security:
+                Navigation.findNavController(v).navigate(R.id.action_move_to_security);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -147,6 +147,7 @@ public class social_chat_list extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        MainActivity.SetNavigationVisibiltity(true);
     }
     public int getChatlist_offset(){
         return 0;

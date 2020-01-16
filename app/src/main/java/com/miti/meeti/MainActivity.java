@@ -40,6 +40,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.miti.meeti.database.Chat.ChatDb;
 import com.miti.meeti.database.Chat.ChatDbViewModel;
 import com.miti.meeti.database.Chat.ChatListDbViewModel;
+import com.miti.meeti.database.Contact.ContactDbViewModel;
 import com.miti.meeti.database.Cookie.Cookie;
 import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Diary.MoodboardViewModel;
@@ -84,9 +85,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static FeedViewModel feedViewModel;
     public static ChatListDbViewModel chatListDbViewModel;
     public static ChatDbViewModel chatDbViewModel;
+    public static ContactDbViewModel contactDbViewModel;
     private static AppBarLayout appBarLayout;
     private LocationManager locationManager;
     public static String RootFolder;
+    public static String MeetiCookie;
     public static Context MainActivityContext;
     public static TextView toolbar_text;
     public static void SetNavigationVisibiltity (boolean b) {
@@ -118,12 +121,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         feedViewModel=ViewModelProviders.of(this).get(FeedViewModel.class);
         chatListDbViewModel=ViewModelProviders.of(this).get(ChatListDbViewModel.class);
         chatDbViewModel=ViewModelProviders.of(this).get(ChatDbViewModel.class);
+        contactDbViewModel=ViewModelProviders.of(this).get(ContactDbViewModel.class);
+        MeetiCookie=cookieViewModel.getCookie1();
         MainActivityContext=this;
-        MitiService mitiService=new MitiService(1);
-//        mitiService.schedule(new UpdateChatlist(),0,30, TimeUnit.SECONDS);
-//        mitiService.schedule(new UpdateChatMessages(),0,30, TimeUnit.SECONDS);
-        mitiService.schedule(new ChatSync(),0,30, TimeUnit.SECONDS);
-//        mitiService.schedule(new DownloadChatImage(),0,60, TimeUnit.SECONDS);
         if(temp){
             setup();
         }
@@ -221,6 +221,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }catch (SecurityException e){
             Mlog.e(e);
         }
+//        MitiService mitiService=new MitiService(1);
+//        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
+//        mitiService.schedule(new UpdateChatMessages(),0,10, TimeUnit.SECONDS);
+//        mitiService.schedule(new ChatSync(),0,10, TimeUnit.SECONDS);
+//        mitiService.schedule(new DownloadChatImage(),0,10, TimeUnit.SECONDS);
     }
     @Override
     public void onLocationChanged(Location location) {
@@ -267,4 +272,5 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
+    
 }

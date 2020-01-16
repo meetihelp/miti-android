@@ -138,15 +138,6 @@ public class MoodboardAdapter extends RecyclerView.Adapter<MoodboardAdapter.Mood
         private View v;
         private ScaleGestureDetector mScaleDetector;
         private static final int INVALID_POINTER_ID = -1;
-
-        private float mPosX;
-        private float mPosY;
-
-        private float mLastTouchX;
-        private float mLastTouchY;
-        private float mLastGestureX;
-        private float mLastGestureY;
-        private int mActivePointerId = INVALID_POINTER_ID;
         static MyDialogFragment newInstance() {
             MyDialogFragment f = new MyDialogFragment();
             return f;

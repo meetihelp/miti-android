@@ -11,5 +11,11 @@ public class ContactDb {
     public String Phone;
     public String Name;
     public int Status;
+    public ContactDb(){}
+    public ContactDb(String phone,String name,int status){
+        this.Phone=phone;
+        this.Name=name;
+        this.Status=status;
+    }
     public String Tag;
 }
