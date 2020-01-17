@@ -2,6 +2,7 @@ package com.miti.meeti;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -223,9 +224,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
 //        MitiService mitiService=new MitiService(1);
 //        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
-//        mitiService.schedule(new UpdateChatMessages(),0,10, TimeUnit.SECONDS);
 //        mitiService.schedule(new ChatSync(),0,10, TimeUnit.SECONDS);
 //        mitiService.schedule(new DownloadChatImage(),0,10, TimeUnit.SECONDS);
+        if(!isMyServiceRunning(SendLoc.class)){
+            Mlog.e("Service started");
+//            startService(new Intent(getApplicationContext(), SendLoc.class));
+        }else{
+//            Mlog.e("Service already running");
+            stopService(new Intent(getApplicationContext(), SendLoc.class));
+        }
+
     }
     @Override
     public void onLocationChanged(Location location) {
@@ -272,5 +280,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
-    
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

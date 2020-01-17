@@ -6,7 +6,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
     <dist:module dist:instant="true" />
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -46,6 +46,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name="com.miti.meeti.SendLoc" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

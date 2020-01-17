@@ -14,18 +14,6 @@
             android:layout_height="match_parent"
             tools:context=".ui.social.event.social_event_creation"
             android:orientation="vertical">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_margin="10dp"
-                android:hint="Event name">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/prefchipgroup"
                 android:layout_width="match_parent"
@@ -35,24 +23,12 @@
                 app:chipSpacing="3dp">
 
                 <!-- Chips can be declared here, or added dynamically. -->
-
             </com.google.android.material.chip.ChipGroup>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_margin="10dp"
-                android:hint="Event Description">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
             <Button
-                android:id="@+id/event_button_submit"
+                android:id="@+id/group_button_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:alpha="0.5"
                 android:layout_gravity="center"
                 android:text="Submit" />
         </LinearLayout>

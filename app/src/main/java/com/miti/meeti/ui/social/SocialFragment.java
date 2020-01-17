@@ -15,11 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
+import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
+import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.uihelper.MitiLoadingDialog;
 import com.miti.meeti.ui.privacy.MoodboardAdapter;
-import com.miti.meeti.ui.social.DatePooling.GetPoolStatus;
+import com.miti.meeti.ui.social.pooling.GetPoolStatus;
+import com.miti.meeti.ui.social.pooling.GroupPoolStatus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +48,7 @@ public class SocialFragment extends Fragment {
     public static FragmentActivity myContext;
     public static MitiLoadingDialog bottomSheetDialog;
     public static View v;
+    public static TextView tempd;
     public SocialFragment() {
         // Required empty public constructor
     }
@@ -85,7 +91,25 @@ public class SocialFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v=inflater.inflate(R.layout.fragment_social, container, false);
+        KeyvalueViewModel keyvalueViewModel= MainActivity.keyvalueViewModel;
+        tempd=v.findViewById(R.id.pooling_status);
+        keyvalue temp=keyvalueViewModel.get("pooling");
+        if(temp==null){
+            tempd=v.findViewById(R.id.pooling_status);
+            tempd.setText("Status:  "+"Not Yet Joined");
+        }else{
+            tempd.setText("Status:  "+temp.mitivalue);
+        }
         Button button1 = v.findViewById(R.id.dating_pool);
+        Button button2 = v.findViewById(R.id.group_pool);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v1) {
+                bottomSheetDialog = MitiLoadingDialog.newInstance();
+                bottomSheetDialog.show(myContext.getSupportFragmentManager(),"hithere");
+                GroupPoolStatus.helper();
+            }
+        });
         button1.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -96,27 +120,6 @@ public class SocialFragment extends Fragment {
                 GetPoolStatus.helper();
             }
         });
-//        Button button2 = v.findViewById(R.id.ipip);
-//        button2.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                // do something
-//                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_pref_ipip);
-//            }
-//        });
-//        Button button3 = v.findViewById(R.id.event);
-//        button3.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                // do something
-//                Navigation.findNavController(v).navigate(R.id.action_miti_social_to_social_event_creation);
-//            }
-//        });
-
         return v;
     }
 

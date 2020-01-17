@@ -48,12 +48,13 @@
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
             app:fontFamily="@font/montserrat"
-            android:text="Create a Huddle"/>
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:alpha="0.5"
-            android:layout_gravity="center_horizontal"
-            android:text="HIT IT"/>
+            android:text="Coming Soon"/>
+<!--        <Button-->
+<!--            android:id="@+id/social_events_button"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:alpha="0.5"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:text="HIT IT"/>-->
     </LinearLayout>
 </LinearLayout>

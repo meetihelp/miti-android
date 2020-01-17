@@ -5,22 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/contactList">
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/dialogCloseButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="10dp"
-        android:layout_gravity="right"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        app:iconSize="24dp"
-        app:iconPadding="0dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
-        app:backgroundTint="#ff0000"
-        app:icon="@drawable/ic_close_black_24dp"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

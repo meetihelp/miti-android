@@ -33,6 +33,9 @@ public class ContactDbRepository {
     public void insert(ContactDb ...contactDb){
         new InsertcontactDbAsyncTask(contactDbDao).execute(contactDb);
     }
+    public void delete(ContactDb ...contactDb){
+        new DeletecontactDbAsynTask(contactDbDao).execute(contactDb);
+    }
     public void update(String ...temp){
         new UpdatecontactDbAsyncTask(contactDbDao).execute(temp);
     }
@@ -55,6 +58,18 @@ public class ContactDbRepository {
         @Override
         protected List<ContactDb> doInBackground(Void ...temp) {
             return contactDbDao.getallcontact();
+        }
+    }
+    private static class DeletecontactDbAsynTask extends AsyncTask<ContactDb,Void,Void>{
+        private ContactDbDao contactDbDao;
+        public DeletecontactDbAsynTask(ContactDbDao contactDbDao) {
+            this.contactDbDao=contactDbDao;
+        }
+
+        @Override
+        protected Void doInBackground(ContactDb... contactDbs) {
+            contactDbDao.delete(contactDbs);
+            return null;
         }
     }
     private static class UpdatecontactDbAsyncTask extends AsyncTask<String, Void,Void> {

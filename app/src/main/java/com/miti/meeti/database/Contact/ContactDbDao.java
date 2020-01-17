@@ -14,7 +14,7 @@ import java.util.List;
 
 @Dao
 public interface ContactDbDao {
-    @Query("SELECT * FROM ContactDb")
+    @Query("SELECT * FROM ContactDb where Tag!='deleted'")
     LiveData<List<ContactDb>> getall();
 
     @Query("SELECT * FROM ContactDb where Status=-1")

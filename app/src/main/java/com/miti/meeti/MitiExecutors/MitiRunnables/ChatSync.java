@@ -3,12 +3,15 @@ package com.miti.meeti.MitiExecutors.MitiRunnables;
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
 import com.miti.meeti.NetworkObjects.ChatUploadResponse;
+import com.miti.meeti.NetworkObjects.GetChatContent;
 import com.miti.meeti.NetworkObjects.SendChatContent;
 import com.miti.meeti.database.Chat.ChatDb;
 import com.miti.meeti.database.Chat.ChatDbViewModel;
+import com.miti.meeti.database.Chat.ChatListDb;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.SendChatImage;
+import com.miti.meeti.ui.social.chat.ChatContentRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,11 @@ public class ChatSync implements Runnable{
         MainActivity.chatDbViewModel.insert(tempxy.toArray(new ChatDb[tempxy.size()]));
     }
     @Override
-    public void run() {
+    public void run(){
+        run1();
+        run2();
+    }
+    public void run1() {
         Mlog.e("inChatSync","started");
         String cookie=MainActivity.cookieViewModel.getCookie1();
         if(cookie==null){
@@ -107,6 +114,20 @@ public class ChatSync implements Runnable{
                 }catch (Exception e){
                     Mlog.e("inChatSyncimage",e.toString());
                 }
+
+            }
+        }
+    }
+    public void run2(){
+        //get messages
+        List<ChatListDb>temp= MainActivity.chatListDbViewModel.getold();
+        for(ChatListDb tempx:temp){
+            Mlog.e("IN UpdateChatMEssages",tempx.ChatId,"");
+            String datetime=MainActivity.chatDbViewModel.getmax(tempx.ChatId);
+            ChatContentRequest.getmessage(new GetChatContent().new request_body(tempx.ChatId,10,datetime),MainActivity.cookieViewModel.getCookie1());
+            try{
+                Thread.sleep(2000);
+            }catch (Exception e){
 
             }
         }

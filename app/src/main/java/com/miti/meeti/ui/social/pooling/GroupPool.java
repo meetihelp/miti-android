@@ -1,11 +1,10 @@
-package com.miti.meeti.ui.social.event;
+package com.miti.meeti.ui.social.pooling;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -14,24 +13,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
 import com.miti.meeti.apicompat.mitihelper;
+import com.miti.meeti.mitiutil.Logging.Mlog;
+import com.miti.meeti.mitiutil.try123;
 import com.miti.meeti.ui.social.pref.social_pref_interest;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
+
+import java.util.HashMap;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link social_event_creation.OnFragmentInteractionListener} interface
+ * {@link GroupPool.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link social_event_creation#newInstance} factory method to
+ * Use the {@link GroupPool#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class social_event_creation extends Fragment {
+public class GroupPool extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,17 +43,12 @@ public class social_event_creation extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    public static View v;
+    public HashMap<Integer,String> hashMap=new HashMap<Integer,String>();
     private OnFragmentInteractionListener mListener;
-    private String [][] array= social_pref_interest.array;
-    public social_event_creation() {
+//    private String [][] array= social_pref_interest.array;
+    public GroupPool() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        MainActivity.SetNavigationVisibiltity(false);
     }
 
     /**
@@ -59,11 +57,11 @@ public class social_event_creation extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment social_event_creation.
+     * @return A new instance of fragment GroupPool.
      */
     // TODO: Rename and change types and number of parameters
-    public static social_event_creation newInstance(String param1, String param2) {
-        social_event_creation fragment = new social_event_creation();
+    public static GroupPool newInstance(String param1, String param2) {
+        GroupPool fragment = new GroupPool();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,44 +76,42 @@ public class social_event_creation extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        MainActivity.SetNavigationVisibiltity(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_social_event_creation, container, false);
+        v=inflater.inflate(R.layout.fragment_group_pool, container, false);
+        Button b1=v.findViewById(R.id.group_button_submit);
         ChipGroup get=(ChipGroup) v.findViewById(R.id.prefchipgroup);
         ViewGroup temp=(ViewGroup)get;
-        for(int i=0;i<5;i++){
-            for(int j=0;j<array[i].length;j++){
-                Chip temp1=new Chip(v.getContext());
-                temp1.setBackgroundColor(getResources().getColor(R.color.mitiOrange));
-                temp1.setText(array[i][j]);
-                temp1.setCheckable(true);
-                temp1.setLayoutParams(new ViewGroup.LayoutParams (WRAP_CONTENT,WRAP_CONTENT));
-                int id;
-                id= mitihelper.getuniqueid();
-                temp1.setId(id);
-                temp.addView(temp1);
+        Bundle bundle=getArguments();
+        final String [] array=bundle.getStringArray("Interest");
+        for(int j=0;j<array.length;j++){
+            if(array[j]==null||array[j].length()==0){
+                continue;
             }
+            Chip temp1=new Chip(v.getContext());
+            temp1.setBackgroundColor(getResources().getColor(R.color.mitiOrange));
+            temp1.setText(array[j]);
+            temp1.setCheckable(true);
+            temp1.setLayoutParams(new ViewGroup.LayoutParams (WRAP_CONTENT,WRAP_CONTENT));
+            int id;
+            id= mitihelper.getuniqueid();
+            hashMap.put(id,array[j]);
+            temp1.setId(id);
+            temp.addView(temp1);
         }
         get.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, @IdRes int checkedId) {
                 // Handle the checked chip change.
-                Log.e("Control",Integer.toString(checkedId));
-            }
-        });
-        Button b1=v.findViewById(R.id.event_button_submit);
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+                Mlog.e("Control", try123.randomAlphaNumeric(3),hashMap.get(checkedId));
             }
         });
         return v;
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -125,6 +121,10 @@ public class social_event_creation extends Fragment {
         }
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
 
     @Override
     public void onDetach() {

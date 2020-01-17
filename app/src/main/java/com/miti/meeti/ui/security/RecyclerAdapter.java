@@ -13,19 +13,23 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.miti.meeti.R;
+import com.miti.meeti.database.Contact.ContactDb;
 
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>  {
 
     private Context context;
-    private List<Contacts> contactsList;
+    private List<ContactDb> contactsList;
     private FragmentCommunication itemSelectedListener;
 
-    public RecyclerAdapter(Context context,List<Contacts> contacts){
+    public RecyclerAdapter(Context context){
         this.context=context;
-        this.contactsList=contacts;
 //        this.itemSelectedListener=()context;
+    }
+    public void setcontact(List<ContactDb> contactsList){
+        this.contactsList=contactsList;
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -36,8 +40,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.profileName.setText(contactsList.get(position).getProfileName());
-        holder.profilePic.setImageDrawable(ContextCompat.getDrawable(context,contactsList.get(position).getPicId()));
+        holder.profileName.setText(contactsList.get(position).Name+"\n"+contactsList.get(position).Phone);
+//        holder.profilePic.setImageDrawable(ContextCompat.getDrawable(context,contactsList.get(position).getPicId()));
     }
 
     @Override
@@ -49,14 +53,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
-        ImageView profilePic;
+//        ImageView profilePic;
         TextView profileName;
         LinearLayout rootView;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             profileName=itemView.findViewById(R.id.profileName);
-            profilePic=itemView.findViewById(R.id.profilePic);
+//            profilePic=itemView.findViewById(R.id.profilePic);
             rootView=itemView.findViewById(R.id.rootView);
             rootView.setOnClickListener(this);
         }

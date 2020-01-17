@@ -6,7 +6,7 @@
         android:id="@+id/actionview_miti_security"
         android:orderInCategory="100"
         android:title="Security"
-        app:iconTint="@color/mitiGreen"
+        app:iconTint="@color/white"
         android:icon="@drawable/ic_shield_alt"
         app:showAsAction="always"/>
     <item

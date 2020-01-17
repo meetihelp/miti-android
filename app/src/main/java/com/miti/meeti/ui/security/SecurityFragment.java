@@ -10,14 +10,19 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +31,15 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.miti.meeti.database.Contact.ContactDb;
+import com.miti.meeti.database.Contact.ContactDbViewModel;
+import com.miti.meeti.mitiutil.Logging.Mlog;
+import com.miti.meeti.mitiutil.try123;
+import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +58,12 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
     private Context mContext;
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
-    private List<Contacts> contacts = new ArrayList<>();
+    private List<ContactDb> contacts = new ArrayList<>();
     private static EditText UserInput;
     private static ChipGroup mChipGroupFamily;
     private static Button mButtonFamily;
-    private static ChipGroup mChipGroupFriends;
-    private static Button mButtonFriends;
-    private static ChipGroup mChipGroupAcquintence;
-    private static Button mButtonAcquintence;
+//    private static ChipGroup mChipGroupFriends;
+//    private static Button mButtonFriends;
     private static Button mDialogCloseButton;
     private static LinearLayout linearLayout;
     private static int trustChainId=0;
@@ -104,21 +113,10 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        final ContactDbViewModel contactDbViewModel= MainActivity.contactDbViewModel;
         View view= inflater.inflate(R.layout.fragment_security, container, false);
         v23=view;
-//
-//        FragmentCommunication communication=new FragmentCommunication() {
-//            @Override
-//            public void respond(int position,String name,String job) {
-//                SecurityFragment fragmentB=new SecurityFragment();
-//                Bundle bundle=new Bundle();
-//                bundle.putString("NAME",name);
-//                bundle.putString("JOB",job);
-//                fragmentB.setArguments(bundle);
-//                FragmentManager manager=getFragmentManager();
-//                FragmentTransaction transaction=manager.beginTransaction();
-//                transaction.replace(R.id.dumper,fragmentB).commit();
-//            }}
+        LiveData<List<ContactDb>>all=contactDbViewModel.getAll();
         final Dialog dialog=new Dialog(view.getContext(),R.style.CustomDialog);
         dialog.setContentView(R.layout.security_dialog_content);
 //
@@ -126,11 +124,32 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
         recyclerView=(RecyclerView)dialog.findViewById(R.id.recyclerView);
         UserInput=(EditText)dialog.findViewById(R.id.txtName);
         mChipGroupFamily=(ChipGroup)view.findViewById(R.id.chipGroupFamily);
-        mChipGroupFriends=(ChipGroup)view.findViewById(R.id.chipGroupFriends);
-        mChipGroupAcquintence=(ChipGroup)view.findViewById(R.id.chipGroupAcquintence);
+//        mChipGroupFriends=(ChipGroup)view.findViewById(R.id.chipGroupFriends);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         mButtonFamily=(Button)view.findViewById(R.id.buttonFamily);
+//        mChipGroupFamily.addView(chip);
+        final Observer<List<ContactDb>> nameObserver = new Observer<List<ContactDb>>() {
+            @Override
+            public void onChanged(List<ContactDb> contactDbs) {
+                mChipGroupFamily.removeAllViews();
+                ToastHelper.ToastFun(v23.getContext(),"Changed");
+                for(final ContactDb temp:contactDbs){
+                    Chip chip=getnewChip(temp);
+                    chip.setOnCloseIconClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Chip c = (Chip) v;
+                            mChipGroupFamily.removeView(c);
+                            DeleteContact.helper(temp);
+                            contactDbViewModel.delete(temp);
+                        }
+                    });
+                    mChipGroupFamily.addView(chip);
+                }
+            }
+        };
+        all.observe(this,nameObserver);
         mButtonFamily.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,34 +158,26 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
 //                linearLayout.setVisibility(View.VISIBLE);
             }
         });
-        mButtonFriends=(Button)view.findViewById(R.id.buttonFriends);
-        mButtonFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                trustChainId=2;
-                dialog.show();
-//                linearLayout.setVisibility(View.VISIBLE);
-            }
-        });
-        mButtonAcquintence=(Button)view.findViewById(R.id.buttonAcquintence);
-        mButtonAcquintence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                trustChainId=3;
-                dialog.show();
-//                linearLayout.setVisibility(View.VISIBLE);
-            }
-        });
-        mDialogCloseButton=(Button)dialog.findViewById(R.id.dialogCloseButton);
-        mDialogCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+//        mButtonFriends=(Button)view.findViewById(R.id.buttonFriends);
+//        mButtonFriends.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                trustChainId=2;
+//                dialog.show();
+////                linearLayout.setVisibility(View.VISIBLE);
+//            }
+//        });
+//        mDialogCloseButton=(Button)dialog.findViewById(R.id.dialogCloseButton);
+//        mDialogCloseButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
 
-        getContacts();
-        recyclerAdapter=new RecyclerAdapter(view.getContext(),contacts);
+        this.contacts=getContact();
+        recyclerAdapter=new RecyclerAdapter(view.getContext());
+        recyclerAdapter.setcontact(contacts);
         recyclerView.setAdapter(recyclerAdapter);
 //
         UserInput.addTextChangedListener(new TextWatcher() {
@@ -178,14 +189,15 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String userInput=s.toString();
-                List<Contacts> NewContacts=new ArrayList<>();
-                for(Contacts contact: contacts){
-                    if(contact.getProfileName().contains(userInput)){
+                Mlog.e(s.toString());
+                List<ContactDb> NewContacts=new ArrayList<>();
+                for(ContactDb contact: contacts){
+                    if(contact.Name.toLowerCase().trim().contains(userInput.toLowerCase().trim())){
                         NewContacts.add(contact);
                     }
                 }
-
-                recyclerAdapter=new RecyclerAdapter(getContext(),NewContacts);
+                Mlog.e("size of contacts",Integer.toString(contacts.size()),Integer.toString(NewContacts.size()));
+                recyclerAdapter.setcontact(NewContacts);
                 recyclerView.setAdapter(recyclerAdapter);
             }
 
@@ -232,7 +244,7 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
     }
 
 
-//    public static void onItemSelected(Contacts contact) {
+//    public static void onItemSelected(ContactDb contact) {
 //        Chip chip=new Chip(v23.getContext());
 //        chip.setText(contact.getProfileName());
 //        chip.setTextSize(25);
@@ -246,16 +258,6 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
 ////        chip.setOnCloseIconClickListener(this);
 //    }
 
-    private void getContacts(){
-//        List <String> Names= Arrays.asList(getResources().getStringArray(R.array.contact));
-        List<String>Names=getPhoneNumber();
-        int[] imageId={R.mipmap.gaurav};
-        int count=0;
-        for(String name:Names){
-            contacts.add(new Contacts(name,imageId[0]));
-            count++;
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -263,96 +265,66 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
 //        mChipGroupFamily.removeView(chip);
     }
 
-    static public void TrusteChainHandler(Contacts contact){
+    public static Chip getnewChip(ContactDb contact){
         Chip chip=new Chip(v23.getContext());
-        chip.setText(contact.getProfileName());
-        chip.setTextSize(25);
-        chip.setChipIcon(ContextCompat.getDrawable(v23.getContext(),contact.getPicId()));
-        chip.setCloseIconVisible(true);
-        chip.setChipIconSize(100);
+        chip.setText(contact.Name+":  "+contact.Phone);
+        chip.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15.f);
         chip.setChipStartPadding(0);
+        chip.setCloseIconVisible(true);
         chip.setCheckable(false);
         chip.setClickable(false);
+        return chip;
+    }
+    public static void TrusteChainHandler(final ContactDb contact){
+        final ContactDbViewModel contactDbViewModel= MainActivity.contactDbViewModel;
+        Chip chip=getnewChip(contact);
         if(trustChainId==1) {
             int flag=1;
             if(mChipGroupFamily.getChildCount()>=6){
-                flag=0;
                 Toast.makeText(v23.getContext(),"Maximum allowed is 6",Toast.LENGTH_SHORT).show();
+                return;
             }
             for(int i=0;i<mChipGroupFamily.getChildCount();i++){
                 Chip c=(Chip)mChipGroupFamily.getChildAt(i);
                 if(c.getText()==chip.getText()){
                     Toast.makeText(v23.getContext(),"Contact already added",Toast.LENGTH_SHORT).show();
-                    flag=0;
-                    break;
+                    return;
                 }
             }
-            if(flag==1) {
-                chip.setOnCloseIconClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Chip c = (Chip) v;
-                        mChipGroupFamily.removeView(c);
-                    }
-                });
-                mChipGroupFamily.addView(chip);
-                mChipGroupFamily.setVisibility(View.VISIBLE);
-            }
+            mChipGroupFamily.setVisibility(View.VISIBLE);
+            //String phone,String name,int status,String tag
+            contactDbViewModel.insert(new ContactDb(contact.Phone,contact.Name,-1,"Primary", try123.randomAlphaNumeric(32)));
         }
-        else if(trustChainId==2){
-            int flag=1;
-            if(mChipGroupFriends.getChildCount()>=6){
-                flag=0;
-                Toast.makeText(v23.getContext(),"Maximum allowed is 6",Toast.LENGTH_SHORT).show();
-            }
-            for(int i=0;i<mChipGroupFriends.getChildCount();i++){
-                Chip c=(Chip)mChipGroupFriends.getChildAt(i);
-                if(c.getText()==chip.getText()){
-                    Toast.makeText(v23.getContext(),"Contact already added",Toast.LENGTH_SHORT).show();
-                    flag=0;
-                    break;
-                }
-            }
-            if(flag==1) {
-                chip.setOnCloseIconClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Chip c = (Chip) v;
-                        mChipGroupFriends.removeView(c);
-                    }
-                });
-                mChipGroupFriends.addView(chip);
-                mChipGroupFriends.setVisibility(View.VISIBLE);
-            }
-        }else {
-            int flag=1;
-            if(mChipGroupAcquintence.getChildCount()>=6){
-                Toast.makeText(v23.getContext(),"Maximum allowed is 6",Toast.LENGTH_SHORT).show();
-                flag=0;
-            }
-            for(int i=0;i<mChipGroupAcquintence.getChildCount();i++){
-                Chip c=(Chip)mChipGroupAcquintence.getChildAt(i);
-                if(c.getText()==chip.getText()){
-                    Toast.makeText(v23.getContext(),"Contact already added",Toast.LENGTH_SHORT).show();
-                    flag=0;
-                    break;
-                }
-            }
-            if(flag==1) {
-                chip.setOnCloseIconClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Chip c = (Chip) v;
-                        mChipGroupAcquintence.removeView(c);
-                    }
-                });
-                mChipGroupAcquintence.addView(chip);
-                mChipGroupAcquintence.setVisibility(View.VISIBLE);
-            }
-        }
+//        else if(trustChainId==2){
+//            int flag=1;
+//            if(mChipGroupFriends.getChildCount()>=6){
+//                flag=0;
+//                Toast.makeText(v23.getContext(),"Maximum allowed is 6",Toast.LENGTH_SHORT).show();
+//            }
+//            for(int i=0;i<mChipGroupFriends.getChildCount();i++){
+//                Chip c=(Chip)mChipGroupFriends.getChildAt(i);
+//                if(c.getText()==chip.getText()){
+//                    Toast.makeText(v23.getContext(),"Contact already added",Toast.LENGTH_SHORT).show();
+//                    flag=0;
+//                    break;
+//                }
+//            }
+//            if(flag==1) {
+//                chip.setOnCloseIconClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Chip c = (Chip) v;
+//                        mChipGroupFriends.removeView(c);
+//                    }
+//                });
+//                mChipGroupFriends.addView(chip);
+//                mChipGroupFriends.setVisibility(View.VISIBLE);
+//            }
+//        }else {
+//        }
     }
 
-    public List<String> getPhoneNumber(){
+    public List<ContactDb> getPhoneNumber(){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && checkSelfPermission(getContext(),Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},1);
             return null;
@@ -371,13 +343,14 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
         }
     }
 
-    public List<String> getContact(){
-        List<String> arrayList=new ArrayList<>();
+    public List<ContactDb> getContact(){
+        List<ContactDb> arrayList=new ArrayList<>();
         Cursor cursor=getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,null,null,null);
         while (cursor.moveToNext()){
             String name=cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phone=cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            arrayList.add(name+"\n"+phone);
+            ContactDb temp=new ContactDb(phone,name,-1);
+            arrayList.add(temp);
         }
         return arrayList;
     }
