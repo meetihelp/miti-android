@@ -16,13 +16,13 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.miti.meeti.MitiExecutors.MitiRunnables.ChatSync;
+import com.miti.meeti.MitiExecutors.MitiRunnables.DiarySync;
 import com.miti.meeti.MitiExecutors.MitiRunnables.DownloadChatImage;
+import com.miti.meeti.MitiExecutors.MitiRunnables.SecuritySync;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatMessages;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatlist;
 import com.miti.meeti.MitiExecutors.MitiService;
@@ -67,10 +67,14 @@ import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import mumayank.com.airlocationlibrary.AirLocation;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -206,6 +210,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         bottomNavigationView.inflateMenu(R.menu.activity_main_drawer1);
         NavigationUI.setupWithNavController(bottomNavigationView,
                 navController);
+        AirLocation airLocation = new AirLocation(this, true, true, new AirLocation.Callbacks() {
+            @Override
+            public void onSuccess(@NotNull Location location) {
+                Mlog.e("mumalocationSuccess",location.toString());
+            }
+
+            @Override
+            public void onFailed(@NotNull AirLocation.LocationFailedEnum locationFailedEnum) {
+                // do something
+                Mlog.e("mumalocationfailed");
+            }
+        });
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try{
             Location loc =  locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
@@ -222,10 +238,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }catch (SecurityException e){
             Mlog.e(e);
         }
-//        MitiService mitiService=new MitiService(1);
+        MitiService mitiService=new MitiService(1);
 //        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
-//        mitiService.schedule(new ChatSync(),0,10, TimeUnit.SECONDS);
-//        mitiService.schedule(new DownloadChatImage(),0,10, TimeUnit.SECONDS);
+//        mitiService.schedule(new ChatSync(),0,60, TimeUnit.SECONDS);
+//        mitiService.schedule(new DownloadChatImage(),0,60, TimeUnit.SECONDS);
+//        mitiService.schedule(new SecuritySync(),0,60, TimeUnit.SECONDS);
+        mitiService.schedule(new DiarySync(),0,10, TimeUnit.SECONDS);
         if(!isMyServiceRunning(SendLoc.class)){
             Mlog.e("Service started");
 //            startService(new Intent(getApplicationContext(), SendLoc.class));

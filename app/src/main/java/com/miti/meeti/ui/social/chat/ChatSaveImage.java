@@ -10,7 +10,10 @@ public class ChatSaveImage extends ImageSaver {
     //String userId,String chatId,String messageType,String messageContent,String requestId,int sync, String userCreatedAt
     @Override
     protected void onPostExecute(String s) {
-        MainActivity.chatDbViewModel.insert(new ChatDb(social_chat_content.userid,
-                social_chat_content.chatid,"image",s, try123.randomAlphaNumeric(32),-1,try123.mitidt()));
+        ChatDb temp=new ChatDb(social_chat_content.userid,
+                social_chat_content.chatid,"image",s, try123.randomAlphaNumeric(32),-1,try123.mitidt());
+        Message temp34=social_chat_content.chathelper(temp);
+        social_chat_content.adapterx.addToStart(temp34,true);
+        MainActivity.chatDbViewModel.insert(temp);
     }
 }

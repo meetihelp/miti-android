@@ -169,9 +169,9 @@ public class PrivacyFragment extends Fragment {
             public void onClick(View v) {
                 closeSubMenusFab();
                 Matisse.from(PrivacyFragment.this)
-                        .choose(MimeType.ofAll())
+                        .choose(MimeType.ofImage())
                         .countable(true)
-                        .maxSelectable(9)
+                        .maxSelectable(1)
                         .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                         .thumbnailScale(0.85f)
                         .imageEngine(new GlideEngine())

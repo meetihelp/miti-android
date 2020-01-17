@@ -26,6 +26,7 @@ public class DeleteContact{
         String json=gson.toJson(contact);
         ContactDbViewModel contactDbViewModel= MainActivity.contactDbViewModel;
         ContactDb contactDb=contact;
+        contactDbViewModel.delete(contact);
         contactDb.Tag="deleted";
         contactDb.Status=-1;
         contactDb.Requestid= try123.randomAlphaNumeric(32);

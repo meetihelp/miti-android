@@ -27,12 +27,12 @@ public class DownloadChatImage implements Runnable{
 
     @Override
     public void run() {
-        Mlog.e("inDownloadChatImage","started");
+//        Mlog.e("inDownloadChatImage","started");
         ChatDbViewModel chatDbViewModel=MainActivity.chatDbViewModel;
         CookieViewModel cookieViewModel=MainActivity.cookieViewModel;
         String cookie=cookieViewModel.getCookie1();
         List<ChatDb>notsync=chatDbViewModel.getnotsyncedimage();
-        Mlog.e("inDownloadChatImage","line 34");
+//        Mlog.e("inDownloadChatImage","line 34");
         if(notsync==null || notsync.size()==0){return;}
         Mlog.e("inDownloadChatImage","line 36 not null");
         for(ChatDb temp:notsync){

@@ -28,7 +28,7 @@ public class ContactDbViewModel extends AndroidViewModel {
     public void delete(ContactDb ...contacts){
         moodboardRepository.delete(contacts);
     }
-    public void update(String ...temp){
+    public void update(Integer ...temp){
         moodboardRepository.update(temp);
     }
 }

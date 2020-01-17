@@ -128,7 +128,6 @@ public class ChatSync implements Runnable{
             try{
                 Thread.sleep(2000);
             }catch (Exception e){
-
             }
         }
     }

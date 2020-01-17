@@ -142,7 +142,6 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
                             Chip c = (Chip) v;
                             mChipGroupFamily.removeView(c);
                             DeleteContact.helper(temp);
-                            contactDbViewModel.delete(temp);
                         }
                     });
                     mChipGroupFamily.addView(chip);

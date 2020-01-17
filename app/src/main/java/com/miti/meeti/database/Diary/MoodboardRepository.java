@@ -39,7 +39,7 @@ public class MoodboardRepository {
         new UpdatemoodboardAsyncTask(moodboardDao).execute(temp);
     }
     public void updateimage(String ...temp){
-        new UpdateImageAsyncTask(moodboardDao).execute(temp[0],temp[1],temp[2]);
+        new UpdateImageAsyncTask(moodboardDao).execute(temp[0],temp[1]);
     }
     public void updateContent(String ...temp){
         new UpdateContentmoodboardAsyncTask(moodboardDao).execute(temp);
@@ -85,7 +85,7 @@ public class MoodboardRepository {
         }
         @Override
         protected Void doInBackground(String ...temp) {
-            moodboardDao.updateimage(temp[0],temp[1],temp[2]);
+            moodboardDao.updateimage(temp[0],temp[1]);
             return null;
         }
     }
@@ -96,7 +96,7 @@ public class MoodboardRepository {
         }
         @Override
         protected Void doInBackground(String ...temp) {
-            moodboardDao.update(temp[0],temp[1]);
+            moodboardDao.update(temp[0],temp[1],temp[2]);
             return null;
         }
     }

@@ -25,6 +25,6 @@ public interface ContactDbDao {
     @Delete
     void delete(ContactDb... contactDbs);
 
-    @Query("Update ContactDb set Status=:status where Phone=:phone")
-    void update(int status,String phone);
+    @Query("Update ContactDb set Status=:status where uid=:uid")
+    void update(int status,int uid);
 }

@@ -36,7 +36,7 @@ public class ContactDbRepository {
     public void delete(ContactDb ...contactDb){
         new DeletecontactDbAsynTask(contactDbDao).execute(contactDb);
     }
-    public void update(String ...temp){
+    public void update(Integer ...temp){
         new UpdatecontactDbAsyncTask(contactDbDao).execute(temp);
     }
     private static class InsertcontactDbAsyncTask extends AsyncTask<ContactDb, Void,Void> {
@@ -72,14 +72,14 @@ public class ContactDbRepository {
             return null;
         }
     }
-    private static class UpdatecontactDbAsyncTask extends AsyncTask<String, Void,Void> {
+    private static class UpdatecontactDbAsyncTask extends AsyncTask<Integer, Void,Void> {
         private ContactDbDao contactDbDao;
         private UpdatecontactDbAsyncTask(ContactDbDao contactDbDao){
             this.contactDbDao=contactDbDao;
         }
         @Override
-        protected Void doInBackground(String ...temp) {
-            contactDbDao.update(Integer.parseInt(temp[0]),temp[1]);
+        protected Void doInBackground(Integer ...temp) {
+            contactDbDao.update(temp[0],temp[1]);
             return null;
         }
     }

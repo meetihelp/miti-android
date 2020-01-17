@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "ContactDb")
 public class ContactDb {
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    public int uid;
     public String Phone;
     public String Name;
     public int Status;

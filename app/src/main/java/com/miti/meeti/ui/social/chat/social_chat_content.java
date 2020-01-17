@@ -51,7 +51,7 @@ public class social_chat_content extends Fragment{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static String chatid;
-    private static List<ChatDb>allchatsynchronized;
+    private static List<ChatDb>allchatsynchronized=new ArrayList<>();
     private List<ChatDb>messagesold;
     public static String requestid;
     public static String content;
@@ -154,12 +154,15 @@ public class social_chat_content extends Fragment{
             public boolean onSubmit(CharSequence input) {
                 //validate and send message
                 if(mitilock){
-                    Author temp=new Author("","apoorva kumar","");
+                    Author temp=new Author(userid,"","");
                     String mitidt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
                     requestid=UUID.randomUUID().toString().replace("-","").substring(0,32);
-                    chatDbViewModel.insertnew(new ChatDb(userid,"text",input.toString(),requestid,chatid,mitidt,-1));
+                    ChatDb chatDb=new ChatDb(userid,"text",input.toString(),requestid,chatid,mitidt,-1);
+                    Message temp34=chathelper(chatDb);
+                    add(chatDb);
+                    chatDbViewModel.insertnew(chatDb);
                     content=input.toString();
-//                    adapterx.addToStart(tempx, true);
+                    adapterx.addToStart(temp34, true);
                     return true;
                 }else{
                     ToastHelper.ToastFun(v.getContext(),"Try again");
@@ -170,6 +173,9 @@ public class social_chat_content extends Fragment{
         return v;
     }
 
+    public static synchronized void add(ChatDb temp){
+        allchatsynchronized.add(temp);
+    }
     public static synchronized void setall(List<ChatDb> allchat){
         allchatsynchronized=allchat;
     }
@@ -178,7 +184,7 @@ public class social_chat_content extends Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
-        allchatsynchronized = null;
+        allchatsynchronized.clear();
     }
 
     public static synchronized void onChanged1(@Nullable final List<ChatDb>messages) {
@@ -186,7 +192,7 @@ public class social_chat_content extends Fragment{
         if(messages.size()==0){
             return;
         }
-        if(allchatsynchronized==null){
+        if(allchatsynchronized==null || allchatsynchronized.size()==0){
             setall(messages);
             addinmessagelist(messages);
         }else{
@@ -194,7 +200,6 @@ public class social_chat_content extends Fragment{
             Mlog.e("I am going to add");
             addinmessagelist(diff);
             setall(messages);
-            Mlog.e("added not being called");
         }
 //        Set<ChatDb> ad = new HashSet<ChatDb>(messages);
 //        Set<ChatDb> ad1 = new HashSet<ChatDb>(messagesold);
@@ -212,21 +217,25 @@ public class social_chat_content extends Fragment{
         }
         List<Message>temp12=new ArrayList<>();
         for (ChatDb tempx:messages){
-            Author temp45=new Author(tempx.UserId,tempx.UserId,"");
-//            Mlog.e(tempx.UserId,tempx.MessageContent);
-            String date=new String();
-            if(tempx.CreatedAt!=null){
-                date=tempx.CreatedAt;
-            }else{
-                date= try123.mitidt();
-            }
-            Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,date);
-            if(tempx.MessageType.contains("image")){
-                temp34.setUrl(tempx.ImageUrl);
-            }
+            Message temp34=chathelper(tempx);
             temp12.add(temp34);
         }
-        social_chat_content.adapterx.addToEnd(temp12,false);
+        adapterx.addToEnd(temp12,false);
+    }
+    public static Message chathelper(ChatDb tempx){
+        Author temp45=new Author(tempx.UserId,tempx.UserId,"");
+//            Mlog.e(tempx.UserId,tempx.MessageContent);
+        String date=new String();
+        if(tempx.CreatedAt!=null){
+            date=tempx.CreatedAt;
+        }else{
+            date= try123.mitidt();
+        }
+        Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,date);
+        if(tempx.MessageType.contains("image")){
+            temp34.setUrl(tempx.ImageUrl);
+        }
+        return temp34;
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
