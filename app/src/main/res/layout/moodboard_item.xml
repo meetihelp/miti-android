@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/delete_mood_object"
-            android:src="@drawable/ic_delete_black_24dp"
+            android:src="@drawable/ic_check_black_24dp"
             android:layout_gravity="bottom|right"/>
     </FrameLayout>
 </LinearLayout>

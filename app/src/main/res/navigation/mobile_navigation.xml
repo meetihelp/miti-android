@@ -132,5 +132,15 @@
         android:name="com.miti.meeti.ui.social.pooling.GroupPool"
         android:label="fragment_group_pool"
         tools:layout="@layout/fragment_group_pool" />
+    <fragment
+        android:id="@+id/newMessage"
+        android:name="com.miti.meeti.ui.social.messageRequest.NewMessage"
+        android:label="fragment_new_message"
+        tools:layout="@layout/fragment_new_message" />
+    <action
+        android:id="@+id/action_move_to_newMessage"
+        app:destination="@id/newMessage"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
 
 </navigation>

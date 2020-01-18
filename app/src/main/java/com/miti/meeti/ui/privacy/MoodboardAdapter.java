@@ -34,6 +34,9 @@ import java.util.List;
 
 public class MoodboardAdapter extends RecyclerView.Adapter<MoodboardAdapter.MoodboardHolder> {
     private List<Moodboard> temp=new ArrayList<>();
+//    public static HashMap<Integer,Boolean>hashMap=new HashMap<>();
+    public int selected=-1;
+    public int position=-1;
     @NonNull
     @Override
     public MoodboardHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,7 +49,27 @@ public class MoodboardAdapter extends RecyclerView.Adapter<MoodboardAdapter.Mood
         StaggeredGridLayoutManager.LayoutParams lp =
                 (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
 //        holder.itemView.setBackgroundResource(R.color.mitiOrange); //without theme));
+        if((int)holder.getItemId()==selected){
+            holder.temp2.setVisibility(View.VISIBLE);
+        }else{
+            holder.temp2.setVisibility(View.GONE);
+        }
         Moodboard currentFeed=temp.get(position);
+        holder.temp.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putString("resourceid", temp.get(position).Mimetype);
+                if(temp.get(position).Mimetype.contains("text")){
+                    args.putString("data", temp.get(position).Content);
+                }else{
+                    args.putString("data", temp.get(position).ImagePath);
+                }
+                MyDialogFragment bottomSheetDialog = MyDialogFragment.newInstance();
+                bottomSheetDialog.setArguments(args);
+                bottomSheetDialog.show(PrivacyFragment.myContext.getSupportFragmentManager(),"hithere");
+            }
+        });
         holder.temp1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -62,13 +85,13 @@ public class MoodboardAdapter extends RecyclerView.Adapter<MoodboardAdapter.Mood
                 bottomSheetDialog.show(PrivacyFragment.myContext.getSupportFragmentManager(),"hithere");
             }
         });
-        holder.temp2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                MainActivity.moodboardViewModel.delete(temp.get(position));
-            }
-        });
-        Mlog.e("Aaya to main in bind view holder",Integer.toString(position),currentFeed.Content,currentFeed.Mimetype);
+//        holder.temp2.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                MainActivity.moodboardViewModel.delete(temp.get(position));
+//            }
+//        });
+//        Mlog.e("Aaya to main in bind view holder",Integer.toString(position),currentFeed.Content,currentFeed.Mimetype);
         if(currentFeed.Mimetype.equals("text")){
             Mlog.e("currentFeed.Content");
             holder.temp.setText(currentFeed.Content);
@@ -113,34 +136,51 @@ public class MoodboardAdapter extends RecyclerView.Adapter<MoodboardAdapter.Mood
         private TextView temp;
         private ImageView temp1;
         private ImageView temp2;
-        private MaterialCardView moodcard;
         public MoodboardHolder(@NonNull View itemView) {
             super(itemView);
             temp=(TextView) itemView.findViewById(R.id.moodboard_content);
             temp1=(ImageView) itemView.findViewById(R.id.moodboard_image);
             temp2=(ImageView) itemView.findViewById(R.id.delete_mood_object);
             temp2.setVisibility(View.GONE);
-            moodcard=(MaterialCardView)itemView.findViewById(R.id.Miti_Moodboard_card);
-            temp2.setClickable(true);
+//            temp2.setClickable(true);
+            temp.setLongClickable(true);
+            temp.setClickable(true);
             temp1.setLongClickable(true);
             temp1.setClickable(true);
-            temp.setLongClickable(true);
-            temp1.setOnLongClickListener(new View.OnLongClickListener(){
-                @Override
-                public boolean onLongClick(View v) {
-                    temp2.setVisibility(View.VISIBLE);
-                    return true;
-                }
-            });
             temp.setOnLongClickListener(new View.OnLongClickListener(){
                 @Override
                 public boolean onLongClick(View v) {
-                    temp2.setVisibility(View.VISIBLE);
+                    selector();
+                    return true;
+                }
+            });
+            temp1.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View v) {
+                    selector();
                     return true;
                 }
             });
         }
+        private void selector(){
+            position=getAdapterPosition();
+            Mlog.e("inselector",Integer.toString(position));
+            int temp=(int)getItemId();
+            if(temp==selected){
+                selected=-1;
+                notifyDataSetChanged();
+                return;
+            }
+            if(selected==-1){
+                PrivacyFragment.enableActionMode(0);
+            }
+            selected=(int)getItemId();
+            Mlog.e("adapterposition",Integer.toString(temp));
+//                    temp2.setVisibility(View.VISIBLE);
+            notifyDataSetChanged();
+        }
     }
+
     public static class MyDialogFragment extends DialogFragment {
         private View v;
         private ScaleGestureDetector mScaleDetector;

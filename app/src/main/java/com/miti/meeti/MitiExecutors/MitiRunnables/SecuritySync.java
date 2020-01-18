@@ -36,10 +36,12 @@ public class SecuritySync implements Runnable {
         List<ContactDb>all=contactDbViewModel.getallnotsynced();
         Mlog.e("Security Sync Started");
         for(ContactDb temp:all){
-            if(temp.Tag.contains("deleted")){
-                Mlog.e("Security Sync Started","in deleted block");
-                String json=gson.toJson(new SecuritySync().new request(temp.Phone,"Primary",temp.Name,temp.Requestid));
-                RequestHelper requestHelper=new SimplePOST().execute("deletePrimaryTrustChain",json,MainActivity.MeetiCookie);
+            if(temp.Tag.contains("Primary")){
+                //tag is Board id;
+                //String phone,String chainId, String name,String requestId
+                Mlog.e("Security Sync Started","in send contact block");
+                String json=gson.toJson(new SecuritySync().new request(temp.Phone,temp.Tag,temp.Name,temp.Requestid));
+                RequestHelper requestHelper=new SimplePOST().execute("createPrimaryTrustChain",json,MainActivity.MeetiCookie);
                 if (requestHelper==null){
                     continue;
                 }
@@ -52,12 +54,11 @@ public class SecuritySync implements Runnable {
                     //int status,int uid
                     contactDbViewModel.update(1,temp.uid);
                 }
-            }else{
-                //tag is Board id;
-                //String phone,String chainId, String name,String requestId
-                Mlog.e("Security Sync Started","in send contact block");
-                String json=gson.toJson(new SecuritySync().new request(temp.Phone,temp.Tag,temp.Name,temp.Requestid));
-                RequestHelper requestHelper=new SimplePOST().execute("createPrimaryTrustChain",json,MainActivity.MeetiCookie);
+            }
+            if(temp.Tag.contains("deleted")){
+                Mlog.e("Security Sync Started","in deleted block");
+                String json=gson.toJson(new SecuritySync().new request(temp.Phone,"Primary",temp.Name,temp.Requestid));
+                RequestHelper requestHelper=new SimplePOST().execute("deletePrimaryTrustChain",json,MainActivity.MeetiCookie);
                 if (requestHelper==null){
                     continue;
                 }

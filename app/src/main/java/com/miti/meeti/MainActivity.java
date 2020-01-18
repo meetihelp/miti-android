@@ -243,8 +243,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 //        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
 //        mitiService.schedule(new ChatSync(),0,60, TimeUnit.SECONDS);
 //        mitiService.schedule(new DownloadChatImage(),0,60, TimeUnit.SECONDS);
-//        mitiService.schedule(new SecuritySync(),0,60, TimeUnit.SECONDS);
-        mitiService.schedule(new DiarySync(),0,10, TimeUnit.SECONDS);
+        mitiService.schedule(new SecuritySync(),0,60, TimeUnit.SECONDS);
+//        mitiService.schedule(new DiarySync(),0,10, TimeUnit.SECONDS);
         if(!isMyServiceRunning(SendLoc.class)){
             Mlog.e("Service started");
 //            startService(new Intent(getApplicationContext(), SendLoc.class));
@@ -252,7 +252,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 //            Mlog.e("Service already running");
             stopService(new Intent(getApplicationContext(), SendLoc.class));
         }
-
     }
     @Override
     public void onLocationChanged(Location location) {

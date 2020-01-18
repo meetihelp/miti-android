@@ -1,6 +1,8 @@
 package com.miti.meeti.ui.privacy;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -18,7 +20,6 @@ import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,6 +39,7 @@ import com.miti.meeti.database.Diary.MoodboardViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.try123;
 import com.miti.meeti.mitiutil.uihelper.ImageSaver;
+import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -65,7 +67,7 @@ public class PrivacyFragment extends Fragment {
     public static View v;
     private List<Uri> mSelected;
 //    private OnFragmentInteractionListener mListener;
-    public Toolbar toolbar=MainActivity.toolbar;
+    public static Toolbar toolbar=MainActivity.toolbar;
     public static ArrayList<Moodboard> selectionList = new ArrayList<>();
     private MoodboardViewModel moodboardViewModel;
     private EditText text;
@@ -76,8 +78,9 @@ public class PrivacyFragment extends Fragment {
     private LinearLayout layoutFabImage;
     private LinearLayout layoutFabCam;
     private LinearLayout temp;
-    private ActionModeCallback actionModeCallback;
-    private ActionMode actionMode;
+    private static ActionModeCallback actionModeCallback;
+    private static ActionMode actionMode;
+    private List<Moodboard>allxy;
     private LiveData<List<Moodboard>>all;
     private ImageButton save;
     private ImageButton close;
@@ -155,6 +158,7 @@ public class PrivacyFragment extends Fragment {
         final Observer<List<Moodboard>> nameObserver = new Observer<List<Moodboard>>() {
             @Override
             public void onChanged(@Nullable final List<Moodboard> newName) {
+                allxy=newName;
                 moodboardAdapter.setTemp(newName);
             }
         };
@@ -220,7 +224,6 @@ public class PrivacyFragment extends Fragment {
                 closeSubMenusFab();
             }
         });
-        enableActionMode(0);
         return v;
     }
     private void closeSubMenusFab(){
@@ -264,11 +267,9 @@ public class PrivacyFragment extends Fragment {
             new BoardImageSaver().execute("Moodboards","Moodboard",templ.get(0));
         }
     }
-    private void enableActionMode(int position) {
-        toolbar.startActionMode(actionModeCallback);
-//        if (actionMode == null) {
-//            actionMode = ((AppCompatActivity)getActivity()).startActionMode(actionModeCallback);
-//        }
+    public static void enableActionMode(int position) {
+        Mlog.e("enablecalled");
+        actionMode=toolbar.startActionMode(actionModeCallback);
 //        toggleSelection(position);
     }
     private class ActionModeCallback implements ActionMode.Callback {
@@ -287,28 +288,46 @@ public class PrivacyFragment extends Fragment {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             Log.d("API123", "here");
             switch (item.getItemId()) {
+                case R.id.action_copy:
+                    // delete all the selected rows
+                    Moodboard content=allxy.get(moodboardAdapter.position);
+                    if(content.Mimetype.contains("image")){
+                        ToastHelper.ToastFun(myContext,"App isn't that talented to copy image");
+                    }else if(content.Mimetype.contains("text")){
+                        ClipboardManager clipboard = (ClipboardManager) myContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("MEETi",allxy.get(moodboardAdapter.position).Content);
+                        clipboard.setPrimaryClip(clip);
+                        ToastHelper.ToastFun(myContext,"You beautiful human, Your content has been copied");
+                    }
+                    reset();
+                    return true;
+
                 case R.id.action_delete:
                     // delete all the selected rows
+                    moodboardViewModel.delete(allxy.get(moodboardAdapter.position));
+                    reset();
+                    Mlog.e("delete called");
                     return true;
 
-                case R.id.action_color:
-                    return true;
-
-                case R.id.action_select_all:
-                    return true;
-
-                case R.id.action_refresh:
+                case R.id.action_share:
+                    reset();
+                    Navigation.findNavController(v).navigate(R.id.action_move_to_newMessage);
+                    Mlog.e("share called");
                     return true;
 
                 default:
                     return false;
             }
         }
-
+        public void reset(){
+            moodboardAdapter.selected=-1;
+            moodboardAdapter.notifyDataSetChanged();
+            actionMode.finish();
+        }
         @Override
         public void onDestroyActionMode(ActionMode mode) {
 //            mAdapter.clearSelections();
-            actionMode = null;
+            reset();
         }
     }
     public interface OnFragmentInteractionListener {
