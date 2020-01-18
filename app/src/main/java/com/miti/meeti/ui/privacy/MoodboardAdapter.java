@@ -132,6 +132,13 @@ public class MoodboardAdapter extends RecyclerView.Adapter<MoodboardAdapter.Mood
                     return true;
                 }
             });
+            temp.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View v) {
+                    temp2.setVisibility(View.VISIBLE);
+                    return true;
+                }
+            });
         }
     }
     public static class MyDialogFragment extends DialogFragment {

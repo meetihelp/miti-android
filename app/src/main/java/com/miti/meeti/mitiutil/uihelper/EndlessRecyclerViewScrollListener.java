@@ -59,8 +59,10 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         int lastVisibleItemPosition = 0;
         int totalItemCount = mLayoutManager.getItemCount();
         if (dy > 0) {
+            MainActivity.toolbar.setVisibility(View.GONE);
             MainActivity.SetNavigationVisibiltity(false);
         } else if (dy < 0) {
+            MainActivity.toolbar.setVisibility(View.VISIBLE);
             MainActivity.SetNavigationVisibiltity(true);
         }
         if (mLayoutManager instanceof StaggeredGridLayoutManager) {

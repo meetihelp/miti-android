@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import android.view.ActionMode;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
@@ -16,9 +18,12 @@ import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -37,6 +42,7 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,13 +58,15 @@ public class PrivacyFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    public static boolean isInActionMode = false;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     public static View v;
     private List<Uri> mSelected;
-    private OnFragmentInteractionListener mListener;
+//    private OnFragmentInteractionListener mListener;
+    public Toolbar toolbar=MainActivity.toolbar;
+    public static ArrayList<Moodboard> selectionList = new ArrayList<>();
     private MoodboardViewModel moodboardViewModel;
     private EditText text;
     private FloatingActionButton EditButton;
@@ -68,6 +76,8 @@ public class PrivacyFragment extends Fragment {
     private LinearLayout layoutFabImage;
     private LinearLayout layoutFabCam;
     private LinearLayout temp;
+    private ActionModeCallback actionModeCallback;
+    private ActionMode actionMode;
     private LiveData<List<Moodboard>>all;
     private ImageButton save;
     private ImageButton close;
@@ -94,9 +104,18 @@ public class PrivacyFragment extends Fragment {
         myContext=(FragmentActivity) context;
         super.onAttach(context);
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.moodboard_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -107,6 +126,7 @@ public class PrivacyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        actionModeCallback = new ActionModeCallback();
         MainActivity.toolbar_text.setText("MoodBoards");
         setHasOptionsMenu(true);
         v=inflater.inflate(R.layout.fragment_moodboard, container, false);
@@ -200,6 +220,7 @@ public class PrivacyFragment extends Fragment {
                 closeSubMenusFab();
             }
         });
+        enableActionMode(0);
         return v;
     }
     private void closeSubMenusFab(){
@@ -221,9 +242,9 @@ public class PrivacyFragment extends Fragment {
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
     }
 
     @Override
@@ -231,7 +252,7 @@ public class PrivacyFragment extends Fragment {
         super.onDetach();
         MainActivity.SetNavigationVisibiltity(true);
         MainActivity.toolbar_text.setText("Meeti");
-        mListener = null;
+//        mListener = null;
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -243,16 +264,53 @@ public class PrivacyFragment extends Fragment {
             new BoardImageSaver().execute("Moodboards","Moodboard",templ.get(0));
         }
     }
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    private void enableActionMode(int position) {
+        toolbar.startActionMode(actionModeCallback);
+//        if (actionMode == null) {
+//            actionMode = ((AppCompatActivity)getActivity()).startActionMode(actionModeCallback);
+//        }
+//        toggleSelection(position);
+    }
+    private class ActionModeCallback implements ActionMode.Callback {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.menu_action_mode, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            Log.d("API123", "here");
+            switch (item.getItemId()) {
+                case R.id.action_delete:
+                    // delete all the selected rows
+                    return true;
+
+                case R.id.action_color:
+                    return true;
+
+                case R.id.action_select_all:
+                    return true;
+
+                case R.id.action_refresh:
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+//            mAdapter.clearSelections();
+            actionMode = null;
+        }
+    }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

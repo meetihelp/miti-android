@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static FeedViewModel feedViewModel;
     public static ChatListDbViewModel chatListDbViewModel;
     public static ChatDbViewModel chatDbViewModel;
+    public static Toolbar toolbar;
     public static ContactDbViewModel contactDbViewModel;
     private static AppBarLayout appBarLayout;
     private LocationManager locationManager;
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar_text=findViewById(R.id.toolbar_title);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);

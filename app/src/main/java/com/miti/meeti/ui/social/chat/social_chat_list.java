@@ -96,6 +96,7 @@ public class social_chat_list extends Fragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
+        MainActivity.SetNavigationVisibiltity(false);
         myContext=(FragmentActivity) context;
         super.onAttach(context);
     }

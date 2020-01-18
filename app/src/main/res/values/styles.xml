@@ -8,6 +8,7 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="android:textViewStyle">@font/slabo_13px</item>
+        <item name="windowActionModeOverlay">true</item>
         <!-- Original AppCompat attributes. -->
         <item name="colorPrimary">@color/mitiOrange</item>
         <item name="colorAccent">@color/mitiTextBlue</item>
