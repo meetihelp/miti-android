@@ -44,4 +44,7 @@ public class try123 {
         }
         return null;
     }
+    public static String getname(String chatid){
+        return "AdamEve-"+chatid.substring(0,3);
+    }
 }

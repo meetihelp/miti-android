@@ -1,25 +1,36 @@
 package com.miti.meeti.ui.social.chat;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Chat.ChatListDb;
@@ -54,6 +65,7 @@ public class social_chat_list extends Fragment {
     private RecyclerView recyclerView;
     public static social_chat_list_adapter mAdapter;
     public static String cookie;
+    private FloatingActionButton fab;
     private RecyclerView.LayoutManager layoutManager;
     private LiveData<List<ChatListDb>> all;
     public static FragmentActivity myContext;
@@ -89,11 +101,18 @@ public class social_chat_list extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         //set chatlistoffset;
+        setHasOptionsMenu(true);
         chatlist_offset=getChatlist_offset();
         CookieViewModel cvm=ViewModelProviders.of(this).get(CookieViewModel.class);
         cookie= cvm.getCookie1();
     }
-
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        MainActivity.toolbar_text.setText("Connections");
+        menu.clear();
+        inflater.inflate(R.menu.chatlist_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
     @Override
     public void onAttach(@NonNull Context context) {
         MainActivity.SetNavigationVisibiltity(false);
@@ -103,6 +122,13 @@ public class social_chat_list extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v=inflater.inflate(R.layout.fragment_social_chat_list, container, false);
+        fab=v.findViewById(R.id.floating_action_button);
+        fab.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v1) {
+                Navigation.findNavController(v).navigate(R.id.action_move_to_newMessage);
+            }
+        });
 //        dialogsList = v.findViewById(R.id.dialogsList);
         MainActivity.SetNavigationVisibiltity(false);
         recyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
@@ -149,6 +175,7 @@ public class social_chat_list extends Fragment {
         super.onDetach();
         mListener = null;
         MainActivity.SetNavigationVisibiltity(true);
+        MainActivity.toolbar_text.setText("MEETi");
     }
     public int getChatlist_offset(){
         return 0;
@@ -166,5 +193,15 @@ public class social_chat_list extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionview_chat_request:
+                Navigation.findNavController(v).navigate(R.id.action_move_to_messageRequest);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -253,6 +253,10 @@ public class PrivacyFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        moodboardAdapter.selected=-1;
+        if(actionMode!=null){
+            actionMode.finish();
+        }
         MainActivity.SetNavigationVisibiltity(true);
         MainActivity.toolbar_text.setText("Meeti");
 //        mListener = null;

@@ -1,21 +1,34 @@
 package com.miti.meeti.ui.social.messageRequest;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
+import com.miti.meeti.database.Chat.ChatListDb;
+import com.miti.meeti.database.Contact.ContactDb;
+import com.miti.meeti.mitiutil.Logging.Mlog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,11 +43,14 @@ public class NewMessage extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static FragmentActivity myContext;
+    public static FragmentActivity myContext;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private RecyclerView recyclerView;
+    private MessageListAdapter recyclerAdapter;
     public static View v;
+    private List<ListModel>dataset=new ArrayList<>();
     private OnFragmentInteractionListener mListener;
 
     public NewMessage() {
@@ -79,9 +95,53 @@ public class NewMessage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        List<ChatListDb>temp=MainActivity.chatListDbViewModel.getold();
+        for(ChatListDb tempx:temp){
+            ListModel tempy=new ListModel(tempx);
+            dataset.add(tempy);
+        }
+        List<ContactDb>tempz=getContact();
+        for(ContactDb temp123:tempz){
+            ListModel tempo=new ListModel(temp123);
+            dataset.add(tempo);
+        }
+        Mlog.e("inNewMessage",Integer.toString(dataset.size()));
         v=inflater.inflate(R.layout.fragment_new_message, container, false);
+        recyclerView=v.findViewById(R.id.newMessage_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(myContext));
+        recyclerAdapter=new MessageListAdapter();
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerAdapter.setDataset(dataset);
+        TextInputEditText UserInput=v.findViewById(R.id.list_search);
         Bundle bundle=getArguments();
 //        String from=bundle.getString("from");
+        UserInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String userInput=s.toString();
+                Mlog.e(s.toString());
+                List<ListModel> NewContacts=new ArrayList<>();
+                for(ListModel contact: dataset){
+                    if(contact.Name.toLowerCase().trim().contains(userInput.toLowerCase().trim())){
+                        NewContacts.add(contact);
+                    }
+                }
+                Mlog.e("inNewMessage",Integer.toString(NewContacts.size()));
+                recyclerAdapter.setDataset(NewContacts);
+                recyclerView.setAdapter(recyclerAdapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return v;
     }
 
@@ -101,6 +161,7 @@ public class NewMessage extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        MainActivity.toolbar_text.setText("MEETi");
         mListener = null;
     }
 
@@ -117,5 +178,16 @@ public class NewMessage extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public List<ContactDb> getContact(){
+        List<ContactDb> arrayList=new ArrayList<>();
+        Cursor cursor=getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,null,null,null);
+        while (cursor.moveToNext()){
+            String name=cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String phone=cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            ContactDb temp=new ContactDb(phone,name,-1);
+            arrayList.add(temp);
+        }
+        return arrayList;
     }
 }

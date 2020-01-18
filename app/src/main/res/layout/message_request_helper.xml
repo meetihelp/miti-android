@@ -64,15 +64,12 @@
                     android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
-        <TextView
-            android:id="@+id/textViewOptions"
+        <ImageView
+            android:id="@+id/message_list_check"
+            android:layout_gravity="center_vertical|right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical|right"
-            android:text="&#8942;"
-            android:textSize="30dp"
-            android:textAppearance="?android:textAppearanceLarge" />
+            android:src="@drawable/ic_check_black_24dp"/>
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

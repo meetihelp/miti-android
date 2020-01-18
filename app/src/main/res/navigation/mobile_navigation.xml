@@ -142,5 +142,14 @@
         app:destination="@id/newMessage"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
-
+    <fragment
+        android:id="@+id/messageRequest"
+        android:name="com.miti.meeti.ui.social.messageRequest.MessageRequest"
+        android:label="fragment_message_request"
+        tools:layout="@layout/fragment_message_request" />
+    <action
+        android:id="@+id/action_move_to_messageRequest"
+        app:destination="@id/messageRequest"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
 </navigation>

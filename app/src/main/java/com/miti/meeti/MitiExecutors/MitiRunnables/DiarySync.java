@@ -74,7 +74,7 @@ public class DiarySync implements Runnable {
                 //param1 suburl, param2 fileaddress, param3 filename, param4 requestid, param5 public
                 try{
                     String res=new UploadImage().execute("uploadImage",tempx.ImagePath,tempx.ImagePath,tempx.RequestId
-                            ,"private").get();
+                            ,"Private").get();
                     if(res==null){
                         Mlog.e("uploadBoardContent","image upload failed");
                         return;
