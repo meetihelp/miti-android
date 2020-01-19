@@ -112,6 +112,8 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
                                 }else if(NewMessage.type.contains("image")){
                                     MainActivity.messageRqViewModel.insert(MessageRq.setImage(temp.Phone,temp.Name,NewMessage.data));
                                 }
+                            }else if(from.contains("chat")){
+                                MainActivity.messageRqViewModel.insert(MessageRq.setText(temp.Phone,temp.Name,"This is a system generated message"));
                             }
                         }
                         Navigation.findNavController(NewMessage.v).navigate(R.id.action_newMessage_to_messageRequest);

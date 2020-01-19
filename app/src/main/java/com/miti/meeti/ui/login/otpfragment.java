@@ -134,6 +134,9 @@ public class otpfragment extends Fragment implements View.OnClickListener {
         OTP.response_object value1=SendOTP(otp);
         int moveTo=value1.MoveTo;
         int value=value1.Code;
+        if(value==1401){
+            ToastHelper.ToastFun(v.getContext(),"Wrong otp");
+        }
         Mlog.e("Send otp ka return value-"+Integer.toString(value));
         if(moveTo==4){
             Navigation.findNavController(v1).navigate(R.id.action_otpfragment2_to_profile_creation);

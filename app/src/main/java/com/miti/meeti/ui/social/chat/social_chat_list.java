@@ -126,7 +126,11 @@ public class social_chat_list extends Fragment {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v1) {
-                Navigation.findNavController(v).navigate(R.id.action_move_to_newMessage);
+                Bundle bundle1=new Bundle();
+                bundle1.putString("from","chat");
+                bundle1.putString("type","text");
+                bundle1.putString("content","hi");
+                Navigation.findNavController(v).navigate(R.id.action_move_to_newMessage,bundle1);
             }
         });
 //        dialogsList = v.findViewById(R.id.dialogsList);

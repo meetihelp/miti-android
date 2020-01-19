@@ -30,4 +30,14 @@
 
     <string name="channel_name">MEETiApp</string>
     <string name="channel_description">Defaultnotify</string>
+    <string-array name="Gender">
+        <item>Cisgender</item>
+        <item>Transgender</item>
+        <item>Fluid</item>
+    </string-array>
+    <string-array name="Sex">
+        <item>Female</item>
+        <item>Male</item>
+        <item>Intersex</item>
+    </string-array>
 </resources>

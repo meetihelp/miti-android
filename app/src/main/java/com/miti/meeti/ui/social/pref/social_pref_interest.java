@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.miti.meeti.NetworkObjects.GenericResponse;
 import com.miti.meeti.NetworkObjects.PrefInterest;
 import com.miti.meeti.R;
 import com.miti.meeti.apicompat.mitihelper;
@@ -27,6 +28,7 @@ import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.Logging.Mlog;
+import com.miti.meeti.mitiutil.network.RequestHelper;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
 import java.util.ArrayList;
@@ -191,9 +193,29 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         cookieViewModel= ViewModelProviders.of(this).get(CookieViewModel.class);
         String MeetiCookie= cookieViewModel.getCookie1();
         InterestPost request=new InterestPost();
-        request.execute("updatePreference",data,MeetiCookie);
         kvm.insert(new keyvalue("updatePreference"+Integer.toString(count+1),data));
-        return 1;
+        try{
+            RequestHelper requestHelper=request.execute("updatePreference",data,MeetiCookie).get();
+            if(requestHelper==null){
+                ToastHelper.ToastFun(v1.getContext(),"Error try again");
+                return -1;
+            }
+            Gson gsonx=new Gson();
+            GenericResponse gn=gsonx.fromJson(requestHelper.getData(),GenericResponse.class);
+            if(gn==null){
+                ToastHelper.ToastFun(v1.getContext(),"Error try again");
+                return -1;
+            }
+            if(gn.Code==200){
+                return 1;
+            }else{
+                ToastHelper.ToastFun(v1.getContext(),gn.Message);
+                return -1;
+            }
+        }catch (Exception e){
+            ToastHelper.ToastFun(v1.getContext(),"Error try again");
+            return -1;
+        }
     }
     @Override
     public void onClick(View v) {
@@ -207,13 +229,14 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
             }
         }
         if(count==5){
-            check_send();
-            for(int i=1;i<7;i++){
-                Mlog.e(kvm.get("updatePreference"+Integer.toString(i)).mitivalue);
+            if(check_send()==-1){
+                return;
             }
             Navigation.findNavController(v).navigate(R.id.action_social_pref_interest2_to_mainActivity);
         }else{
-            check_send();
+            if(check_send()==-1){
+                return;
+            }
             count=count+1;
             this.createScreen(count);
         }

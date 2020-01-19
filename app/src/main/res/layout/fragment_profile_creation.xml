@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/mitiPrimaryBlue"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 <LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_marginTop="50dp"
     android:layout_height="wrap_content"
     tools:context=".ui.login.profile_creation"
-    android:gravity="center"
+    android:gravity="center_vertical"
     android:orientation="vertical">
     <!-- TODO: Update blank fragment layout -->
     <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +61,7 @@
         app:boxStrokeColor="@color/mitiOrange"
         android:layout_marginBottom="10dp"
         android:textColorHint="@color/white"
-        android:hint="Job">
+        android:hint="Profession">
 
         <com.google.android.material.textfield.TextInputEditText
             android:textColor="@color/mitiTextBlue"
@@ -69,70 +71,31 @@
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/miti_p_gender"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+
+    <Spinner
+        android:id="@+id/sex_spinner"
         android:layout_width="314dp"
-        android:layout_height="57dp"
-        android:layout_gravity="center"
-        app:boxStrokeColor="@color/mitiOrange"
+        android:spinnerMode="dialog"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:textColorHint="@color/white"
-        android:hint="Gender">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:textColor="@color/mitiTextBlue"
-            android:id="@+id/miti_p_gender_text"
-            android:inputType="text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/miti_p_lang"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:entries="@array/Sex"
+        android:layout_height="wrap_content" />
+    <Spinner
+        android:id="@+id/gender_spinner"
         android:layout_width="314dp"
-        android:layout_height="57dp"
-        android:layout_gravity="center"
-        app:boxStrokeColor="@color/mitiOrange"
+        android:spinnerMode="dialog"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:textColorHint="@color/white"
-        android:hint="Language">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:textColor="@color/mitiTextBlue"
-            android:id="@+id/miti_p_lang_text"
-            android:inputType="text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/miti_p_country"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="314dp"
-        android:layout_height="57dp"
-        android:layout_gravity="center"
-        app:boxStrokeColor="@color/mitiOrange"
-        android:layout_marginBottom="10dp"
-        android:textColorHint="@color/white"
-        android:hint="Country">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:textColor="@color/mitiTextBlue"
-            android:id="@+id/miti_p_country_text"
-            android:inputType="text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:entries="@array/Gender"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/profile_submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Button" />
+        android:text="Submit" />
 
 </LinearLayout>
 </ScrollView>

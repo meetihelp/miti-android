@@ -10,7 +10,9 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -21,6 +23,10 @@ import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +49,8 @@ public class profile_creation extends Fragment implements View.OnClickListener {
     private CookieViewModel cvm;
     private KeyvalueViewModel kvm;
     private OnFragmentInteractionListener mListener;
-
+    private Spinner spinner;
+    private Spinner spinner1;
     public profile_creation() {
         // Required empty public constructor
     }
@@ -81,6 +88,10 @@ public class profile_creation extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         v1=inflater.inflate(R.layout.fragment_profile_creation, container, false);
         Button b=v1.findViewById(R.id.profile_submit_button);
+        spinner = (Spinner) v1.findViewById(R.id.sex_spinner);
+        spinner.setPrompt("Sex");
+        spinner1 = (Spinner) v1.findViewById(R.id.gender_spinner);
+        spinner1.setPrompt("Gender");
         cvm= ViewModelProviders.of(this).get(CookieViewModel.class);
         kvm= ViewModelProviders.of(this).get(KeyvalueViewModel.class);
         b.setOnClickListener(this);
@@ -89,19 +100,28 @@ public class profile_creation extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         TextView t1=v1.findViewById(R.id.miti_p_name_text);
-        String s1=t1.getText().toString();
+        String s1=t1.getText().toString().trim();
+        if(s1.length()==0){
+            ToastHelper.ToastFun(v.getContext(),"Please fill name");
+            return;
+        }
         t1=v1.findViewById(R.id.miti_p_dob_text);
-        String s3=t1.getText().toString();
+        String s3=t1.getText().toString().trim();
+        try{
+            Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(s3);
+        }catch (Exception e){
+            ToastHelper.ToastFun(v.getContext(),"Please fill dob in this format dd-MM-yyyy");
+            return;
+        }
         t1=v1.findViewById(R.id.miti_p_job_text);
-        String s5=t1.getText().toString();
-        t1=v1.findViewById(R.id.miti_p_gender_text);
-        String s4=t1.getText().toString();
-        t1=v1.findViewById(R.id.miti_p_lang_text);
-        String s6=t1.getText().toString();
-        t1=v1.findViewById(R.id.miti_p_country_text);
-        String s2=t1.getText().toString();
+        String s5=t1.getText().toString().trim();
+        if(s5.length()==0){
+            ToastHelper.ToastFun(v.getContext(),"Please fill profession");
+            return;
+        }
         Gson gson = new Gson();
-        UserProfile.request_body temp=new UserProfile().new request_body(s1,s3,s5,s4,s6,s2);
+        UserProfile.request_body temp=new UserProfile().new request_body(s1,s3,s5,spinner1.getSelectedItem().toString(),"English","India",
+                spinner.getSelectedItem().toString());
         String jsonInString = gson.toJson(temp);
         RequestHelper requestHelper;
         ProfilePostRequest postRequest=new ProfilePostRequest();

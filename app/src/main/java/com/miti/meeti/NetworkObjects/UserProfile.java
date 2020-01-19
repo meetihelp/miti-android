@@ -16,14 +16,16 @@ public class UserProfile {
         String Gender;
         String Language;
         String Country;
+        String Sex;
         public request_body(String name,String dateOfBirth,String job, String gender,String language
-        ,String country){
+        ,String country,String sex){
             this.Name=name;
             this.DateOfBirth=dateOfBirth;
             this.Job=job;
             this.Gender=gender;
             this.Language=language;
             this.Country=country;
+            this.Sex=sex;
         }
     }
     public class response_body{

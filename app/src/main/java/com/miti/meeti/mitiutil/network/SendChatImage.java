@@ -24,7 +24,7 @@ import okhttp3.Response;
 public class SendChatImage extends AsyncTask<String, Void, String> {
     //param0 suburl, param1 fileaddress, param2 filename, param3 requestid, param4 public, parms5 createdat,
     // param6 cookie, params 7
-    public String url="https://api.meeti.club:8000/";
+    public String url="https://api.meeti.club:9000/";
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

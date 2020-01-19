@@ -19,7 +19,7 @@ public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHe
     public static final String REQUEST_METHOD = "GET";
     public static final int READ_TIMEOUT = 15000;
     public static final int CONNECTION_TIMEOUT = 15000;
-    public static final String Domain="https://api.meeti.club:8000";
+    public static final String Domain="https://api.meeti.club:9000";
     public void helper(HashMap<String,String>temp){
 
     }

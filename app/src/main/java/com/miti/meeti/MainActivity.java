@@ -225,13 +225,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         locationhelper();
         Airhelper();
         MitiService mitiService=new MitiService(1);
-//        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
-//        mitiService.schedule(new ChatSync(),0,60, TimeUnit.SECONDS);
-//        mitiService.schedule(new DownloadChatImage(),0,60, TimeUnit.SECONDS);
-//        mitiService.schedule(new SecuritySync(),0,60, TimeUnit.SECONDS);
+        mitiService.schedule(new UpdateChatlist(),0,120, TimeUnit.SECONDS);
+        mitiService.schedule(new ChatSync(),0,60, TimeUnit.SECONDS);
+        mitiService.schedule(new DownloadChatImage(),0,60, TimeUnit.SECONDS);
+        mitiService.schedule(new SecuritySync(),0,60, TimeUnit.SECONDS);
         mitiService.schedule(new DiarySync(),0,120, TimeUnit.SECONDS);
-//        mitiService.schedule(new MessageRequestSync(),0,60,TimeUnit.SECONDS);
-//        mitiService.schedule(new GetMessageRequestSync(),0,60,TimeUnit.SECONDS);
+        mitiService.schedule(new MessageRequestSync(),0,120,TimeUnit.SECONDS);
+        mitiService.schedule(new GetMessageRequestSync(),0,120,TimeUnit.SECONDS);
         if(!isMyServiceRunning(SendLoc.class)){
             Mlog.e("Service started");
             startService(new Intent(getApplicationContext(), SendLoc.class));
