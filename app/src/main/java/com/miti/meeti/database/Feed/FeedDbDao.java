@@ -16,7 +16,7 @@ public interface FeedDbDao {
     @Query("Update Feed set Thought=:thought,Sync=0 where Id=:id")
     public void reaction(String thought,int id);
 
-    @Query("Select * from Feed")
+    @Query("Select * from Feed order by UserCreatedAt desc")
     public LiveData<List<FeedDb>>getall();
 
     @Query("Select * from Feed order by Id desc limit 1")

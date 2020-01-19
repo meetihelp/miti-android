@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.util.Log;
@@ -46,9 +47,12 @@ public class newfeed extends Fragment{
     private Handler mWaitHandler = new Handler();
     private OnFragmentInteractionListener mListener;
     boolean isLoading = false;
+    public static Boolean autism=false;
     public static CookieViewModel cvm;
     public static KeyvalueViewModel kvm;
     private String cookie;
+    public static SwipeRefreshLayout swipeRefreshLayout;
+    private FeedAdapter feedAdapter;
     public static View progress;
     public newfeed() {
         // Required empty public constructor
@@ -65,24 +69,31 @@ public class newfeed extends Fragment{
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         v=inflater.inflate(R.layout.fragment_newfeed, container, false);
+        swipeRefreshLayout=v.findViewById(R.id.newfeed_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadNextDataFromApi();
+            }
+        });
         progress=v.findViewById(R.id.progressBar2);
         progress.setVisibility(View.GONE);
         cvm= MainActivity.cookieViewModel;
         kvm=ViewModelProviders.of(this).get(KeyvalueViewModel.class);
-        cookie=cvm.getCookie1();
+        cookie=MainActivity.MeetiCookie;
         if(kvm.get("userid")==null){
             GETid.getid(cookie);
         }
         recyclerView=v.findViewById(R.id.feed_recyclerview);
         LinearLayoutManager llm=new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(llm);
-        final FeedAdapter feedAdapter = new FeedAdapter();
+        feedAdapter = new FeedAdapter();
         scrollListener = new EndlessRecyclerViewScrollListener(llm) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                loadNextDataFromApi(page);
+//                loadNextDataFromApi(page);
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
@@ -117,7 +128,7 @@ public class newfeed extends Fragment{
         super.onDetach();
         mListener = null;
     }
-    public void loadNextDataFromApi(int offset) {
+    public void loadNextDataFromApi() {
         Log.e("Control","loadnextmeaayamain");
         FeedRequest.getlaternews(cookie);
     }
@@ -139,16 +150,18 @@ public class newfeed extends Fragment{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.autismfont:
-                Typeface font = ResourcesCompat.getFont(v.getContext(),R.font.popcorn);
-                Typeface font1 = ResourcesCompat.getFont(v.getContext(),R.font.pacifico);
-                TextView tv1=v.findViewById(R.id.feed_heading);
-                TextView tv2=v.findViewById(R.id.feed_text);
-                tv1.setTypeface(font1);
-                tv2.setTypeface(font);
-                Drawable drawable = item.getIcon();
-                drawable = DrawableCompat.wrap(drawable);
-                DrawableCompat.setTint(drawable, ContextCompat.getColor(v.getContext(),R.color.mitiOrange));
-                item.setIcon(drawable);
+                if(!autism){
+                    Drawable drawable = item.getIcon();
+                    drawable = DrawableCompat.wrap(drawable);
+                    DrawableCompat.setTint(drawable, ContextCompat.getColor(v.getContext(),R.color.mitiOrange));
+                    item.setIcon(drawable);
+                }else{
+                    Drawable drawable = item.getIcon().mutate();
+                    drawable.setColorFilter(null);
+                    item.setIcon(drawable);
+                }
+                autism=!autism;
+                feedAdapter.notifyDataSetChanged();
                 return true;
             case R.id.actionview_miti_utility:
                 Navigation.findNavController(v).navigate(R.id.action_move_to_utility);

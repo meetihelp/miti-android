@@ -10,6 +10,7 @@ public class FeedDb {
     @NonNull
     public int Id;
     public String Summary;
+    public String UserCreatedAt;
     public String Sentiment;
     public String Location;
     public String Event;

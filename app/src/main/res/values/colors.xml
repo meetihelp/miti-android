@@ -20,4 +20,6 @@
 
     <color name="mitiOrange" tools:override="true">#FF851B</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/mitiOrange</color>
+
+    <color name="transparentx">@color/transparent</color>
 </resources>

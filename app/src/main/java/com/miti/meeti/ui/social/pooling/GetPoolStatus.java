@@ -6,24 +6,27 @@ import androidx.navigation.Navigation;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.Mitigps;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.network.GETRequest;
 import com.miti.meeti.mitiutil.network.Keyvalue;
+import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 import com.miti.meeti.ui.social.SocialFragment;
 
 import static com.miti.meeti.ui.social.SocialFragment.tempd;
 
-public class GetPoolStatus extends GETRequest {
+public class GetPoolStatus extends POSTRequest {
     Gson gson=new Gson();
     public static void helper(){
+        Gson gson=new Gson();
         GetPoolStatus getPoolStatus=new GetPoolStatus();
-        getPoolStatus.execute(Keyvalue.GetHashMap(new Keyvalue("url","/getPoolStatus"),
-                    new Keyvalue("Miti-Cookie", MainActivity.MeetiCookie)));
-
+        try{
+            RequestHelper requestHelper=getPoolStatus.execute("getPoolStatus",gson.toJson(new Mitigps(MainActivity.Latitude,MainActivity.Longitude)),MainActivity.MeetiCookie).get();
+        }catch (Exception e){}
 
     }
     public class response{

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
 
 /**
@@ -55,6 +56,8 @@ public class UtilFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        MainActivity.toolbar_text.setText("Utility");
+        MainActivity.SetNavigationVisibiltity(false);
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -78,6 +81,8 @@ public class UtilFragment extends Fragment {
 
     @Override
     public void onDetach() {
+        MainActivity.toolbar_text.setText("MEETi");
+        MainActivity.SetNavigationVisibiltity(true);
         super.onDetach();
         mListener = null;
     }

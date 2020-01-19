@@ -136,7 +136,16 @@
         android:id="@+id/newMessage"
         android:name="com.miti.meeti.ui.social.messageRequest.NewMessage"
         android:label="fragment_new_message"
-        tools:layout="@layout/fragment_new_message" />
+        tools:layout="@layout/fragment_new_message" >
+        <action
+            android:id="@+id/action_newMessage_to_social_chat_content"
+            app:destination="@id/social_chat_content"
+            app:popUpTo="@+id/miti_newsfeed" />
+        <action
+            android:id="@+id/action_newMessage_to_messageRequest"
+            app:destination="@id/messageRequest"
+            app:popUpTo="@+id/miti_newsfeed" />
+    </fragment>
     <action
         android:id="@+id/action_move_to_newMessage"
         app:destination="@id/newMessage"
@@ -146,10 +155,19 @@
         android:id="@+id/messageRequest"
         android:name="com.miti.meeti.ui.social.messageRequest.MessageRequest"
         android:label="fragment_message_request"
-        tools:layout="@layout/fragment_message_request" />
+        tools:layout="@layout/fragment_message_request" >
+        <action
+            android:id="@+id/action_messageRequest_to_acceptReject"
+            app:destination="@id/acceptReject" />
+    </fragment>
     <action
         android:id="@+id/action_move_to_messageRequest"
         app:destination="@id/messageRequest"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim" />
+    <fragment
+        android:id="@+id/acceptReject"
+        android:name="com.miti.meeti.ui.social.messageRequest.AcceptReject"
+        android:label="fragment_accept_reject"
+        tools:layout="@layout/fragment_accept_reject" />
 </navigation>

@@ -253,7 +253,10 @@ public class PrivacyFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        moodboardAdapter.selected=-1;
+        if(moodboardAdapter!=null){
+            moodboardAdapter.selected=-1;
+        }
+
         if(actionMode!=null){
             actionMode.finish();
         }
@@ -314,8 +317,20 @@ public class PrivacyFragment extends Fragment {
                     return true;
 
                 case R.id.action_share:
+                    Bundle bundle=new Bundle();
+                    String type;
+                    String contentx=new String();
+                    Moodboard x=allxy.get(moodboardAdapter.position);
+                    bundle.putString("type",x.Mimetype);
+                    if(x.Mimetype.contains("text")){
+                        contentx=x.Content;
+                    }else if(x.Mimetype.contains("image")){
+                        contentx=x.ImagePath;
+                    }
+                    bundle.putString("content",contentx);
+                    bundle.putString("from","mood");
                     reset();
-                    Navigation.findNavController(v).navigate(R.id.action_move_to_newMessage);
+                    Navigation.findNavController(v).navigate(R.id.action_move_to_newMessage,bundle);
                     Mlog.e("share called");
                     return true;
 

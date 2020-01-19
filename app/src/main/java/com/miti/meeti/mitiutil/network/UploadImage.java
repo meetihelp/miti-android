@@ -23,7 +23,7 @@ import okhttp3.Response;
 
     public class UploadImage extends AsyncTask<String, Void, String> {
         //param0 suburl, param1 fileaddress, param2 filename, param3 requestid, param4 public
-        public String url="http://meeti.club:8000/";
+        public String url="https://api.meeti.club:8000/";
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -49,8 +49,8 @@ import okhttp3.Response;
                     .addHeader("Access-Type", params[4])
                     .addHeader("Actual-Filename", params[2])
                     .addHeader("Format", "jpg")
-                    .addHeader("Latitude", "1.00556481")
-                    .addHeader("Longitude", "1.0486194")
+                    .addHeader("Latitude", MainActivity.Latitude)
+                    .addHeader("Longitude", MainActivity.Longitude)
                     .addHeader("Request-Id", params[3])
                     .addHeader("Content-Type", "multipart/form-data; boundary=--------------------------539616771520821553345336")
                     .build();

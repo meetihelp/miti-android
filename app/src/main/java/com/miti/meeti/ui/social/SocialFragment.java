@@ -80,6 +80,8 @@ public class SocialFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.toolbar_text.setText("Social");
+        MainActivity.SetNavigationVisibiltity(false);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -134,6 +136,8 @@ public class SocialFragment extends Fragment {
 
     @Override
     public void onDetach() {
+        MainActivity.toolbar_text.setText("MEETi");
+        MainActivity.SetNavigationVisibiltity(true);
         super.onDetach();
         mListener = null;
     }

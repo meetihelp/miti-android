@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ import com.miti.meeti.database.Contact.ContactDb;
 import com.miti.meeti.database.Contact.ContactDbViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.try123;
+import com.miti.meeti.mitiutil.uihelper.InfoDialog;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
 import java.util.ArrayList;
@@ -66,6 +69,7 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
 //    private static Button mButtonFriends;
     private static Button mDialogCloseButton;
     private static LinearLayout linearLayout;
+    private FragmentActivity myContext;
     private static int trustChainId=0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -103,6 +107,8 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.toolbar_text.setText("Security");
+        MainActivity.SetNavigationVisibiltity(false);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -114,13 +120,21 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final ContactDbViewModel contactDbViewModel= MainActivity.contactDbViewModel;
-        View view= inflater.inflate(R.layout.fragment_security, container, false);
+        final View view= inflater.inflate(R.layout.fragment_security, container, false);
+        ImageButton ib=view.findViewById(R.id.help);
+        ib.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String help="Add people who are closer to place where you live. If you click on the red button four times withing three seconds then your last known location will be sent to all the people in primary trust group.";
+                String help1="There is also a sneak mode. If you click on power button four times within three seconds then also your location will be sent, provided your app is running in background.";
+                InfoDialog inf=new InfoDialog(help+help1);
+                inf.show(myContext.getSupportFragmentManager(),"hithere");
+            }
+        });
         v23=view;
         LiveData<List<ContactDb>>all=contactDbViewModel.getAll();
         final Dialog dialog=new Dialog(view.getContext(),R.style.CustomDialog);
         dialog.setContentView(R.layout.security_dialog_content);
-//
-//
         recyclerView=(RecyclerView)dialog.findViewById(R.id.recyclerView);
         UserInput=(EditText)dialog.findViewById(R.id.txtName);
         mChipGroupFamily=(ChipGroup)view.findViewById(R.id.chipGroupFamily);
@@ -223,6 +237,8 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
 //    }
     @Override
     public void onDetach() {
+        MainActivity.toolbar_text.setText("MEETi");
+        MainActivity.SetNavigationVisibiltity(true);
         super.onDetach();
         mListener = null;
     }
@@ -242,6 +258,11 @@ public class SecurityFragment extends Fragment implements  View.OnClickListener 
         void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        myContext=(FragmentActivity)context;
+        super.onAttach(context);
+    }
 
 //    public static void onItemSelected(ContactDb contact) {
 //        Chip chip=new Chip(v23.getContext());

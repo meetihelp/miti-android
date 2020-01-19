@@ -2,6 +2,7 @@ package com.miti.meeti;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,15 +19,19 @@ import android.os.Build;
 import android.os.Bundle;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.miti.meeti.MitiExecutors.MitiRunnables.ChatSync;
 import com.miti.meeti.MitiExecutors.MitiRunnables.DiarySync;
 import com.miti.meeti.MitiExecutors.MitiRunnables.DownloadChatImage;
+import com.miti.meeti.MitiExecutors.MitiRunnables.GetMessageRequestSync;
+import com.miti.meeti.MitiExecutors.MitiRunnables.MessageRequestSync;
 import com.miti.meeti.MitiExecutors.MitiRunnables.SecuritySync;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatMessages;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatlist;
 import com.miti.meeti.MitiExecutors.MitiService;
 import com.miti.meeti.NetworkObjects.Mitigps;
+import com.miti.meeti.apicompat.mitihelper;
 import com.miti.meeti.bottomnav.CurvedBottomNavigationView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -48,9 +53,12 @@ import com.miti.meeti.database.Diary.MoodboardViewModel;
 import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.database.Keyvalue.keyvalue;
+import com.miti.meeti.database.Request.MessageRqViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.Keyvalue;
 import com.miti.meeti.mitiutil.uihelper.PermissionHelper;
+import com.miti.meeti.mitiutil.uihelper.ToastHelper;
+import com.miti.meeti.ui.security.AlertPOST;
 import com.zhihu.matisse.Matisse;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -59,6 +67,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Environment;
+import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,14 +100,21 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static FeedViewModel feedViewModel;
     public static ChatListDbViewModel chatListDbViewModel;
     public static ChatDbViewModel chatDbViewModel;
+    public static MessageRqViewModel messageRqViewModel;
     public static Toolbar toolbar;
+    public static int no_of_clicks=0;
     public static ContactDbViewModel contactDbViewModel;
     private static AppBarLayout appBarLayout;
-    private LocationManager locationManager;
     public static String RootFolder;
     public static String MeetiCookie;
+    public static String Latitude;
+    public static String Longitude;
+    public FloatingActionButton fabx;
+    public LocationManager locationManager;
     public static Context MainActivityContext;
     public static TextView toolbar_text;
+    private Handler mHandler;
+    private int mInterval = 50000;
     public static void SetNavigationVisibiltity (boolean b) {
         if (b) {
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -128,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         chatListDbViewModel=ViewModelProviders.of(this).get(ChatListDbViewModel.class);
         chatDbViewModel=ViewModelProviders.of(this).get(ChatDbViewModel.class);
         contactDbViewModel=ViewModelProviders.of(this).get(ContactDbViewModel.class);
+        messageRqViewModel=ViewModelProviders.of(this).get(MessageRqViewModel.class);
         MeetiCookie=cookieViewModel.getCookie1();
         MainActivityContext=this;
         if(temp){
@@ -183,16 +201,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         toolbar_text=findViewById(R.id.toolbar_title);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        fabx=findViewById(R.id.fabnew);
+        fabx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redbuttonhelper();
+            }
+        });
 //        getSupportActionBar().setHomeButtonEnabled(true);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        mAppBarConfiguration = new AppBarConfiguration.Builder(
-//                 R.id.miti_newsfeed, R.id.miti_social,
-//                R.id.miti_security, R.id.miti_privacy, R.id.miti_utility)
-//                .setDrawerLayout(drawer)
-//                .build();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -202,54 +218,25 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 navController.navigateUp();
             }
         });
-//        NavigationUI.setupActionBarWithNavController(this,navController);
-//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
-//        CurvedBottomNavigationView curvedBottomNavigationView = findViewById(R.id.customBottomBar);
-//        curvedBottomNavigationView.inflateMenu(R.menu.activity_main_drawer1);
         bottomNavigationView = findViewById(R.id.customBottomBar);
         bottomNavigationView.inflateMenu(R.menu.activity_main_drawer1);
         NavigationUI.setupWithNavController(bottomNavigationView,
                 navController);
-        AirLocation airLocation = new AirLocation(this, true, true, new AirLocation.Callbacks() {
-            @Override
-            public void onSuccess(@NotNull Location location) {
-                Mlog.e("mumalocationSuccess",location.toString());
-            }
-
-            @Override
-            public void onFailed(@NotNull AirLocation.LocationFailedEnum locationFailedEnum) {
-                // do something
-                Mlog.e("mumalocationfailed");
-            }
-        });
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        try{
-            Location loc =  locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-            if(loc!=null){
-                Mlog.e("loc not null");
-                Mitigps gps=new Mitigps(new Double(loc.getLatitude()).toString(),new Double(loc.getLongitude()).toString());
-                keyvalue kv=new keyvalue("gps",new Gson().toJson(gps));
-
-                keyvalueViewModel.insert(kv);
-            }else{
-                Mlog.e("loc null");
-            }
-
-        }catch (SecurityException e){
-            Mlog.e(e);
-        }
+        locationhelper();
+        Airhelper();
         MitiService mitiService=new MitiService(1);
 //        mitiService.schedule(new UpdateChatlist(),0,60, TimeUnit.SECONDS);
 //        mitiService.schedule(new ChatSync(),0,60, TimeUnit.SECONDS);
 //        mitiService.schedule(new DownloadChatImage(),0,60, TimeUnit.SECONDS);
 //        mitiService.schedule(new SecuritySync(),0,60, TimeUnit.SECONDS);
-        mitiService.schedule(new DiarySync(),0,10, TimeUnit.SECONDS);
+        mitiService.schedule(new DiarySync(),0,120, TimeUnit.SECONDS);
+//        mitiService.schedule(new MessageRequestSync(),0,60,TimeUnit.SECONDS);
+//        mitiService.schedule(new GetMessageRequestSync(),0,60,TimeUnit.SECONDS);
         if(!isMyServiceRunning(SendLoc.class)){
             Mlog.e("Service started");
-//            startService(new Intent(getApplicationContext(), SendLoc.class));
+            startService(new Intent(getApplicationContext(), SendLoc.class));
         }else{
-//            Mlog.e("Service already running");
+            Mlog.e("Service already running");
             stopService(new Intent(getApplicationContext(), SendLoc.class));
         }
     }
@@ -276,28 +263,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onStatusChanged(String provider, int status, Bundle extras) {
         Log.d("Latitude","status");
     }
-
-    private void showGPSDisabledAlertToUser(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Goto Settings Page To Enable GPS",
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int id){
-                                Intent callGPSSettingIntent = new Intent(
-                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(callGPSSettingIntent);
-                            }
-                        });
-        alertDialogBuilder.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
-    }
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -306,5 +271,103 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         }
         return false;
+    }
+    public static void Airhelper(){
+        new AirLocation((Activity)MainActivityContext, true, true, new AirLocation.Callbacks() {
+            @Override
+            public void onSuccess(@NotNull Location location) {
+                if(mitihelper.isMockLocationOn(location,MainActivity.MainActivityContext)){
+                    killswitch();
+                }else{
+                    Latitude=new Double(location.getLatitude()).toString();
+                    Longitude=new Double(location.getLongitude()).toString();
+                    Mitigps gps=new Mitigps(Latitude,Longitude);
+                    keyvalue kv=new keyvalue("gps",new Gson().toJson(gps));
+                    keyvalueViewModel.insert(kv);
+                }
+                Mlog.e("mumalocationSuccess",location.toString());
+            }
+
+            @Override
+            public void onFailed(@NotNull AirLocation.LocationFailedEnum locationFailedEnum) {
+                // do something
+                Mlog.e("mumalocationfailed");
+            }
+        });
+    }
+    public static void killswitch(){
+//        ToastHelper.ToastFun(MainActivity.MainActivityContext,"Please close fake location");
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                android.os.Process.killProcess(android.os.Process.myPid());
+//            }
+//        }, 5000);
+    }
+    public void locationhelper(){
+        keyvalue gpsx=keyvalueViewModel.get("gps");
+        if(gpsx!=null){
+            Mitigps gpst=new Gson().fromJson(gpsx.mitivalue,Mitigps.class);
+            Latitude=gpst.Latitude;
+            Longitude=gpst.Longitude;
+            Mlog.e("MainActiviy",gpsx.mitivalue);
+        }else{
+            locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            try{
+                Location loc =  locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if(loc!=null){
+                    if(mitihelper.isMockLocationOn(loc,MainActivity.MainActivityContext)){
+                        killswitch();
+                    }else{
+                        Latitude=new Double(loc.getLatitude()).toString();
+                        Longitude=new Double(loc.getLongitude()).toString();
+                    }
+                }else{
+                    loc =  locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+                    if(mitihelper.isMockLocationOn(loc,MainActivity.MainActivityContext)){
+                        killswitch();
+                    }else{
+                        Latitude=new Double(loc.getLatitude()).toString();
+                        Longitude=new Double(loc.getLongitude()).toString();
+                    }
+                }
+            }catch (SecurityException e){
+
+            }
+        }
+    }
+    public static void redbuttonhelper(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                no_of_clicks=0;
+            }
+        }, 3000);
+        no_of_clicks=no_of_clicks+1;
+        if(no_of_clicks==4){
+            AlertPOST.helper1();
+            ToastHelper.ToastFun(MainActivityContext,"LocationSent");
+        }else{
+            ToastHelper.ToastFun(MainActivityContext,Integer.toString(4-no_of_clicks)+" more");
+        }
+        Airhelper();
+    }
+    public static void redbuttonhelper1(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                no_of_clicks=0;
+            }
+        }, 3000);
+        no_of_clicks=no_of_clicks+1;
+        if(no_of_clicks==4){
+            AlertPOST.helper1();
+            ToastHelper.ToastFun(MainActivityContext,"LocationSent");
+        }else{
+        }
+        Airhelper();
     }
 }

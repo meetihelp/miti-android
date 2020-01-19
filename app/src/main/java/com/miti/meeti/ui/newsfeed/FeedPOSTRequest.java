@@ -10,8 +10,13 @@ import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
+import com.miti.meeti.mitiutil.try123;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.miti.meeti.ui.newsfeed.newfeed.progress;
+import static com.miti.meeti.ui.newsfeed.newfeed.swipeRefreshLayout;
 
 public class FeedPOSTRequest extends POSTRequest {
     @Override
@@ -21,15 +26,24 @@ public class FeedPOSTRequest extends POSTRequest {
 
     @Override
     protected void onPostExecute(RequestHelper result) {
+        if(result==null){
+            return;
+        }
 //        super.onPostExecute(result);
         Gson gson = new Gson();
         try{
             Feed.response_object tempqw=gson.fromJson(result.getData(), Feed.response_object.class);
-            newfeed.feedViewModel.insert(tempqw.NewsData.toArray(new FeedDb[tempqw.NewsData.size()]));
+            if(tempqw==null){return;}
+            List<FeedDb>temp=new ArrayList<>();
+            for(FeedDb tempx:tempqw.NewsData){
+                tempx.UserCreatedAt= try123.mitidt();
+                temp.add(tempx);
+            }
+            newfeed.feedViewModel.insert(temp.toArray(new FeedDb[temp.size()]));
         }catch (Exception e){
 
         }
-        progress.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
         Mlog.e("Recycler view changed");
     }
 }

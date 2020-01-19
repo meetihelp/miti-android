@@ -29,4 +29,7 @@ public interface MoodboardDao {
 
     @Delete
     public void delete(Moodboard ...moodboards);
+
+    @Query("Select * from Moodboard order by CreatedAt desc limit 1")
+    public Moodboard getmax();
 }

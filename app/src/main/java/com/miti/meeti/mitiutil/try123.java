@@ -1,5 +1,6 @@
 package com.miti.meeti.mitiutil;
 
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 
 import java.io.File;
@@ -15,6 +16,13 @@ public class try123 {
             builder.append(ALPHA_NUMERIC_STRING.charAt(character));
         }
         return builder.toString();
+    }
+    public static String pathhelper(String subdir,String prefix){
+        String n= try123.randomAlphaNumeric(32);
+        String fname = prefix + n + ".jpg";
+        String path= MainActivity.RootFolder+ File.separator+subdir;
+        try123.createifnot(path);
+        return path+File.separator+fname;
     }
     public static String mitidt(){
         String mitidt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());

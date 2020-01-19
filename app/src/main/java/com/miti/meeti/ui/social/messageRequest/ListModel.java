@@ -7,6 +7,7 @@ import com.miti.meeti.mitiutil.try123;
 
 public class ListModel {
     public String ChatId;
+    public int Connection;
     public String Name;
     public String Phone;
     public ListModel(){}
@@ -18,10 +19,12 @@ public class ListModel {
             this.Name=temp.Name;
         }
         this.Phone=null;
+        this.Connection=1;
     }
     public ListModel(ContactDb temp){
         this.ChatId=null;
         this.Phone=temp.Phone;
         this.Name=temp.Name;
+        this.Connection=-1;
     }
 }

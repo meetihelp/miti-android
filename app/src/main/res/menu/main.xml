@@ -15,7 +15,7 @@
         android:title="Privacy"
         app:iconTint="@color/white"
         android:icon="@drawable/ic_menu_manage"
-        app:showAsAction="always"/>
+        app:showAsAction="collapseActionView"/>
     <item
         android:id="@+id/autismfont"
         android:orderInCategory="100"

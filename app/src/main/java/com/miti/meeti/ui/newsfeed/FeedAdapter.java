@@ -1,5 +1,6 @@
 package com.miti.meeti.ui.newsfeed;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,7 +81,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
                 String jsonInString=gson.toJson(response);
                 postRequest.execute("newsFeedReaction",jsonInString, MainActivity.cookieViewModel.getCookie1());
 //                chip.setChipIconTintResource(R.color.mitiRed);
-                ToastHelper.ToastFun(newfeed.v.getContext(),"Dis    Liked");
+                ToastHelper.ToastFun(newfeed.v.getContext(),"DisLiked");
 //                like.put(position,"dislike");
 //                notifyItemChanged(position);
             }
@@ -96,6 +98,21 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
                 holder.setUnset(1);
                 holder.setUnset(2);
             }
+        }
+        if(newfeed.autism){
+            Typeface font = ResourcesCompat.getFont(newfeed.v.getContext(),R.font.popcorn);
+            Typeface font1 = ResourcesCompat.getFont(newfeed.v.getContext(),R.font.pacifico);
+            TextView tv1=holder.temp2;
+            TextView tv2=holder.temp;
+            tv1.setTypeface(font1);
+            tv2.setTypeface(font);
+        }else{
+            Typeface font = ResourcesCompat.getFont(newfeed.v.getContext(),R.font.slabo_13px);
+            Typeface font1 = ResourcesCompat.getFont(newfeed.v.getContext(),R.font.montserrat);
+            TextView tv1=holder.temp2;
+            tv1.setTypeface(font);
+            TextView tv2=holder.temp;
+            tv2.setTypeface(font1);
         }
         Mlog.e(currentFeed.ImageURL);
         Glide.with(newfeed.v.getContext()).load(currentFeed.ImageURL).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.temp1);

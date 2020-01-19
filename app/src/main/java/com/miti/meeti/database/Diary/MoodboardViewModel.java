@@ -39,4 +39,5 @@ public class MoodboardViewModel extends AndroidViewModel {
     public void updateContent(String ...temp){
         moodboardRepository.updateContent(temp);
     }
+    public Moodboard getmax(){return moodboardRepository.getmax();}
 }

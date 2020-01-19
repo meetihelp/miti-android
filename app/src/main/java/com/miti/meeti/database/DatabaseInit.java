@@ -20,8 +20,10 @@ import com.miti.meeti.database.Feed.FeedDb;
 import com.miti.meeti.database.Feed.FeedDbDao;
 import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.database.Keyvalue.KeyvalueDao;
+import com.miti.meeti.database.Request.MessageRq;
+import com.miti.meeti.database.Request.MessageRqDao;
 
-@Database(entities = {Cookie.class, ChatDb.class, ChatListDb.class, keyvalue.class, Moodboard.class, FeedDb.class, ContactDb.class}, version = 1,exportSchema = false)
+@Database(entities = {Cookie.class, ChatDb.class, ChatListDb.class, keyvalue.class, Moodboard.class, FeedDb.class, ContactDb.class, MessageRq.class}, version = 1,exportSchema = false)
 public abstract class DatabaseInit extends RoomDatabase {
     private static DatabaseInit instance;
     public abstract CookieDao cookieDao();
@@ -31,6 +33,7 @@ public abstract class DatabaseInit extends RoomDatabase {
     public abstract MoodboardDao moodboardDao();
     public abstract FeedDbDao feedDbDao();
     public abstract ContactDbDao contactDbDao();
+    public abstract MessageRqDao messageRqDao();
     public static synchronized DatabaseInit getInstance(Context context) {
         if(instance==null){
             instance= Room.databaseBuilder(context.getApplicationContext(), DatabaseInit.class, "user-database")

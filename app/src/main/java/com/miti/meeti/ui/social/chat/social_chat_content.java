@@ -154,10 +154,8 @@ public class social_chat_content extends Fragment{
             public boolean onSubmit(CharSequence input) {
                 //validate and send message
                 if(mitilock){
-                    Author temp=new Author(userid,"","");
-                    String mitidt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-                    requestid=UUID.randomUUID().toString().replace("-","").substring(0,32);
-                    ChatDb chatDb=new ChatDb(userid,"text",input.toString(),requestid,chatid,mitidt,-1);
+                    //String userid, String chatid,String input
+                    ChatDb chatDb=chatdbhelper(userid,chatid,input.toString());
                     Message temp34=chathelper(chatDb);
                     add(chatDb);
                     chatDbViewModel.insertnew(chatDb);
@@ -180,7 +178,13 @@ public class social_chat_content extends Fragment{
         allchatsynchronized=allchat;
     }
     // TODO: Rename method, update argument and hook method into UI event
-
+    public static ChatDb chatdbhelper(String userid1, String chatid1,String input){
+        Author temp=new Author(userid1,"","");
+        String mitidt=try123.mitidt();
+        requestid=UUID.randomUUID().toString().replace("-","").substring(0,32);
+        ChatDb chatDb=new ChatDb(userid1,"text",input,requestid,chatid1,mitidt,-1);
+        return chatDb;
+    }
     @Override
     public void onDetach() {
         super.onDetach();

@@ -50,6 +50,9 @@ public class NewMessage extends Fragment {
     private RecyclerView recyclerView;
     private MessageListAdapter recyclerAdapter;
     public static View v;
+    public static String from;
+    public static String type;
+    public static String data;
     private List<ListModel>dataset=new ArrayList<>();
     private OnFragmentInteractionListener mListener;
 
@@ -95,11 +98,19 @@ public class NewMessage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Bundle bundle=getArguments();
+        if(bundle!=null){
+            from=bundle.getString("from");
+            type=bundle.getString("type");
+            data=bundle.getString("content");
+        }
         List<ChatListDb>temp=MainActivity.chatListDbViewModel.getold();
         for(ChatListDb tempx:temp){
             ListModel tempy=new ListModel(tempx);
             dataset.add(tempy);
         }
+
+
         List<ContactDb>tempz=getContact();
         for(ContactDb temp123:tempz){
             ListModel tempo=new ListModel(temp123);
@@ -114,7 +125,6 @@ public class NewMessage extends Fragment {
         recyclerView.setAdapter(recyclerAdapter);
         recyclerAdapter.setDataset(dataset);
         TextInputEditText UserInput=v.findViewById(R.id.list_search);
-        Bundle bundle=getArguments();
 //        String from=bundle.getString("from");
         UserInput.addTextChangedListener(new TextWatcher() {
             @Override

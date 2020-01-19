@@ -1,9 +1,9 @@
-package com.miti.meeti.mitiutil.network;
+package com.miti.meeti.MitiExecutors.MitiRunnables;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.miti.meeti.mitiutil.Logging.Mlog;
+import com.miti.meeti.mitiutil.network.RequestHelper;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,22 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHelper> {
+import static com.miti.meeti.mitiutil.network.GETRequest.CONNECTION_TIMEOUT;
+import static com.miti.meeti.mitiutil.network.GETRequest.READ_TIMEOUT;
+import static com.miti.meeti.mitiutil.network.GETRequest.REQUEST_METHOD;
+import static com.miti.meeti.mitiutil.network.GETRequest.Domain;
 
-    public static final String REQUEST_METHOD = "GET";
-    public static final int READ_TIMEOUT = 15000;
-    public static final int CONNECTION_TIMEOUT = 15000;
-    public static final String Domain="https://api.meeti.club:8000";
-    public void helper(HashMap<String,String>temp){
-
-    }
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
-    protected RequestHelper doInBackground(HashMap<String,String>... Has) {
+public class SimpleGET {
+    public RequestHelper execute(HashMap<String,String>... Has){
         HashMap<String,String> Dic=Has[0];
         Set<String> keys = Dic.keySet();
         String url =Domain+Dic.get("url");
@@ -70,10 +61,5 @@ public class GETRequest extends AsyncTask<HashMap<String,String>,Void, RequestHe
         }
         RequestHelper requestHelper=new RequestHelper(MitiCookie,result);
         return requestHelper;
-    }
-
-    @Override
-    protected void onPostExecute(RequestHelper result) {
-        super.onPostExecute(result);
     }
 }

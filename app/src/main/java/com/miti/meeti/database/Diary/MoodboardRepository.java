@@ -44,6 +44,14 @@ public class MoodboardRepository {
     public void updateContent(String ...temp){
         new UpdateContentmoodboardAsyncTask(moodboardDao).execute(temp);
     }
+    public Moodboard getmax(){
+        try{
+            return new GetMaxmoodboardAsyncTask(moodboardDao).execute().get();
+        }catch (Exception e){
+            return null;
+        }
+
+    }
     private static class DeletemoodboardAsyncTask extends AsyncTask<Moodboard, Void,Void> {
         private MoodboardDao moodboardDao;
         private DeletemoodboardAsyncTask(MoodboardDao moodboardDao){
@@ -109,6 +117,16 @@ public class MoodboardRepository {
         protected Void doInBackground(String ...temp) {
             moodboardDao.updateContent(temp[0],temp[1]);
             return null;
+        }
+    }
+    private static class GetMaxmoodboardAsyncTask extends AsyncTask<Void, Void,Moodboard> {
+        private MoodboardDao moodboardDao;
+        private GetMaxmoodboardAsyncTask(MoodboardDao moodboardDao){
+            this.moodboardDao=moodboardDao;
+        }
+        @Override
+        protected Moodboard doInBackground(Void ...temp) {
+            return moodboardDao.getmax();
         }
     }
 }
