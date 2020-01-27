@@ -3,12 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mitiPrimaryBlue"
+    android:gravity="center"
+    android:layout_weight="12"
     tools:context=".ui.privacy.FingerPaint">
 
     <!-- TODO: Update blank fragment layout -->
     <com.miti.meeti.mitiutil.uihelper.DrawingView
         android:id="@+id/drawing"
+        android:layout_weight="11"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Change color" />
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Save" />
 
 </LinearLayout>

@@ -25,7 +25,12 @@ public class DrawingView extends View {
     private Path circlePath;
     private Paint mPaint;
     public void setPaint(Paint p){
+
         this.mPaint=p;
+        if(mCanvas!=null){
+            mCanvas.drawPath( mPath,  mPaint);
+        }
+
     }
     public void init(Context c,AttributeSet attrs) {
         context=c;

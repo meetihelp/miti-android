@@ -1,6 +1,8 @@
 package com.miti.meeti.ui.privacy;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -9,15 +11,32 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.kunzisoft.androidclearchroma.ChromaDialog;
+import com.kunzisoft.androidclearchroma.IndicatorMode;
+import com.kunzisoft.androidclearchroma.colormode.ColorMode;
+import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
+import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
+import com.miti.meeti.database.Diary.Moodboard;
+import com.miti.meeti.mitiutil.Logging.Mlog;
+import com.miti.meeti.mitiutil.try123;
 import com.miti.meeti.mitiutil.uihelper.DrawingView;
+import com.miti.meeti.mitiutil.uihelper.ToastHelper;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +46,7 @@ import com.miti.meeti.mitiutil.uihelper.DrawingView;
  * Use the {@link FingerPaint#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FingerPaint extends Fragment {
+public class FingerPaint extends Fragment implements OnColorSelectedListener, OnColorChangedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,7 +58,8 @@ public class FingerPaint extends Fragment {
     private Paint mPaint;
     private DrawingView drawView;
     private OnFragmentInteractionListener mListener;
-
+    public static FragmentActivity myContext;
+    public static ChromaDialog chromaDialog;
     public FingerPaint() {
         // Required empty public constructor
     }
@@ -72,11 +92,10 @@ public class FingerPaint extends Fragment {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setColor(Color.GREEN);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(12);
+        mPaint.setStrokeWidth(40);
     }
 
     @Override
@@ -85,6 +104,51 @@ public class FingerPaint extends Fragment {
         // Inflate the layout for this fragment
         v= inflater.inflate(R.layout.fragment_finger_paint,
                 container, false);
+        mPaint.setColor(ContextCompat.getColor(v.getContext(), R.color.mitiOrange));
+        Button button=v.findViewById(R.id.button);
+        Button button1=v.findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Bitmap temp= try123.getBitmapFromView(drawView);
+                String n= try123.randomAlphaNumeric(32);
+                String fname = "Moodboard" + n + ".jpg";
+                String path= MainActivity.RootFolder+ File.separator+"Moodboards";
+                try123.createifnot(path);
+                File file = new File(path, fname);
+                if (file.exists())
+                    file.delete();
+                try {
+                    FileOutputStream out = new FileOutputStream(file);
+                    temp.compress(Bitmap.CompressFormat.JPEG, 50, out);
+                    out.flush();
+                    out.close();
+                } catch (Exception e) {
+                    Mlog.e(e);
+                }
+                MainActivity.moodboardViewModel.insert(new Moodboard(try123.mitidt(),try123.randomAlphaNumeric(16),
+                        try123.mitidt(),"image",null,path+"/"+fname,-1));
+            ToastHelper.ToastFun(myContext,"Saved");
+        }});
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (chromaDialog == null) {
+                    chromaDialog = new ChromaDialog.Builder()
+                            .initialColor(ContextCompat.getColor(v.getContext(), R.color.mitiOrange))
+                            .colorMode(ColorMode.CMYK)
+                            .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL;
+                            .create();
+                }
+                chromaDialog.show(myContext.getSupportFragmentManager(), "piyare");
+            }
+        });
+        chromaDialog = new ChromaDialog.Builder()
+                .initialColor(ContextCompat.getColor(v.getContext(), R.color.mitiOrange))
+                .colorMode(ColorMode.CMYK)
+                .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL;
+                .create();
+        chromaDialog.setOnColorSelectedListener(this);
         //lets keep a reference of DrawView
         drawView = (DrawingView) v.findViewById(R.id.drawing);
         drawView.setPaint(mPaint);
@@ -101,6 +165,7 @@ public class FingerPaint extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        myContext=(FragmentActivity)context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -111,6 +176,25 @@ public class FingerPaint extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+    public void changecolor(int color){
+        Mlog.e("changecolorcalled");
+        mPaint.setColor(color);
+        drawView.setPaint(mPaint);
+    }
+    @Override
+    public void onColorChanged(int color) {
+        changecolor(color);
+    }
+
+    @Override
+    public void onPositiveButtonClick(int color) {
+        changecolor(color);
+    }
+
+    @Override
+    public void onNegativeButtonClick(int color) {
+
     }
 
     /**
