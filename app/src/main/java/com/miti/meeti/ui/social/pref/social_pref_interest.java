@@ -56,10 +56,10 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
             {"Collecting","Debating","Quizzing","Psychology and Philosophy","Parenting","Lgbtq","Law","History"},
             {"Left - liberty , equality, fraternity","Right - authority, hierarchy, property"}};
     private String [][]array1={
-            {"Indoor - Passive"},
-            {"Active Indoor"},
-            {"Passive Outdoor"},
-            {"Active Outdoor"},
+            {"Indoor - 1"},
+            {"Indoor - 2"},
+            {"Outdoor - 1"},
+            {"Outdoor - 2"},
             {"Others"},
             {"Ideology"}};
     public social_pref_interest() {

@@ -1,15 +1,18 @@
 package com.miti.meeti.database.Chat;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "MeetiChat")
+@Entity(tableName = "MeetiChat", indices = {@Index(value = {"chat_id"}),@Index(value = {"created_at"}),@Index(value = {"miti_sync"})})
 public class ChatDb {
     @PrimaryKey(autoGenerate = true)
     public int uid;
     public String UserId;
+    @ColumnInfo(name = "chat_id")
     public String ChatId;
     public String MessageId;
     public String MessageType;
@@ -17,9 +20,11 @@ public class ChatDb {
     public String ImageId;
     public String ImageUrl;
     public String UserCreatedAt;
+    @ColumnInfo(name = "created_at")
     public String CreatedAt;
     public String RequestId;
     public int Read;
+    @ColumnInfo(name="miti_sync")
     public int Sync;
     public ChatDb(){
 

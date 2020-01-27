@@ -56,6 +56,7 @@ import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.database.Request.MessageRqViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.Keyvalue;
+import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.uihelper.PermissionHelper;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 import com.miti.meeti.ui.security.AlertPOST;
@@ -173,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for(int i=0;i<grantResults.length;i++){
             if(grantResults[i] == PackageManager.PERMISSION_GRANTED){
-                Log.v("Control","Permission: "+permissions[i]+ "was "+grantResults[i]);
+                Mlog.e("Control","Permission: "+permissions[i]+ "was "+grantResults[i]);
             }
         }
         setup();
@@ -226,12 +227,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         Airhelper();
         MitiService mitiService=new MitiService(1);
         mitiService.schedule(new UpdateChatlist(),0,120, TimeUnit.SECONDS);
-        mitiService.schedule(new ChatSync(),0,60, TimeUnit.SECONDS);
-        mitiService.schedule(new DownloadChatImage(),0,60, TimeUnit.SECONDS);
-        mitiService.schedule(new SecuritySync(),0,60, TimeUnit.SECONDS);
+        mitiService.schedule(new ChatSync(),5,60, TimeUnit.SECONDS);
+        mitiService.schedule(new DownloadChatImage(),10,60, TimeUnit.SECONDS);
+        mitiService.schedule(new SecuritySync(),15,60, TimeUnit.SECONDS);
         mitiService.schedule(new DiarySync(),0,120, TimeUnit.SECONDS);
-        mitiService.schedule(new MessageRequestSync(),0,120,TimeUnit.SECONDS);
-        mitiService.schedule(new GetMessageRequestSync(),0,120,TimeUnit.SECONDS);
+        mitiService.schedule(new MessageRequestSync(),5,120,TimeUnit.SECONDS);
+        mitiService.schedule(new GetMessageRequestSync(),10,120,TimeUnit.SECONDS);
         if(!isMyServiceRunning(SendLoc.class)){
             Mlog.e("Service started");
             startService(new Intent(getApplicationContext(), SendLoc.class));
@@ -239,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             Mlog.e("Service already running");
             stopService(new Intent(getApplicationContext(), SendLoc.class));
         }
+//        new POSTRequest().execute("updateUserLocation",new Gson().toJson(new Mitigps(Latitude,Longitude)),MainActivity.MeetiCookie);
     }
     @Override
     public void onLocationChanged(Location location) {
@@ -251,17 +253,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onProviderDisabled(String provider) {
-        Log.d("Latitude","disable");
+        Mlog.e("Latitude","disable");
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        Log.d("Latitude","enable");
+        Mlog.e("Latitude","enable");
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d("Latitude","status");
+        Mlog.e("Latitude","status");
     }
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -276,22 +278,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         new AirLocation((Activity)MainActivityContext, true, true, new AirLocation.Callbacks() {
             @Override
             public void onSuccess(@NotNull Location location) {
-                if(mitihelper.isMockLocationOn(location,MainActivity.MainActivityContext)){
-                    killswitch();
-                }else{
                     Latitude=new Double(location.getLatitude()).toString();
                     Longitude=new Double(location.getLongitude()).toString();
                     Mitigps gps=new Mitigps(Latitude,Longitude);
                     keyvalue kv=new keyvalue("gps",new Gson().toJson(gps));
                     keyvalueViewModel.insert(kv);
-                }
                 Mlog.e("mumalocationSuccess",location.toString());
             }
 
             @Override
             public void onFailed(@NotNull AirLocation.LocationFailedEnum locationFailedEnum) {
                 // do something
-                Mlog.e("mumalocationfailed");
+                Mlog.e("mumalocationfailed,calling again");
+                MainActivity.Airhelper();
             }
         });
     }
@@ -325,6 +324,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     }
                 }else{
                     loc =  locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+                    if(loc==null){
+                        return;
+                    }
                     if(mitihelper.isMockLocationOn(loc,MainActivity.MainActivityContext)){
                         killswitch();
                     }else{

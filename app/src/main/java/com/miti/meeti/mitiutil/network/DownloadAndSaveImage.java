@@ -35,6 +35,9 @@ public class DownloadAndSaveImage extends AsyncTask<String, Void, Boolean> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if(response==null){
+            return false;
+        }
         if (response.isSuccessful()) {
             try {
                 mIcon11 = BitmapFactory.decodeStream(response.body().byteStream());

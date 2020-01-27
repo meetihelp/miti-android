@@ -158,7 +158,8 @@ public class social_chat_list extends Fragment {
                 // Update the UI, in this case, a TextView.
                 List<DefaultDialog> chatList=new ArrayList<>();
                 for(ChatListDb tempf:newName){
-                    chatList.add(new DefaultDialog(tempf.ChatId,tempf.Name,tempf.ChatType,tempf.UserId2));
+                    Mlog.e(tempf.UserId);
+                    chatList.add(new DefaultDialog(tempf.ChatId,tempf.Name,tempf.ChatType,tempf.UserId2,tempf.UserId));
                 }
                 mAdapter.setChatList(chatList);
             }

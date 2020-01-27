@@ -16,6 +16,7 @@ import android.widget.Button;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.Cookie;
 import com.miti.meeti.database.Cookie.CookieViewModel;
+import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.GetJsonObject;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
@@ -75,9 +76,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 //        final SessionDatabase db=SessionDatabase.getInstance(v.getContext());
 //         db=CookieDatabase.getAppDatabase(v.getContext());
 //         db.cookieDao().nukeTable();
-//        Log.e("Apoorva Control","Aaya ram");
-//        DatabaseInitializer.populateAsync(db);
-//        Log.e("Apoorva Control","Gaya ram");
         button.setOnClickListener(this);
         return v;
     }
@@ -100,11 +98,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         POSTRequest request=new POSTRequest();
         String result;
         try {
-            Log.e("Control","Yahan");
+            Mlog.e("Control","Yahan");
             requestHelper=request.execute("login",data).get();
             result=requestHelper.getData();
             MeetiCookie=requestHelper.getMitiCookie();
-//                    Log.e("Control1",result);
         } catch (ExecutionException e) {
             result=null;
             e.printStackTrace();
@@ -179,10 +176,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         String result;
         RequestHelper requestHelperTemp;
         try {
-            Log.e("Control","Yahan");
+            Mlog.e("Control","Yahan");
             requestHelperTemp=request.execute("register",data).get();
             result=requestHelperTemp.getData();
-            Log.e("Control1",result);
+            Mlog.e("Control1",result);
         } catch (ExecutionException e) {
             result=null;
             e.printStackTrace();

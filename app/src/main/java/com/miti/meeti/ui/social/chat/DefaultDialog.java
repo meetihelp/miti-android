@@ -15,7 +15,8 @@ public class DefaultDialog implements IDialog {
     private String id,Name;
     public String Type;
     public String userid;
-    public DefaultDialog(String mid,String mName,String type,String userid){
+    public String apnauserid;
+    public DefaultDialog(String mid,String mName,String type,String userid,String apnauserid){
         Mlog.e("Default Dialog",id);
         this.id=mid;
         if(mName==null || mName.contentEquals("")){
@@ -25,6 +26,7 @@ public class DefaultDialog implements IDialog {
         }
         this.Type=type;
         this.userid=userid;
+        this.apnauserid=apnauserid;
     }
     @Override
     public String getId() {
@@ -50,7 +52,7 @@ public class DefaultDialog implements IDialog {
 
     @Override
     public IMessage getLastMessage() {
-        IMessage temp=new Message("","",new Author(this.id,"apoorva",""),"");
+        IMessage temp=new Message("","",new Author(this.id,"apoorva",""),"","");
         return temp;
     }
 

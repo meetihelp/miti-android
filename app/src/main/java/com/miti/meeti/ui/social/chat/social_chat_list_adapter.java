@@ -73,6 +73,7 @@ public class social_chat_list_adapter extends RecyclerView.Adapter<social_chat_l
         //action_social_chat_list_to_social_chat_content
         final Bundle bundle=new Bundle();
         bundle.putString("chatid",chatlist.get(position).getId());
+        bundle.putString("apnaid",chatlist.get(position).apnauserid);
 //        holder.chatType.setText(chatlist.get(position).Type.substring(0,1));
         holder.imageView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -88,6 +89,7 @@ public class social_chat_list_adapter extends RecyclerView.Adapter<social_chat_l
             @Override
             public void onClick(View v) {
                 //implement onClick
+
                 Navigation.findNavController(v).navigate(R.id.action_social_chat_list_to_social_chat_content,bundle);
             }
         });

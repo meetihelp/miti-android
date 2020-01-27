@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_miti_privacy_to_camera_moodboard"
             app:destination="@id/camera_moodboard" />
+        <action
+            android:id="@+id/action_miti_privacy_to_fingerPaint"
+            app:destination="@id/fingerPaint" />
     </fragment>
 
     <fragment
@@ -107,11 +110,7 @@
         android:id="@+id/camera_moodboard"
         android:name="com.miti.meeti.ui.privacy.Camera_moodboard"
         android:label="fragment_camera_moodboard"
-        tools:layout="@layout/fragment_camera_moodboard" >
-        <action
-            android:id="@+id/action_camera_moodboard_to_miti_privacy"
-            app:destination="@id/miti_privacy" />
-    </fragment>
+        tools:layout="@layout/fragment_camera_moodboard" />
     <fragment
         android:id="@+id/feedView"
         android:name="com.miti.meeti.ui.newsfeed.FeedView"
@@ -170,4 +169,9 @@
         android:name="com.miti.meeti.ui.social.messageRequest.AcceptReject"
         android:label="fragment_accept_reject"
         tools:layout="@layout/fragment_accept_reject" />
+    <fragment
+        android:id="@+id/fingerPaint"
+        android:name="com.miti.meeti.ui.privacy.FingerPaint"
+        android:label="fragment_finger_paint"
+        tools:layout="@layout/fragment_finger_paint" />
 </navigation>

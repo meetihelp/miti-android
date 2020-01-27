@@ -132,6 +132,10 @@ public class otpfragment extends Fragment implements View.OnClickListener {
             return;
         }
         OTP.response_object value1=SendOTP(otp);
+        if(value1==null){
+            ToastHelper.ToastFun(v.getContext(),"Try again");
+            return;
+        }
         int moveTo=value1.MoveTo;
         int value=value1.Code;
         if(value==1401){
@@ -181,13 +185,13 @@ public class otpfragment extends Fragment implements View.OnClickListener {
         Gson gson=new Gson();
         OTP.response_object temp;
         String data=gson.toJson(new OTP().new request_object(otp));
-        Log.e("Control","OTPDATA->"+data);
+        Mlog.e("Control","OTPDATA->"+data);
         POSTRequest request=new POSTRequest();
         String result;
         MeetiCookie=cookieViewModel.getCookie1();
-        Log.e("Control->",MeetiCookie+","+data);
+        Mlog.e("Control->",MeetiCookie+","+data);
         try {
-            Log.e("Control","Yahan");
+            Mlog.e("Control","Yahan");
             requestHelper=request.execute("verifyOTP",data,MeetiCookie).get();
             String temps=requestHelper.getMitiCookie();
             result=requestHelper.getData();
@@ -208,7 +212,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
 
     private String RequestOTPStatus(){
         MeetiCookie=cookieViewModel.getCookie1();
-        Log.e("Meeti->",MeetiCookie);
+        Mlog.e("Meeti->",MeetiCookie);
         GETRequest getRequest=new GETRequest();
         String otpgenerateResult;
         try {

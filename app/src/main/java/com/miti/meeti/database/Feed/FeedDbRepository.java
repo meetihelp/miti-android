@@ -64,8 +64,11 @@ public class FeedDbRepository {
         }
         @Override
         protected Integer doInBackground(Void ...temp) {
-            int tempx=feedDbDao.getmax().Id;
-            Integer tempu=new Integer(tempx);
+            FeedDb tempx=feedDbDao.getmax();
+            if(tempx==null){
+                return null;
+            }
+            Integer tempu=new Integer(tempx.Id);
             return tempu;
         }
     }

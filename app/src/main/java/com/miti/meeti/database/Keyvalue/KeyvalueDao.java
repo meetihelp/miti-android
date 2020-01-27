@@ -16,9 +16,9 @@ public interface KeyvalueDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(keyvalue ...temp);
 
-    @Query("Select * from MeetiKV where mitikey=:key limit 1")
+    @Query("Select * from MeetiKV where miti_key=:key limit 1")
     keyvalue get(String key);
 
-    @Query("Update MeetiKV set sync=1 where mitikey=:key")
+    @Query("Update MeetiKV set sync=1 where miti_key=:key")
     void synced(String key);
 }

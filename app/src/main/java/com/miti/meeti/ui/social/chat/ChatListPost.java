@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
 import com.miti.meeti.NetworkObjects.ChatList;
 import com.miti.meeti.database.Chat.ChatListDb;
+import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 
@@ -28,7 +29,8 @@ public class ChatListPost extends POSTRequest {
             List<ChatListDb>temp3=new ArrayList<>();
             for(ChatList.chatlist_object temp2:temp1){
                 ChatListDb temp32=temp.fromJson(temp.toJson(temp2),ChatListDb.class);
-                //Mlog.e("chatlistpost chatid"+temp32.ChatId);
+                Mlog.e("chatlistpost",temp32.UserId);
+                Mlog.e("chatlistpost",temp32.UserId2);
                 temp3.add(temp32);
             }
             MainActivity.chatListDbViewModel.insert(temp3.toArray(new ChatListDb[temp3.size()]));

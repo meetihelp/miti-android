@@ -17,11 +17,13 @@ public class Message implements IMessage, MessageContentType.Image {
     private Date createdAt;
     private Author author;
     private String Imageurl;
-    public Message(String id, String text, Author author, String createdAt){
+    public String type;
+    public Message(String id, String text, Author author, String createdAt,String type){
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         this.id=id;
         this.text=text;
         this.author=author;
+        this.type=type;
         try{
             this.createdAt=format1.parse(createdAt);
         }catch (Exception e){

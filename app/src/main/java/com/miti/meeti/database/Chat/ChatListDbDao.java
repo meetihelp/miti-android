@@ -20,14 +20,14 @@ public interface ChatListDbDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public void insert(ChatListDb...chatlist);
 
-    @Query("Select * from MeetiChatList order by CreatedAt desc limit 1")
+    @Query("Select * from MeetiChatList order by created_at desc limit 1")
     public ChatListDb getmax();
-    @Query("Delete FROM MeetiChatList where ChatId = :chatId")
+    @Query("Delete FROM MeetiChatList where chat_id = :chatId")
     void deleteChat(String chatId);
 
-    @Query("Update MeetiChatList set Sync=1 where ChatId = :chatId")
+    @Query("Update MeetiChatList set miti_sync=1 where chat_id = :chatId")
     void Synced(String chatId);
 
-    @Query("Update MeetiChatList set Sync=1,LastUpdate=:lastupdate where ChatId = :chatId")
+    @Query("Update MeetiChatList set miti_sync=1,LastUpdate=:lastupdate where chat_id = :chatId")
     void UpdateLast(String chatId,String lastupdate);
 }

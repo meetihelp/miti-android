@@ -74,9 +74,11 @@ public class PrivacyFragment extends Fragment {
     private FloatingActionButton EditButton;
     private FloatingActionButton FabPic;
     private FloatingActionButton FabCamera;
+    private FloatingActionButton FabFinger;
     private LinearLayout layoutFabEdit;
     private LinearLayout layoutFabImage;
     private LinearLayout layoutFabCam;
+    private LinearLayout layoutFabFinger;
     private LinearLayout temp;
     private static ActionModeCallback actionModeCallback;
     private static ActionMode actionMode;
@@ -134,6 +136,13 @@ public class PrivacyFragment extends Fragment {
         setHasOptionsMenu(true);
         v=inflater.inflate(R.layout.fragment_moodboard, container, false);
         FabCamera = v.findViewById(R.id.fabCam);
+        FabFinger = (FloatingActionButton) v.findViewById(R.id.fabFingerPaint);
+        FabFinger.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_miti_privacy_to_fingerPaint);
+            }
+        });
         FabCamera.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -187,6 +196,7 @@ public class PrivacyFragment extends Fragment {
         layoutFabEdit = (LinearLayout) v.findViewById(R.id.layoutFabEdit);
         layoutFabImage = (LinearLayout) v.findViewById(R.id.layoutFabPic);
         layoutFabCam = (LinearLayout) v.findViewById(R.id.layoutFabCam);
+        layoutFabFinger=(LinearLayout)v.findViewById(R.id.layoutFabFinger);
         fabSettings = (FloatingActionButton) v.findViewById(R.id.fabSetting);
         FabPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,6 +240,7 @@ public class PrivacyFragment extends Fragment {
         layoutFabCam.setVisibility(View.INVISIBLE);
         layoutFabEdit.setVisibility(View.INVISIBLE);
         layoutFabImage.setVisibility(View.INVISIBLE);
+        layoutFabFinger.setVisibility(View.INVISIBLE);
         fabSettings.setImageResource(R.drawable.ic_add_black_24dp);
         fabExpanded = false;
     }
@@ -239,6 +250,7 @@ public class PrivacyFragment extends Fragment {
         layoutFabCam.setVisibility(View.VISIBLE);
         layoutFabEdit.setVisibility(View.VISIBLE);
         layoutFabImage.setVisibility(View.VISIBLE);
+        layoutFabFinger.setVisibility(View.VISIBLE);
         //Change settings icon to 'X' icon
         fabSettings.setImageResource(R.drawable.ic_close_black_24dp);
         fabExpanded = true;

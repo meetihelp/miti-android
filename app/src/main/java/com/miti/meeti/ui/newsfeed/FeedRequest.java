@@ -29,7 +29,11 @@ public class FeedRequest {
     public static void getlaternews(String cookie){
         String ret=new String();
         Gson gson = new Gson();
-        Feed.request_body temp=new Feed().new request_body(MainActivity.feedViewModel.getmax());
+        Integer maxid=MainActivity.feedViewModel.getmax();
+        if(maxid==null){
+            maxid=new Integer(0);
+        }
+        Feed.request_body temp=new Feed().new request_body(maxid);
         String jsonInString = gson.toJson(temp);
         FeedPOSTRequest postRequest=new FeedPOSTRequest();
         RequestHelper requestHelper;
