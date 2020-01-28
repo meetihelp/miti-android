@@ -15,12 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.database.Keyvalue.keyvalue;
+import com.miti.meeti.mitiutil.uihelper.InfoDialog;
 import com.miti.meeti.mitiutil.uihelper.MitiLoadingDialog;
 import com.miti.meeti.ui.privacy.MoodboardAdapter;
 import com.miti.meeti.ui.social.pooling.GetPoolStatus;
@@ -49,6 +51,7 @@ public class SocialFragment extends Fragment {
     public static MitiLoadingDialog bottomSheetDialog;
     public static View v;
     public static TextView tempd;
+    private ImageButton poolingHelp;
     public SocialFragment() {
         // Required empty public constructor
     }
@@ -95,6 +98,16 @@ public class SocialFragment extends Fragment {
         v=inflater.inflate(R.layout.fragment_social, container, false);
         KeyvalueViewModel keyvalueViewModel= MainActivity.keyvalueViewModel;
         tempd=v.findViewById(R.id.pooling_status);
+        poolingHelp=v.findViewById(R.id.help);
+        poolingHelp.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String help="Dating Pool :- This is new. So it's a weekly pool of people who want to date. As week starts to end, if you are matched with someone they will be added in your chat. Talk and findout.\n\n";
+                String help1="Group Pool :- Meet people with same mission and interest near you. Get in a new pool according to your interest if your location changes";
+                InfoDialog inf=new InfoDialog(help+help1);
+                inf.show(myContext.getSupportFragmentManager(),"hithere");
+            }
+        });
         keyvalue temp=keyvalueViewModel.get("pooling");
         if(temp==null){
             tempd=v.findViewById(R.id.pooling_status);

@@ -89,4 +89,19 @@
             android:layout_gravity="center_horizontal"
             android:text="HIT IT"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <ImageButton
+            android:layout_margin="5dp"
+            android:id="@+id/help"
+            android:background="#474448"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_help_black_24dp"/>
+    </LinearLayout>
 </LinearLayout>

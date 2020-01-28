@@ -29,6 +29,9 @@ public class FeedViewModel extends AndroidViewModel {
     public void insert(FeedDb ...feeds){
         feedDbRepository.insert(feeds);
     }
+    public void delete(FeedDb ...feeds){
+        feedDbRepository.delete(feeds);
+    }
     public int getmax(){
         Integer temp=feedDbRepository.getmax();
         if(temp==null){

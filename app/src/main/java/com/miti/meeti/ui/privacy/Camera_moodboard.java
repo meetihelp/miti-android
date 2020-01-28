@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.R;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.try123;
@@ -23,6 +24,7 @@ import com.otaliastudios.cameraview.CameraListener;
 import com.otaliastudios.cameraview.CameraView;
 import com.otaliastudios.cameraview.FileCallback;
 import com.otaliastudios.cameraview.PictureResult;
+import com.otaliastudios.cameraview.controls.Facing;
 import com.otaliastudios.cameraview.controls.Mode;
 
 import java.io.File;
@@ -47,8 +49,9 @@ public class Camera_moodboard extends Fragment {
     private String mParam1;
     private String mParam2;
     private ImageButton clickcamera;
+    private ImageButton clickrev;
     private OnFragmentInteractionListener mListener;
-
+    private boolean facing;
     public Camera_moodboard() {
         // Required empty public constructor
     }
@@ -86,6 +89,7 @@ public class Camera_moodboard extends Fragment {
         // Inflate the layout for this fragment
         v=inflater.inflate(R.layout.fragment_camera_moodboard, container, false);
         clickcamera=v.findViewById(R.id.moodboard_camera_button);
+        clickrev=v.findViewById(R.id.moodboard_camera_reverse);
         clickcamera.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -94,13 +98,29 @@ public class Camera_moodboard extends Fragment {
         });
         cameralayout=v.findViewById(R.id.cameralayout);
         camera=v.findViewById(R.id.camera);
+        facing=true;
+        clickrev.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(facing){
+                    camera.setFacing(Facing.FRONT);
+                    facing=false;
+                }else{
+                    camera.setFacing(Facing.BACK);
+                    facing=true;
+                }
+
+            }
+        });
         camera.setMode(Mode.PICTURE); // for pictures
         camera.setLifecycleOwner(this);
         camera.addCameraListener(new CameraListener() {
             @Override
             public void onPictureTaken(PictureResult result) {
                 Log.e("Control", Environment.getExternalStorageDirectory().toString());
-                final String filename="/storage/emulated/0/DCIM/Camera/MEETi-"+ try123.randomAlphaNumeric(32)+".jpg";
+                final String tempfolder= MainActivity.RootFolder+"/"+"temp";
+                try123.createifnot(tempfolder);
+                final String filename= tempfolder+"/"+"MC-" + try123.randomAlphaNumeric(32)+".jpg";
                 File file = new File(filename);
                 result.toFile(file, new FileCallback() {
                     @Override

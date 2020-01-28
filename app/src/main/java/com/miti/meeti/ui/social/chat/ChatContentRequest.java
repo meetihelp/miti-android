@@ -41,7 +41,7 @@ public class ChatContentRequest {
         GetChatPost postRequest=new GetChatPost();
         try{
             postRequest.execute("getChatAfterIndex",jsonInString,cookie);
-            Log.e("Control-SendChat","requestHelper.getData()");
+//            Log.e("Control-SendChat","requestHelper.getData()");
         }catch(Exception e){
 
         }

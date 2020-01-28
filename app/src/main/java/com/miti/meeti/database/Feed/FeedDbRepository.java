@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Delete;
 
 import com.miti.meeti.database.DatabaseInit;
 
@@ -24,6 +25,9 @@ public class FeedDbRepository {
     public void insert(FeedDb ...feedDb){
         new InsertfeedDbAsyncTask(feedDbDao).execute(feedDb);
     }
+    public void delete(FeedDb ...feedDb){
+        new DeletefeedDbAsyncTask(feedDbDao).execute(feedDb);
+    }
     public void react(String ...temp){
         new ReactfeedDbAsyncTask(feedDbDao).execute(temp);
     }
@@ -34,6 +38,17 @@ public class FeedDbRepository {
             return null;
         }
 
+    }
+    private static class DeletefeedDbAsyncTask extends AsyncTask<FeedDb, Void,Void> {
+        private FeedDbDao feedDbDao;
+        private DeletefeedDbAsyncTask(FeedDbDao feedDbDao){
+            this.feedDbDao=feedDbDao;
+        }
+        @Override
+        protected Void doInBackground(FeedDb... feedDb) {
+            feedDbDao.delete(feedDb);
+            return null;
+        }
     }
     private static class InsertfeedDbAsyncTask extends AsyncTask<FeedDb, Void,Void> {
         private FeedDbDao feedDbDao;

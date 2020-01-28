@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.miti.meeti.MitiExecutors.MitiRunnables.ChatSync;
+import com.miti.meeti.MitiExecutors.MitiRunnables.CleanJobs.FeedClean;
 import com.miti.meeti.MitiExecutors.MitiRunnables.DiarySync;
 import com.miti.meeti.MitiExecutors.MitiRunnables.DownloadChatImage;
 import com.miti.meeti.MitiExecutors.MitiRunnables.GetMessageRequestSync;
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static String MeetiCookie;
     public static String Latitude;
     public static String Longitude;
+    public static keyvalue firsttime;
     public FloatingActionButton fabx;
     public LocationManager locationManager;
     public static Context MainActivityContext;
@@ -149,6 +151,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         messageRqViewModel=ViewModelProviders.of(this).get(MessageRqViewModel.class);
         MeetiCookie=cookieViewModel.getCookie1();
         MainActivityContext=this;
+        firsttime=keyvalueViewModel.get("firsttime");
+        if(firsttime==null){
+            keyvalueViewModel.insert(new keyvalue("firsttime","yes"));
+        }
         if(temp){
             setup();
         }
@@ -226,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         locationhelper();
         Airhelper();
         MitiService mitiService=new MitiService(1);
+        mitiService.schedule(new FeedClean(),80,360,TimeUnit.SECONDS);
         mitiService.schedule(new UpdateChatlist(),0,120, TimeUnit.SECONDS);
         mitiService.schedule(new ChatSync(),5,60, TimeUnit.SECONDS);
         mitiService.schedule(new DownloadChatImage(),10,60, TimeUnit.SECONDS);
@@ -233,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         mitiService.schedule(new DiarySync(),0,120, TimeUnit.SECONDS);
         mitiService.schedule(new MessageRequestSync(),5,120,TimeUnit.SECONDS);
         mitiService.schedule(new GetMessageRequestSync(),10,120,TimeUnit.SECONDS);
+
         if(!isMyServiceRunning(SendLoc.class)){
             Mlog.e("Service started");
             startService(new Intent(getApplicationContext(), SendLoc.class));
@@ -240,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             Mlog.e("Service already running");
             stopService(new Intent(getApplicationContext(), SendLoc.class));
         }
-//        new POSTRequest().execute("updateUserLocation",new Gson().toJson(new Mitigps(Latitude,Longitude)),MainActivity.MeetiCookie);
+        new POSTRequest().execute("updateUserLocation",new Gson().toJson(new Mitigps(Latitude,Longitude)),MainActivity.MeetiCookie);
     }
     @Override
     public void onLocationChanged(Location location) {

@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -237,7 +238,6 @@ public class social_chat_content extends Fragment implements MessagesListAdapter
                     add(chatDb);
                     chatDbViewModel.insertnew(chatDb);
                     content=input.toString();
-                    adapterx.addToStart(temp34, true);
                     return true;
                 }else{
                     ToastHelper.ToastFun(v.getContext(),"Try again");
@@ -258,7 +258,7 @@ public class social_chat_content extends Fragment implements MessagesListAdapter
     public static ChatDb chatdbhelper(String userid1, String chatid1,String input){
         Author temp=new Author(userid1,"","");
         String mitidt=try123.mitidt();
-        requestid=UUID.randomUUID().toString().replace("-","").substring(0,32);
+        requestid=UUID.randomUUID().toString().replace("-","").substring(0,16);
         ChatDb chatDb=new ChatDb(userid1,"text",input,requestid,chatid1,mitidt,-1);
         return chatDb;
     }
@@ -266,23 +266,25 @@ public class social_chat_content extends Fragment implements MessagesListAdapter
     public void onDetach() {
         super.onDetach();
         allchatsynchronized.clear();
-        reset();
+//        reset();
     }
 
     public static synchronized void onChanged1(@Nullable final List<ChatDb>messages) {
         Mlog.e("callback","onchanged in message content",Integer.toString(messages.size()));
-        if(messages.size()==0){
-            return;
-        }
-        if(allchatsynchronized==null || allchatsynchronized.size()==0){
-            setall(messages);
-            addinmessagelist(messages);
-        }else{
-            List<ChatDb>diff= new MitiDiff<String,ChatDb>().getx(allchatsynchronized,messages,"RequestId");
-            Mlog.e("I am going to add");
-            addinmessagelist(diff);
-            setall(messages);
-        }
+        adapterx.clear();
+        addinmessagelist(messages);
+//        if(messages.size()==0){
+//            return;
+//        }
+//        if(allchatsynchronized==null || allchatsynchronized.size()==0){
+//            setall(messages);
+//            addinmessagelist(messages);
+//        }else{
+//            List<ChatDb>diff= new MitiDiff<String,ChatDb>().getx(allchatsynchronized,messages,"RequestId");
+//            Mlog.e("I am going to add");
+//            addinmessagelist(diff);
+//            setall(messages);
+//        }
 //        Set<ChatDb> ad = new HashSet<ChatDb>(messages);
 //        Set<ChatDb> ad1 = new HashSet<ChatDb>(messagesold);
 //        ad.removeAll(ad1);
@@ -311,7 +313,7 @@ public class social_chat_content extends Fragment implements MessagesListAdapter
         if(tempx.CreatedAt!=null){
             date=tempx.CreatedAt;
         }else{
-            date= try123.mitidt();
+            date= tempx.UserCreatedAt;
         }
         Message temp34=new Message(tempx.MessageId,tempx.MessageContent,temp45,date,tempx.MessageType);
         if(tempx.MessageType.contains("image")){

@@ -6,11 +6,14 @@ import com.miti.meeti.NetworkObjects.ChatUploadResponse;
 import com.miti.meeti.NetworkObjects.GetChatContent;
 import com.miti.meeti.NetworkObjects.SendChatContent;
 import com.miti.meeti.database.Chat.ChatDb;
+import com.miti.meeti.database.Chat.ChatDbDao;
 import com.miti.meeti.database.Chat.ChatDbViewModel;
 import com.miti.meeti.database.Chat.ChatListDb;
+import com.miti.meeti.database.DatabaseInit;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.SendChatImage;
+import com.miti.meeti.mitiutil.try123;
 import com.miti.meeti.ui.social.chat.ChatContentRequest;
 
 import java.util.ArrayList;
@@ -40,18 +43,25 @@ public class ChatSync implements Runnable{
         if(cookie==null){
             return;
         }
-        ChatDbViewModel chatDbViewModel= MainActivity.chatDbViewModel;
         Gson gson=new Gson();
-        List<ChatDb>temp=chatDbViewModel.getnotsync();
+        DatabaseInit databaseInit=DatabaseInit.getInstance(MainActivity.MainActivityContext);
+        ChatDbDao chatDbDao=databaseInit.chatDbDao();
+        List<ChatDb>temp=chatDbDao.getchatnotsynced();
         if(temp==null || temp.size()==0){
             Mlog.e("inChatSync","nochat to sync");
             return;
         }
         Mlog.e("inChatSync","sizeofarray",Integer.toString(temp.size()));
         for(ChatDb tempx:temp){
-            String maxdate=chatDbViewModel.getmax(tempx.ChatId);
+            ChatDb maxdateobj=chatDbDao.getmax(tempx.ChatId);
+            String maxdate="";
             if(maxdate==null){
                 maxdate="";
+            }else{
+                maxdate=maxdateobj.CreatedAt;
+                if(maxdate==null){
+                    maxdate= try123.mitidt();
+                }
             }
             Mlog.e("inChatSync","getmax",maxdate);
             Mlog.e("inChatSync","",tempx.MessageContent,tempx.MessageType);
@@ -77,7 +87,7 @@ public class ChatSync implements Runnable{
                             //String requestid,String messageid,String createdAt
                             helper_insert(response_object.Chat);
                         }
-                        chatDbViewModel.synced(tempx.RequestId,response_object.MessageId,response_object.CreatedAt);
+                        chatDbDao.Synced(tempx.RequestId,response_object.MessageId,response_object.CreatedAt);
                         maxdate=response_object.CreatedAt;
                     }
                 }catch (Exception e){
@@ -107,7 +117,7 @@ public class ChatSync implements Runnable{
                             helper_insert(imgur.Chat);
                         }
                         //String requestid,String messageid, String imageid,String createdAt
-                        chatDbViewModel.syncedimage(tempx.RequestId,imgur.Messageid,imgur.ImageId,imgur.CreatedAt);
+                        chatDbDao.SyncedImage(tempx.RequestId,imgur.Messageid,imgur.ImageId,imgur.CreatedAt);
                         maxdate=imgur.CreatedAt;
                     }
                     //String requestid,String CreatedAt,String messageid, String imageurl

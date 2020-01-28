@@ -1,14 +1,17 @@
 package com.miti.meeti.ui.newsfeed;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -32,6 +35,7 @@ import com.miti.meeti.database.Feed.FeedDb;
 import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.mitiutil.uihelper.EndlessRecyclerViewScrollListener;
+import com.miti.meeti.mitiutil.uihelper.InfoDialog;
 
 import java.util.List;
 
@@ -50,6 +54,14 @@ public class newfeed extends Fragment{
     public static Boolean autism=false;
     public static CookieViewModel cvm;
     public static KeyvalueViewModel kvm;
+    public static FragmentActivity myContext;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        myContext=(FragmentActivity)context;
+    }
+
     private String cookie;
     public static SwipeRefreshLayout swipeRefreshLayout;
     private FeedAdapter feedAdapter;
@@ -80,6 +92,9 @@ public class newfeed extends Fragment{
         progress.setVisibility(View.GONE);
         cvm= MainActivity.cookieViewModel;
         kvm=ViewModelProviders.of(this).get(KeyvalueViewModel.class);
+        if(MainActivity.firsttime==null){
+            help();
+        }
         cookie=MainActivity.MeetiCookie;
         if(kvm.get("userid")==null){
             GETid.getid(cookie);
@@ -146,6 +161,15 @@ public class newfeed extends Fragment{
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    public void help(){
+        String help="Click on the shield button on top left to add people in your trust group to send location\n\n";
+        String help1="Click on the red button four times within three seconds to send location to your trust group\n\n";
+        String help2="Click on social button in bottom left to get a date or a new group of friends near you.\n\n";
+        String help3="Click on Moods button in bottom right to archive your current mood.\n\n";
+        String help4="Drag down to get new articles.";
+        InfoDialog inf=new InfoDialog(help+help1+help2+help3+help4);
+        inf.show(myContext.getSupportFragmentManager(),"hithere");
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -168,6 +192,9 @@ public class newfeed extends Fragment{
                 return true;
             case R.id.actionview_miti_security:
                 Navigation.findNavController(v).navigate(R.id.action_move_to_security);
+                return true;
+            case R.id.help:
+                help();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

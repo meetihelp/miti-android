@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -89,6 +90,7 @@ public class PrivacyFragment extends Fragment {
     private boolean fabExpanded = false;
     private FloatingActionButton fabSettings;
     private StaggeredGridLayoutManager _sGridLayoutManager;
+//    private LinearLayoutManager linearLayoutManager;
     private MoodboardAdapter moodboardAdapter;
     public static FragmentActivity myContext;
     public PrivacyFragment() {
@@ -153,9 +155,13 @@ public class PrivacyFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.moodboard_recycler);
         recyclerView.setHasFixedSize(true);
         moodboardAdapter=new MoodboardAdapter();
+//        linearLayoutManager=new LinearLayoutManager(v.getContext());
         _sGridLayoutManager = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
+//        _sGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         recyclerView.setLayoutManager(_sGridLayoutManager);
+        recyclerView.setItemAnimator(null);
+//        recyclerView.setLayoutManager(linearLayoutManager);
         moodboardAdapter.setHasStableIds(true);
         recyclerView.setAdapter(moodboardAdapter);
         moodboardViewModel= MainActivity.moodboardViewModel;

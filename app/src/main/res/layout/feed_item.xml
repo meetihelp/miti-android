@@ -80,7 +80,6 @@
             android:checkable="false"
             app:chipIcon="@drawable/ic_angry"
             app:chipIconTint="@color/mitiOrange"
-            android:layout_marginRight="10dp"
             app:closeIconVisible="false"
             app:showMotionSpec="@anim/nav_default_enter_anim" />
         <com.google.android.material.chip.Chip

@@ -15,6 +15,7 @@
 
         <com.github.florent37.shapeofview.shapes.CircleView
             android:layout_width="150dp"
+            android:visibility="gone"
             android:layout_gravity="center_horizontal"
             android:layout_height="150dp">
             <!-- YOUR CONTENT -->

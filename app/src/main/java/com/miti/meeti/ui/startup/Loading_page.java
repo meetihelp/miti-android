@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,7 +102,7 @@ public class Loading_page extends Fragment implements Runnable{
 //            MeetiCookie="";
 //        }
         String jsonData=getRequest(MeetiCookie);
-        Log.e("Control","Loading page ka response->"+jsonData);
+        Mlog.e("Control","Loading page ka response->"+jsonData);
         if(jsonData!=null) {
             GetJsonObject getJsonObject=new GetJsonObject();
             int code=getJsonObject.getIntValue(jsonData,"Code");
@@ -164,22 +163,22 @@ public class Loading_page extends Fragment implements Runnable{
     public String getRequest(String MeetiCookie){
         try {
             GETRequest getRequest=new GETRequest();
-            Log.e("Control","Get Request enter");
+            Mlog.e("Control","Get Request enter");
             RequestHelper requestHelper=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/loadingPage"),
                     new Keyvalue("Miti-Cookie",MeetiCookie))).get();
             Mlog.e( "Get Request exit");
             Mlog.e("Cookie Sent->"+MeetiCookie);
             String data=requestHelper.getData();
-            Log.e("Control",requestHelper.toString());
+            Mlog.e("Control",requestHelper.toString());
             return data;
 //            GetJsonObject getJsonObject=new GetJsonObject();
 //            int code=getJsonObject.getIntValue(data,"Code");
 //            return code;
         } catch (ExecutionException e) {
-            Log.e("Control",e.toString());
+            Mlog.e("Control",e.toString());
             return null;
         } catch (InterruptedException e) {
-            Log.e("Control",e.toString());
+            Mlog.e("Control",e.toString());
             return null;
         }
 //        RequestHelper requestHelper=getRequest.execute(MeetiCookie);
