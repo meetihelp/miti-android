@@ -31,7 +31,7 @@ public class FeedDbRepository {
     public void react(String ...temp){
         new ReactfeedDbAsyncTask(feedDbDao).execute(temp);
     }
-    public Integer getmax(){
+    public FeedDb getmax(){
         try{
             return new GetMaxfeedDbAsyncTask(feedDbDao).execute().get();
         }catch (Exception e){
@@ -72,19 +72,15 @@ public class FeedDbRepository {
             return null;
         }
     }
-    private static class GetMaxfeedDbAsyncTask extends AsyncTask<Void, Void,Integer> {
+    private static class GetMaxfeedDbAsyncTask extends AsyncTask<Void, Void,FeedDb> {
         private FeedDbDao feedDbDao;
         private GetMaxfeedDbAsyncTask(FeedDbDao feedDbDao){
             this.feedDbDao=feedDbDao;
         }
         @Override
-        protected Integer doInBackground(Void ...temp) {
+        protected FeedDb doInBackground(Void ...temp) {
             FeedDb tempx=feedDbDao.getmax();
-            if(tempx==null){
-                return null;
-            }
-            Integer tempu=new Integer(tempx.Id);
-            return tempu;
+            return tempx;
         }
     }
 

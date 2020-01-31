@@ -61,6 +61,18 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
                 Navigation.findNavController(newfeed.v).navigate(R.id.action_miti_newsfeed_to_feedView,bundle);
             }
         });
+        holder.temp2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                bundle.putString("ArticeURL",currentFeed.ArticeURL);
+                bundle.putString("ImageURL",currentFeed.ImageURL);
+                bundle.putString("Flag",currentFeed.Flag);
+                bundle.putString("Title",currentFeed.Title);
+                bundle.putInt("Id",currentFeed.Id);
+                Navigation.findNavController(newfeed.v).navigate(R.id.action_miti_newsfeed_to_feedView,bundle);
+            }
+        });
         holder.like.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

@@ -14,8 +14,10 @@ public class Feed {
     }
     public class request_body{
         public int Id;
-        public request_body(int id){
+        public String Label;
+        public request_body(int id,String label){
             this.Id=id;
+            this.Label=label;
         }
     }
     public class feed_object{

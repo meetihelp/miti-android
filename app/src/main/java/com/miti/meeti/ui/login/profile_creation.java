@@ -22,6 +22,7 @@ import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.network.RequestHelper;
+import com.miti.meeti.mitiutil.try123;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
 import java.text.SimpleDateFormat;
@@ -108,6 +109,9 @@ public class profile_creation extends Fragment implements View.OnClickListener {
         t1=v1.findViewById(R.id.miti_p_dob_text);
         String s3=t1.getText().toString().trim();
         try{
+            if(s3.contains("/")){
+                s3=s3.replace("/","-");
+            }
             Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(s3);
         }catch (Exception e){
             ToastHelper.ToastFun(v.getContext(),"Please fill dob in this format dd-MM-yyyy");
@@ -119,9 +123,15 @@ public class profile_creation extends Fragment implements View.OnClickListener {
             ToastHelper.ToastFun(v.getContext(),"Please fill profession");
             return;
         }
+        t1=v1.findViewById(R.id.miti_p_email_text);
+        String s6=t1.getText().toString().trim();
+        if(!try123.check_email(s6)){
+            ToastHelper.ToastFun(v.getContext(),"Wrong email id");
+            return;
+        }
         Gson gson = new Gson();
         UserProfile.request_body temp=new UserProfile().new request_body(s1,s3,s5,spinner1.getSelectedItem().toString(),"English","India",
-                spinner.getSelectedItem().toString());
+                spinner.getSelectedItem().toString(),s6);
         String jsonInString = gson.toJson(temp);
         RequestHelper requestHelper;
         ProfilePostRequest postRequest=new ProfilePostRequest();

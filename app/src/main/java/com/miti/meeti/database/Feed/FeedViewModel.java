@@ -32,13 +32,9 @@ public class FeedViewModel extends AndroidViewModel {
     public void delete(FeedDb ...feeds){
         feedDbRepository.delete(feeds);
     }
-    public int getmax(){
-        Integer temp=feedDbRepository.getmax();
-        if(temp==null){
-            return 0;
-        }else{
-            return temp.intValue();
-        }
+    public FeedDb getmax(){
+        FeedDb temp=feedDbRepository.getmax();
+        return temp;
     }
     public void react(String thought, String id){
         feedDbRepository.react(thought,id);

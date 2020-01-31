@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.gson.Gson;
+import com.miti.meeti.MainActivity;
 import com.miti.meeti.NetworkObjects.OTP;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieViewModel;
@@ -61,7 +62,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
     private String mParam2;
     private View v1;
     private OnFragmentInteractionListener mListener;
-
+    public static View v;
     public otpfragment() {
         // Required empty public constructor
     }
@@ -100,15 +101,20 @@ public class otpfragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_otpfragment, container, false);
+        v=inflater.inflate(R.layout.fragment_otpfragment, container, false);
         this.v1=v;
         otpEditText=(TextInputEditText) v.findViewById(R.id.otp);
         cookieViewModel= ViewModelProviders.of(this).get(CookieViewModel.class);
-        GETRequest k=new GETRequest();
-        k.execute(Keyvalue.GetHashMap(new Keyvalue("url","/generateOTP"),
-                new Keyvalue("Miti-Cookie",cookieViewModel.getCookie1())));
 //        OTPGenerationStatus=RequestOTPStatus();
         ImageButton ib=v.findViewById(R.id.resend_otp);
+        ib.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                OTPGetRequest k=new OTPGetRequest();
+                k.execute(Keyvalue.GetHashMap(new Keyvalue("url","/generateOTP"),
+                        new Keyvalue("Miti-Cookie", cookieViewModel.getCookie1())));
+            }
+        });
         Button b1=v.findViewById(R.id.otp_to_profile);
         b1.setOnClickListener(this);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){

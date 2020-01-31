@@ -10,7 +10,7 @@ import java.util.List;
 
 @Dao
 public interface ChatDbDao {
-    @Query("SELECT * FROM MeetiChat where chat_id = :chatId and miti_sync!=-3 order by created_at desc limit 100")
+    @Query("SELECT * FROM MeetiChat where chat_id = :chatId and miti_sync!=-3 order by UserCreatedAt desc limit 100")
     LiveData<List<ChatDb>> getchatbyid(String chatId);
     @Query("SELECT * FROM MeetiChat where chat_id = :chatId order by created_at desc limit 100")
     List<ChatDb> getchatnotlive(String chatId);

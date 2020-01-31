@@ -7,6 +7,8 @@ import com.miti.meeti.database.Chat.ChatDb;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
+import com.miti.meeti.mitiutil.try123;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,6 +46,7 @@ public class GetChatPost extends POSTRequest {
                 Mlog.e("GetChatPost1","inside if");
                 tempcv.Sync=-3;
             }
+            tempcv.UserCreatedAt= try123.mitidt();
             tempxy.add(tempcv);
             Mlog.e("GetChatPost2",tempx.CreatedAt);
             Mlog.e("GetChatPost3",tempcv.CreatedAt);

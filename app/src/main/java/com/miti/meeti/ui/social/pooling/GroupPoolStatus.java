@@ -44,7 +44,9 @@ public class GroupPoolStatus extends POSTRequest {
             bundle.putStringArray("Interest",json.Interest.toArray(new String[json.Interest.size()]));
             Navigation.findNavController(SocialFragment.v).navigate(R.id.action_miti_social_to_groupPool,bundle);
         }else if(json.Code==2003){
-
+            Bundle bundle=new Bundle();
+            bundle.putStringArray("Interest",json.Interest.toArray(new String[json.Interest.size()]));
+            Navigation.findNavController(SocialFragment.v).navigate(R.id.action_miti_social_to_groupPool,bundle);
         }
         SocialFragment.bottomSheetDialog.dismiss();
     }

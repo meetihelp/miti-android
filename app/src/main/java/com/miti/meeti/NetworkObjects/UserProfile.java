@@ -17,8 +17,9 @@ public class UserProfile {
         String Language;
         String Country;
         String Sex;
+        String Email;
         public request_body(String name,String dateOfBirth,String job, String gender,String language
-        ,String country,String sex){
+        ,String country,String sex,String email){
             this.Name=name;
             this.DateOfBirth=dateOfBirth;
             this.Job=job;
@@ -26,6 +27,7 @@ public class UserProfile {
             this.Language=language;
             this.Country=country;
             this.Sex=sex;
+            this.Email=email;
         }
     }
     public class response_body{

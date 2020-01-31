@@ -1,10 +1,13 @@
 package com.miti.meeti.ui.social.pref;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -29,6 +32,7 @@ import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
 import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.RequestHelper;
+import com.miti.meeti.mitiutil.uihelper.InfoDialog;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
 
 import java.util.ArrayList;
@@ -47,13 +51,21 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
     private CookieViewModel cookieViewModel;
     private KeyvalueViewModel kvm;
     private ViewGroup v1;
+    private static FragmentActivity myContext;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        myContext=(FragmentActivity)context;
+    }
+
     private OnFragmentInteractionListener mListener;
     static public String [][]array={
             {"Reading - Fiction or Non-Fiction","Chilling - Netflix, Spotify etc.","Pet - Caring and Playing","Diva - Fashion and Makeup","Gamer - Pubg, Fortnight and Good old vcop2"},
             {"Writing","Singing","Dancing","Cooking","Origami/Paper crafts","Chess"},
             {"Gardening","Shopping","Cars & Bikes","Architecture","Aviation","Museum"},
             {"Fitness","Travel","Photography","Cricket","Football","Environment - Concernist and Activist","Martial arts"},
-            {"Collecting","Debating","Quizzing","Psychology and Philosophy","Parenting","Lgbtq","Law","History"},
+            {"Technology","Collecting","Debating","Quizzing","Psychology and Philosophy","Parenting","Lgbtq","Law","History"},
             {"Left - liberty , equality, fraternity","Right - authority, hierarchy, property"}};
     private String [][]array1={
             {"Indoor - 1"},
@@ -126,11 +138,17 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
     }
-
+    public void help(){
+        String help="Please fill the interest properly\n\n";
+        String help1="Whatever you fill in the interest will determine your feed and chats\n\n";
+        InfoDialog inf=new InfoDialog(help+help1);
+        inf.show(myContext.getSupportFragmentManager(),"hithere");
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        help();
         View v=inflater.inflate(R.layout.fragment_social_pref_interest, container, false);
         Button b1=v.findViewById(R.id.social_button_pref_submit);
         this.v1=(ViewGroup) v;
@@ -190,6 +208,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         PrefInterest.request_object tempyu=new PrefInterest().new request_object(allpref.get(0),allpref.get(1),count+1);
         Gson gson=new Gson();
         String data=gson.toJson(tempyu);
+        Mlog.e(data);
         cookieViewModel= ViewModelProviders.of(this).get(CookieViewModel.class);
         String MeetiCookie= cookieViewModel.getCookie1();
         InterestPost request=new InterestPost();

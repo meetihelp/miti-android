@@ -163,8 +163,12 @@ public class social_chat_content extends Fragment implements MessagesListAdapter
         keyvalueViewModel=ViewModelProviders.of(this).get(KeyvalueViewModel.class);
         actionModeCallback=new ActionModeCallback();
         cookie=cookieViewModel.getCookie1();
-        userid=keyvalueViewModel.get("userid").mitivalue;
-        Mlog.e("userid",userid);
+        try{
+            userid=keyvalueViewModel.get("userid").mitivalue;
+            Mlog.e("userid",userid);
+        }catch (Exception e){
+
+        }
     }
 
     @Override

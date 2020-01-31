@@ -146,6 +146,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     }
                 }
 //                        Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_otpfragment2);
+            }else{
+                ToastHelper.ToastFun(v.getContext(),Message);
             }
         }
 //                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_otpfragment2);
