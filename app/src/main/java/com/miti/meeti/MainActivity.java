@@ -31,6 +31,7 @@ import com.miti.meeti.MitiExecutors.MitiRunnables.SecuritySync;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatMessages;
 import com.miti.meeti.MitiExecutors.MitiRunnables.UpdateChatlist;
 import com.miti.meeti.MitiExecutors.MitiService;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.Mitigps;
 import com.miti.meeti.apicompat.mitihelper;
 import com.miti.meeti.bottomnav.CurvedBottomNavigationView;
@@ -248,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             Mlog.e("Service already running");
             stopService(new Intent(getApplicationContext(), SendLoc.class));
         }
-        new POSTRequest().execute("updateUserLocation",new Gson().toJson(new Mitigps(Latitude,Longitude)),MainActivity.MeetiCookie);
+        new POSTRequest().execute(AllUrl.url_profile().get(5),new Gson().toJson(new Mitigps(Latitude,Longitude)),MainActivity.MeetiCookie);
     }
     @Override
     public void onLocationChanged(Location location) {

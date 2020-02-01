@@ -29,10 +29,14 @@ public class AllUrl {
         String t1="updateIPIPResponse";
         String t2="updatePreference";
         String t3="getProfile";
+        String t4="getTemporaryUserId";
+        String t5="updateUserLocation";
         ret.add(pr(p,t0));
         ret.add(pr(p,t1));
         ret.add(pr(p,t2));
         ret.add(pr(p,t3));
+        ret.add(pr(p,t4));
+        ret.add(pr(p,t5));
         return ret;
     }
     public static List<String> url_newsfeed(){

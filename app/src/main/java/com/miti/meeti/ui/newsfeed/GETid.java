@@ -1,6 +1,7 @@
 package com.miti.meeti.ui.newsfeed;
 
 import com.google.gson.Gson;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.database.Keyvalue.keyvalue;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.GETRequest;
@@ -19,7 +20,7 @@ public class GETid extends GETRequest{
         GETid getRequest=new GETid();
         String otpgenerateResult;
         RequestHelper requestHelperTemp;
-        getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/getTemporaryUserId"),
+        getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/"+ AllUrl.url_profile().get(4)),
                 new Keyvalue("Miti-Cookie",cookie)));
     }
 
