@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.Feed;
 import com.miti.meeti.NetworkObjects.FeedReaction;
 import com.miti.meeti.R;
@@ -79,7 +80,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
                 POSTRequest postRequest=new POSTRequest();
                 FeedReaction.request_body response=new FeedReaction().new request_body(currentFeed.Id,"Like");
                 String jsonInString=gson.toJson(response);
-                postRequest.execute("newsFeedReaction",jsonInString, MainActivity.cookieViewModel.getCookie1());
+                postRequest.execute(AllUrl.url_newsfeed().get(1),jsonInString, MainActivity.cookieViewModel.getCookie1());
 //                like.put(position,"like");
                 ToastHelper.ToastFun(newfeed.v.getContext(),"Liked");
 //                notifyItemChanged(position);
@@ -91,14 +92,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
                 POSTRequest postRequest=new POSTRequest();
                 FeedReaction.request_body response=new FeedReaction().new request_body(currentFeed.Id,"Dislike");
                 String jsonInString=gson.toJson(response);
-                postRequest.execute("newsFeedReaction",jsonInString, MainActivity.cookieViewModel.getCookie1());
+                postRequest.execute(AllUrl.url_newsfeed().get(1),jsonInString, MainActivity.cookieViewModel.getCookie1());
 //                chip.setChipIconTintResource(R.color.mitiRed);
                 ToastHelper.ToastFun(newfeed.v.getContext(),"DisLiked");
 //                like.put(position,"dislike");
 //                notifyItemChanged(position);
             }
         });
-        holder.temp.setText(currentFeed.Summary);
+        holder.temp.setText(currentFeed.Summary.replaceAll("[^\\x00-\\x7F]", ""));
         holder.temp2.setText(currentFeed.Title.replaceAll("^[ \t]+|[ \t]+$", ""));
         //url=currentFeed.image_url
         String likestatus=like.get(position);

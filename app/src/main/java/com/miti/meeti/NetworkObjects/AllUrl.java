@@ -9,14 +9,16 @@ public class AllUrl {
     }
     public static List<String> url_newsfeed(){
         List<String>ret=new ArrayList<>();
-        String p="";
+        String p="feed/";
         String t0="getNewsArticleList";
+        String t1="newsFeedReaction";
         ret.add(pr(p,t0));
+        ret.add(pr(p,t1));
         return ret;
     }
     public static List<String> url_chat(){
         List<String>ret=new ArrayList<>();
-        String p="";
+        String p="chat/";
 
         String t0="chat";
         String t1="sendChatImage";
@@ -27,6 +29,7 @@ public class AllUrl {
         String t5="getChatDetail";
         String t6="getProfile";
         String t7="getChatAfterIndex";
+        String t8="actionMessageRequest";
         ret.add(pr(p,t0));
         ret.add(pr(p,t1));
         ret.add(pr(p,t2));
@@ -35,12 +38,13 @@ public class AllUrl {
         ret.add(pr(p,t5));
         ret.add(pr(p,t6));
         ret.add(pr(p,t7));
+        ret.add(pr(p,t8));
         return ret;
     }
 
     public static List<String> url_diary(){
         List<String>ret=new ArrayList<>();
-        String p="";
+        String p="diary/";
         String t0="getBoardContent";
         String t1="uploadBoardContent";
         ret.add(pr(p,t0));
@@ -49,20 +53,35 @@ public class AllUrl {
     }
     public static List<String> url_security(){
         List<String>ret=new ArrayList<>();
-        String p="";
+        String p="security/";
         String t0="createPrimaryTrustChain";
         String t1="deletePrimaryTrustChain";
+        String t2="alertMessage";
         ret.add(pr(p,t0));
         ret.add(pr(p,t1));
+        ret.add(pr(p,t2));
         return ret;
     }
     public static List<String> url_image(){
         List<String>ret=new ArrayList<>();
-        String p="";
+        String p="image/";
         String t0="uploadImage";
         String t1="getImageById";
         ret.add(pr(p,t0));
         ret.add(pr(p,t1));
+        return ret;
+    }
+    public static List<String> url_social(){
+        List<String>ret=new ArrayList<>();
+        String p="social/";
+        String t0="getInGroupPool";
+        String t1="getInPool";
+        String t2="getPoolStatus";
+        String t3="groupPoolStatus";
+        ret.add(pr(p,t0));
+        ret.add(pr(p,t1));
+        ret.add(pr(p,t2));
+        ret.add(pr(p,t3));
         return ret;
     }
 }

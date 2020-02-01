@@ -1,6 +1,7 @@
 package com.miti.meeti.ui.social.pooling;
 
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.mitiutil.network.GETRequest;
 import com.miti.meeti.mitiutil.network.Keyvalue;
 import com.miti.meeti.mitiutil.network.RequestHelper;
@@ -20,7 +21,7 @@ public class GetInPool extends GETRequest {
     public static RequestHelper helper(){
         GetInPool getRequest=new GetInPool();
         try{
-            RequestHelper requestHelper=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/getInPool"),
+            RequestHelper requestHelper=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/"+ AllUrl.url_social().get(1)),
                     new Keyvalue("Miti-Cookie", MainActivity.MeetiCookie))).get();
             return requestHelper;
         }catch (Exception e){

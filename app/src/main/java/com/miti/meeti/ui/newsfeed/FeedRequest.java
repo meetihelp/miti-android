@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.Feed;
 import com.miti.meeti.database.Feed.FeedDb;
 import com.miti.meeti.database.Feed.FeedViewModel;
@@ -21,7 +22,7 @@ public class FeedRequest {
         String jsonInString = gson.toJson(temp);
         FeedPOSTRequest postRequest=new FeedPOSTRequest();
         try{
-            postRequest.execute("getNewsArticleList",jsonInString,cookie);
+            postRequest.execute(AllUrl.url_newsfeed().get(0),jsonInString,cookie);
             Mlog.e("getinitalnews","success");
         }catch (Exception e){
             Mlog.e("getinitalnews",e.toString());
@@ -47,7 +48,7 @@ public class FeedRequest {
         FeedPOSTRequest postRequest=new FeedPOSTRequest();
         RequestHelper requestHelper;
         try{
-            postRequest.execute("getNewsArticleList",jsonInString,cookie);
+            postRequest.execute(AllUrl.url_newsfeed().get(0),jsonInString,cookie);
             Mlog.e("Control","post request sent");
         }catch (Exception e){
             Mlog.e("Control",e.toString());

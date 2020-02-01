@@ -6,6 +6,7 @@ import androidx.navigation.Navigation;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.Mitigps;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
@@ -24,7 +25,7 @@ public class GroupPoolStatus extends POSTRequest {
         Gson gson=new Gson();
         GroupPoolStatus getPoolStatus=new GroupPoolStatus();
         try{
-            getPoolStatus.execute("groupPoolStatus",gson.toJson(new Mitigps(MainActivity.Latitude,MainActivity.Longitude)),MainActivity.MeetiCookie);
+            getPoolStatus.execute(AllUrl.url_social().get(3),gson.toJson(new Mitigps(MainActivity.Latitude,MainActivity.Longitude)),MainActivity.MeetiCookie);
         }catch (Exception e){}
     }
     public class response{

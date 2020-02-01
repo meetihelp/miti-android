@@ -2,6 +2,7 @@ package com.miti.meeti.ui.social.messageRequest;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 import com.miti.meeti.mitiutil.try123;
@@ -23,7 +24,7 @@ public class AcceptRejectPOST extends POSTRequest {
         Gson gson=new Gson();
         String req=gson.toJson(new request(phone,action));
         AcceptRejectPOST temp=new AcceptRejectPOST();
-        temp.execute("actionMessageRequest",req, MainActivity.MeetiCookie);
+        temp.execute(AllUrl.url_chat().get(8),req, MainActivity.MeetiCookie);
     }
     @Override
     protected void onPostExecute(RequestHelper result) {

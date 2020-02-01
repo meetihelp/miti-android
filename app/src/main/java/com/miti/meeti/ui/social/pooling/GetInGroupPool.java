@@ -7,6 +7,7 @@ import androidx.navigation.Navigation;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 import com.miti.meeti.mitiutil.try123;
@@ -29,7 +30,7 @@ public class GetInGroupPool extends POSTRequest {
         GetInGroupPool getInGroupPool=new GetInGroupPool();
         Gson gson=new Gson();
         try {
-            getInGroupPool.execute("getInGroupPool",gson.toJson(new request(interest)), MainActivity.MeetiCookie);
+            getInGroupPool.execute(AllUrl.url_social().get(0),gson.toJson(new request(interest)), MainActivity.MeetiCookie);
         }catch (Exception e){}
     }
     @Override

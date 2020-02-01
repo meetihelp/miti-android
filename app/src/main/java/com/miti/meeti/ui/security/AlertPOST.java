@@ -2,6 +2,7 @@ package com.miti.meeti.ui.security;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.Mitigps;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.POSTRequest;
@@ -18,7 +19,7 @@ public class AlertPOST extends POSTRequest {
         Mlog.e("Alerpost",MainActivity.Latitude,MainActivity.Longitude);
         String req=gson.toJson(new Mitigps(MainActivity.Latitude,MainActivity.Longitude));
         AlertPOST temp=new AlertPOST();
-        temp.execute("alertMessage",req,MainActivity.MeetiCookie);
+        temp.execute(AllUrl.url_security().get(2),req,MainActivity.MeetiCookie);
     }
 
     @Override
