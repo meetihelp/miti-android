@@ -99,8 +99,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
 //                notifyItemChanged(position);
             }
         });
-        holder.temp.setText(currentFeed.Summary.replaceAll("[^\\x00-\\x7F]", ""));
-        holder.temp2.setText(currentFeed.Title.replaceAll("^[ \t]+|[ \t]+$", ""));
+        holder.temp.setText(currentFeed.Summary.replaceAll("[^\\x00-\\x7F]", "").replaceAll("^[ \t]+|[ \t]+$", "").trim());
+        holder.temp2.setText(currentFeed.Title.replaceAll("^[ \t]+|[ \t]+$", "").trim());
         //url=currentFeed.image_url
         String likestatus=like.get(position);
         if(likestatus!=null){

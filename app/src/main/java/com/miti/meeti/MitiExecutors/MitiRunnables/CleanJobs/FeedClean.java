@@ -9,8 +9,8 @@ public class FeedClean implements Runnable{
     public void run() {
         DatabaseInit databaseInit=DatabaseInit.getInstance(MainActivity.MainActivityContext);
         Integer temp=databaseInit.feedDbDao().getCount();
-        if(temp>30){
-            databaseInit.feedDbDao().deletelastx(temp-30);
+        if(temp>40){
+            databaseInit.feedDbDao().deletelastx(temp-40);
         }
         Mlog.e("inFeedClean",temp.toString());
     }
