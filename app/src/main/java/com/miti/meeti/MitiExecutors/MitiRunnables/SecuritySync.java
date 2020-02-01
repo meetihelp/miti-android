@@ -2,6 +2,7 @@ package com.miti.meeti.MitiExecutors.MitiRunnables;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.database.Contact.ContactDb;
 import com.miti.meeti.database.Contact.ContactDbViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
@@ -41,7 +42,7 @@ public class SecuritySync implements Runnable {
                 //String phone,String chainId, String name,String requestId
                 Mlog.e("Security Sync Started","in send contact block");
                 String json=gson.toJson(new SecuritySync().new request(temp.Phone,temp.Tag,temp.Name,temp.Requestid));
-                RequestHelper requestHelper=new SimplePOST().execute("createPrimaryTrustChain",json,MainActivity.MeetiCookie);
+                RequestHelper requestHelper=new SimplePOST().execute(AllUrl.url_security().get(0),json,MainActivity.MeetiCookie);
                 if (requestHelper==null){
                     continue;
                 }
@@ -58,7 +59,7 @@ public class SecuritySync implements Runnable {
             if(temp.Tag.contains("deleted")){
                 Mlog.e("Security Sync Started","in deleted block");
                 String json=gson.toJson(new SecuritySync().new request(temp.Phone,"Primary",temp.Name,temp.Requestid));
-                RequestHelper requestHelper=new SimplePOST().execute("deletePrimaryTrustChain",json,MainActivity.MeetiCookie);
+                RequestHelper requestHelper=new SimplePOST().execute(AllUrl.url_security().get(1),json,MainActivity.MeetiCookie);
                 if (requestHelper==null){
                     continue;
                 }

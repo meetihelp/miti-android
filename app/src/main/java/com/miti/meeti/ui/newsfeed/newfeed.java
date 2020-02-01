@@ -34,6 +34,7 @@ import com.miti.meeti.database.Cookie.CookieViewModel;
 import com.miti.meeti.database.Feed.FeedDb;
 import com.miti.meeti.database.Feed.FeedViewModel;
 import com.miti.meeti.database.Keyvalue.KeyvalueViewModel;
+import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.uihelper.EndlessRecyclerViewScrollListener;
 import com.miti.meeti.mitiutil.uihelper.InfoDialog;
 
@@ -84,7 +85,7 @@ public class newfeed extends Fragment{
         new AppRate(myContext)
                 .setMinDaysUntilPrompt(7)
                 .setMinLaunchesUntilPrompt(10)
-                .setShowIfAppHasCrashed(false)
+                .setShowIfAppHasCrashed(true)
                 .init();
         setHasOptionsMenu(true);
         v=inflater.inflate(R.layout.fragment_newfeed, container, false);
@@ -151,7 +152,7 @@ public class newfeed extends Fragment{
         mListener = null;
     }
     public void loadNextDataFromApi() {
-        Log.e("Control","loadnextmeaayamain");
+        Mlog.e("Control","loadnextmeaayamain");
         FeedRequest.getlaternews(cookie);
     }
     /**

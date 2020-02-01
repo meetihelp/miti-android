@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.GetChatContent;
 import com.miti.meeti.NetworkObjects.SendChatContent;
 import com.miti.meeti.mitiutil.Logging.Mlog;
@@ -23,7 +24,7 @@ public class ChatContentRequest {
         String jsonInString = gson.toJson(message);
         SendChatPOST postRequest=new SendChatPOST();
         try{
-            postRequest.execute("chat",jsonInString,cookie);
+            postRequest.execute(AllUrl.url_chat().get(0),jsonInString,cookie);
         }catch(Exception e){
             Mlog.e("ChatContentRequest->sendmessage",e.toString());
         }
@@ -40,7 +41,7 @@ public class ChatContentRequest {
         Mlog.e("Chatcontentrequest->",jsonInString);
         GetChatPost postRequest=new GetChatPost();
         try{
-            postRequest.execute("getChatAfterIndex",jsonInString,cookie);
+            postRequest.execute(AllUrl.url_chat().get(7),jsonInString,cookie);
 //            Log.e("Control-SendChat","requestHelper.getData()");
         }catch(Exception e){
 

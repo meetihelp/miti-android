@@ -2,6 +2,7 @@ package com.miti.meeti.MitiExecutors.MitiRunnables;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.GetImageUrl;
 import com.miti.meeti.database.Chat.ChatDb;
 import com.miti.meeti.database.Chat.ChatDbViewModel;
@@ -41,7 +42,7 @@ public class DownloadChatImage implements Runnable{
             try{
                 Mlog.e("inDownloadChatImage41",temp.MessageContent);
                 String json=gson.toJson(new GetImageUrl().new request_body(temp.MessageContent));
-                String response=postRequest.execute("getImageById",json,cookie).get().getData();
+                String response=postRequest.execute(AllUrl.url_image().get(1),json,cookie).get().getData();
                 GetImageUrl.response_body rb=gson.fromJson(response,GetImageUrl.response_body.class);
                 if(rb==null){
                     continue;

@@ -2,6 +2,7 @@ package com.miti.meeti.MitiExecutors.MitiRunnables;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.database.Request.MessageRq;
 import com.miti.meeti.database.Request.MessageRqViewModel;
 import com.miti.meeti.mitiutil.Logging.Mlog;
@@ -43,7 +44,7 @@ public class GetMessageRequestSync implements Runnable {
         }
         Mlog.e("GetMessageRequestSync",max);
         String req=gson.toJson(new request(max));
-        RequestHelper resp=new SimplePOST().execute("getMessageRequest",req,MainActivity.MeetiCookie);
+        RequestHelper resp=new SimplePOST().execute(AllUrl.url_chat().get(3),req,MainActivity.MeetiCookie);
         if(resp==null){
             Mlog.e("GetMessageRequestSync","null1");
             return;

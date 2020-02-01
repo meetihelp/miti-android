@@ -24,7 +24,7 @@ public interface FeedDbDao {
     public LiveData<List<FeedDb>>getall();
     @Delete
     public void delete(FeedDb ...feedDb);
-    @Query("Select * from Feed order by miti_id desc limit 1")
+    @Query("Select * from Feed order by user_created_at desc limit 1")
     public FeedDb getmax();
 
 }

@@ -31,9 +31,11 @@ public class FeedRequest {
         String ret=new String();
         Gson gson = new Gson();
         FeedDb maxid=MainActivity.feedViewModel.getmax();
-        Integer max_id=maxid.Id;
+        Integer max_id;
         if(maxid==null){
             max_id=new Integer(0);
+        }else{
+            max_id=maxid.Id;
         }
         Feed.request_body temp;
         if(max_id==0){
@@ -46,9 +48,9 @@ public class FeedRequest {
         RequestHelper requestHelper;
         try{
             postRequest.execute("getNewsArticleList",jsonInString,cookie);
-            Log.e("Control","post request sent");
+            Mlog.e("Control","post request sent");
         }catch (Exception e){
-            Log.e("Control",e.toString());
+            Mlog.e("Control",e.toString());
         }
     }
 }

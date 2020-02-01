@@ -67,6 +67,12 @@ public class POSTRequest extends AsyncTask<String,Void, RequestHelper> {
             Mlog.printStackTrace(e,500);
             result=null;
         }
+        if(result!=null){
+            Mlog.e("postresult->",result);
+        }else{
+            Mlog.e("postresult->","null");
+        }
+
         RequestHelper requestHelper=new RequestHelper(MitiCookie,result);
         Mlog.e("POst request wala data");
         new Mlog<RequestHelper>().e1(requestHelper);

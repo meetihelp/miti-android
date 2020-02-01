@@ -2,6 +2,7 @@ package com.miti.meeti.MitiExecutors.MitiRunnables;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.ImageUploadResponse;
 import com.miti.meeti.database.Request.MessageRq;
 import com.miti.meeti.database.Request.MessageRqViewModel;
@@ -50,7 +51,7 @@ public class MessageRequestSync implements Runnable {
                 Mlog.e("MessageRequestSync","in line 54");
                 String json=gson.toJson(reqp);
                 Mlog.e(json);
-                RequestHelper requestHelper=new SimplePOST().execute("sendMessageRequest",json,MainActivity.MeetiCookie);
+                RequestHelper requestHelper=new SimplePOST().execute(AllUrl.url_chat().get(4),json,MainActivity.MeetiCookie);
                 Mlog.e("MessageRequestSync","in line 55");
                 if(requestHelper==null){
                     continue;
@@ -70,7 +71,7 @@ public class MessageRequestSync implements Runnable {
                 Mlog.e("MessageRequestSync","in image block");
                 //param1 suburl, param2 fileaddress, param3 filename, param4 requestid, param5 public
                 try{
-                    String res=new UploadImage().execute("uploadImage",tempx.MessageContent,tempx.MessageContent,tempx.RequestId
+                    String res=new UploadImage().execute(AllUrl.url_image().get(0),tempx.MessageContent,tempx.MessageContent,tempx.RequestId
                             ,"Private").get();
                     if(res==null){
                         Mlog.e("MessageRequestSync","image upload failed");
@@ -85,7 +86,7 @@ public class MessageRequestSync implements Runnable {
                         Mlog.e("MessageRequestSync","image upload 200");
                         //String requestId,String phone,String messageType,String messageContent
                         String json=gson.toJson(new request(tempx.RequestId,tempx.Phone,tempx.MessageType,imgur.ImageId));
-                        RequestHelper requestHelper=new SimplePOST().execute("sendMessageRequest",json,MainActivity.MeetiCookie);
+                        RequestHelper requestHelper=new SimplePOST().execute(AllUrl.url_chat().get(4),json,MainActivity.MeetiCookie);
                         if(requestHelper==null){
                             continue;
                         }

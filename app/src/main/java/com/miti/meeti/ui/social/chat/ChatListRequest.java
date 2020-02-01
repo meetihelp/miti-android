@@ -3,6 +3,7 @@ package com.miti.meeti.ui.social.chat;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.ChatList;
 import com.miti.meeti.mitiutil.Logging.Mlog;
 import com.miti.meeti.mitiutil.network.RequestHelper;
@@ -19,8 +20,8 @@ public class ChatListRequest {
         ChatListPost postRequest=new ChatListPost();
         RequestHelper requestHelper;
         try{
-            postRequest.execute("getChatDetail",jsonInString,cookie);
-            Log.e("Control","returned");
+            postRequest.execute(AllUrl.url_chat().get(5),jsonInString,cookie);
+            Mlog.e("Control","returned");
         }catch (Exception e){
             Mlog.e("Control-chatlist->",e.toString());
         }
@@ -33,8 +34,8 @@ public class ChatListRequest {
         ChatListPost postRequest=new ChatListPost();
         RequestHelper requestHelper;
         try{
-            postRequest.execute("getChatDetail",jsonInString,cookie);
-            Log.e("Control","returned");
+            postRequest.execute(AllUrl.url_chat().get(5),jsonInString,cookie);
+            Mlog.e("Control","returned");
         }catch (Exception e){
             Mlog.e("Control-chatlist->",e.toString());
         }

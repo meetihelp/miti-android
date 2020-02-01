@@ -2,6 +2,7 @@ package com.miti.meeti.MitiExecutors.MitiRunnables;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.ChatUploadResponse;
 import com.miti.meeti.NetworkObjects.GetChatContent;
 import com.miti.meeti.NetworkObjects.SendChatContent;
@@ -27,6 +28,7 @@ public class ChatSync implements Runnable{
             if(tempx.MessageContent.contains("image")){
                 tempx.Sync=-3;
             }
+            tempx.UserCreatedAt=try123.mitidt();
             tempxy.add(tempx);
             Mlog.e("GetChatPost",tempx.CreatedAt);
         }
@@ -73,7 +75,7 @@ public class ChatSync implements Runnable{
                 POSTRequest postRequest=new POSTRequest();
                 try{
                     Mlog.e("inChatSync","in line 58");
-                    String response=postRequest.execute("chat",jsonInString,cookie).get().getData();
+                    String response=postRequest.execute(AllUrl.url_chat().get(0),jsonInString,cookie).get().getData();
                     Mlog.e("inChatSync","in line 59",response);
                     SendChatContent.response_object response_object=gson.fromJson(response,SendChatContent.response_object.class);
                     Mlog.e("inChatSync","in line 62");
@@ -100,7 +102,7 @@ public class ChatSync implements Runnable{
                 SendChatImage imgu=new SendChatImage();
                 try{
                     Mlog.e("imgur","in try block");
-                    String imgurs=imgu.execute("sendChatImage",tempx.ImageUrl,tempx.ImageUrl
+                    String imgurs=imgu.execute(AllUrl.url_chat().get(1),tempx.ImageUrl,tempx.ImageUrl
                     ,tempx.RequestId,"Private",maxdate,cookie,tempx.ChatId).get();
                     //String requestid,String messageid, String imageurl,String imageid
                     if(imgurs==null){

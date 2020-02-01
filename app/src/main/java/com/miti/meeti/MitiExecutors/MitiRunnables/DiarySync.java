@@ -2,6 +2,7 @@ package com.miti.meeti.MitiExecutors.MitiRunnables;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.GetImageUrl;
 import com.miti.meeti.NetworkObjects.ImageUploadResponse;
 import com.miti.meeti.database.Chat.ChatDb;
@@ -47,7 +48,7 @@ public class DiarySync implements Runnable {
             max=temp.CreatedAt;
         }
         String req=gson.toJson(new requestget(max));
-        RequestHelper data=new SimplePOST().execute("getBoardContent",req,MainActivity.MeetiCookie);
+        RequestHelper data=new SimplePOST().execute(AllUrl.url_diary().get(0),req,MainActivity.MeetiCookie);
         if(data==null){
             return;
         }
@@ -77,7 +78,7 @@ public class DiarySync implements Runnable {
                     moodboard.Mimetype="image";
                     moodboard.ImageId=tempz.ContentImageId;
                     String json=gson.toJson(new GetImageUrl().new request_body(tempz.ContentImageId));
-                    RequestHelper respo=new SimplePOST().execute("getImageById",json,MainActivity.MeetiCookie);
+                    RequestHelper respo=new SimplePOST().execute(AllUrl.url_image().get(1),json,MainActivity.MeetiCookie);
                     if(respo==null){
                         continue;
                     }
@@ -158,7 +159,7 @@ public class DiarySync implements Runnable {
                 Mlog.e("uploadBoardContent","in line 54");
                 String json=gson.toJson(reqp);
                 Mlog.e(json);
-                RequestHelper requestHelper=new SimplePOST().execute("uploadBoardContent",json,MainActivity.MeetiCookie);
+                RequestHelper requestHelper=new SimplePOST().execute(AllUrl.url_diary().get(1),json,MainActivity.MeetiCookie);
                 Mlog.e("uploadBoardContent","in line 55");
                 if(requestHelper==null){
                     continue;
@@ -176,7 +177,7 @@ public class DiarySync implements Runnable {
                 Mlog.e("uploadBoardContent","in image block");
                 //param1 suburl, param2 fileaddress, param3 filename, param4 requestid, param5 public
                 try{
-                    String res=new UploadImage().execute("uploadImage",tempx.ImagePath,tempx.ImagePath,tempx.RequestId
+                    String res=new UploadImage().execute(AllUrl.url_image().get(0),tempx.ImagePath,tempx.ImagePath,tempx.RequestId
                             ,"Private").get();
                     if(res==null){
                         Mlog.e("uploadBoardContent","image upload failed");
@@ -191,7 +192,7 @@ public class DiarySync implements Runnable {
                         Mlog.e("uploadBoardContent","image upload 200");
                         //String requestId,String imageId
                         String json=gson.toJson(new request(tempx.RequestId,tempx.UserCreatedAt,tempx.Content,imgur.ImageId,tempx.CreatedAt));
-                        RequestHelper requestHelper=new SimplePOST().execute("uploadBoardContent",json,MainActivity.MeetiCookie);
+                        RequestHelper requestHelper=new SimplePOST().execute(AllUrl.url_diary().get(1),json,MainActivity.MeetiCookie);
                         if(requestHelper==null){
                             continue;
                         }
