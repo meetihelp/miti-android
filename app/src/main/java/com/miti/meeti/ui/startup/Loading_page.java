@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieRepository;
 import com.miti.meeti.database.Cookie.CookieViewModel;
@@ -164,7 +165,7 @@ public class Loading_page extends Fragment implements Runnable{
         try {
             GETRequest getRequest=new GETRequest();
             Mlog.e("Control","Get Request enter");
-            RequestHelper requestHelper=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/loadingPage"),
+            RequestHelper requestHelper=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/"+ AllUrl.url_auth().get(4)),
                     new Keyvalue("Miti-Cookie",MeetiCookie))).get();
             Mlog.e( "Get Request exit");
             Mlog.e("Cookie Sent->"+MeetiCookie);

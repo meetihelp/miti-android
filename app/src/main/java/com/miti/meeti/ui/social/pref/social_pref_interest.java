@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.GenericResponse;
 import com.miti.meeti.NetworkObjects.PrefInterest;
 import com.miti.meeti.R;
@@ -214,7 +215,7 @@ public class social_pref_interest extends Fragment implements View.OnClickListen
         InterestPost request=new InterestPost();
         kvm.insert(new keyvalue("updatePreference"+Integer.toString(count+1),data));
         try{
-            RequestHelper requestHelper=request.execute("updatePreference",data,MeetiCookie).get();
+            RequestHelper requestHelper=request.execute(AllUrl.url_profile().get(2),data,MeetiCookie).get();
             if(requestHelper==null){
                 ToastHelper.ToastFun(v1.getContext(),"Error try again");
                 return -1;

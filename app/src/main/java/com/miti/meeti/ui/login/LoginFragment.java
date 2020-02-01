@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.Cookie;
 import com.miti.meeti.database.Cookie.CookieViewModel;
@@ -99,7 +100,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         String result;
         try {
             Mlog.e("Control","Yahan");
-            requestHelper=request.execute("login",data).get();
+            requestHelper=request.execute(AllUrl.url_auth().get(0),data).get();
             result=requestHelper.getData();
             MeetiCookie=requestHelper.getMitiCookie();
         } catch (ExecutionException e) {

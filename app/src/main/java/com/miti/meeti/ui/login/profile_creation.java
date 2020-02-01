@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.UserProfile;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieViewModel;
@@ -136,7 +137,7 @@ public class profile_creation extends Fragment implements View.OnClickListener {
         RequestHelper requestHelper;
         ProfilePostRequest postRequest=new ProfilePostRequest();
         try{
-            postRequest.execute("profileCreation",jsonInString,cvm.getCookie1());
+            postRequest.execute(AllUrl.url_profile().get(0),jsonInString,cvm.getCookie1());
             kvm.insert(new keyvalue("profileCreation",jsonInString));
         }catch (Exception e){
             ToastHelper.ToastFun(v.getContext(),e.toString());

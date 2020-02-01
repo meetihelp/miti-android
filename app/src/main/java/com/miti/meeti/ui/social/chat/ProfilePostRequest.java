@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.GetProfile;
 import com.miti.meeti.R;
 import com.miti.meeti.mitiutil.network.POSTRequest;
@@ -16,7 +17,7 @@ public class ProfilePostRequest extends POSTRequest {
         Gson gson=new Gson();
         String response=gson.toJson(new GetProfile().new request_body(userid));
         ProfilePostRequest temp=new ProfilePostRequest();
-        temp.execute("getProfile",response, MainActivity.cookieViewModel.getCookie1());
+        temp.execute(AllUrl.url_profile().get(3),response, MainActivity.cookieViewModel.getCookie1());
     }
     private void setData(GetProfile.response_object temp, View v){
         TextView t=v.findViewById(R.id.b_InterestIndoorPassive1);

@@ -2,6 +2,7 @@ package com.miti.meeti.ui.social.pref;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.mitiutil.network.POSTRequest;
 import com.miti.meeti.mitiutil.network.RequestHelper;
 import com.miti.meeti.mitiutil.uihelper.ToastHelper;
@@ -34,7 +35,7 @@ public class social_ipip_request extends POSTRequest {
         Gson gson=new Gson();
         String json=gson.toJson(new social_ipip_request().new request(page,temp.toArray(new Integer[temp.size()])));
         try{
-            return new social_ipip_request().execute("updateIPIPResponse",json, MainActivity.MeetiCookie).get();
+            return new social_ipip_request().execute(AllUrl.url_profile().get(1),json, MainActivity.MeetiCookie).get();
         }catch (Exception e){
             return null;
         }

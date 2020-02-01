@@ -7,6 +7,34 @@ public class AllUrl {
     private static String pr(String temp1,String temp2){
         return temp1+temp2;
     }
+    public static List<String> url_auth() {
+        List<String> ret = new ArrayList<>();
+        String p="auth/";
+        String t0="login";
+        String t1="verifyOTP";
+        String t2="otpStatus";
+        String t3="generateOTP";
+        String t4="loadingPage";
+        ret.add(pr(p,t0));
+        ret.add(pr(p,t1));
+        ret.add(pr(p,t2));
+        ret.add(pr(p,t3));
+        ret.add(pr(p,t4));
+        return ret;
+    }
+    public static List<String> url_profile(){
+        List<String> ret = new ArrayList<>();
+        String p="profile/";
+        String t0="profileCreation";
+        String t1="updateIPIPResponse";
+        String t2="updatePreference";
+        String t3="getProfile";
+        ret.add(pr(p,t0));
+        ret.add(pr(p,t1));
+        ret.add(pr(p,t2));
+        ret.add(pr(p,t3));
+        return ret;
+    }
     public static List<String> url_newsfeed(){
         List<String>ret=new ArrayList<>();
         String p="feed/";

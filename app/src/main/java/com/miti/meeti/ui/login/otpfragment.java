@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 
 import com.google.gson.Gson;
 import com.miti.meeti.MainActivity;
+import com.miti.meeti.NetworkObjects.AllUrl;
 import com.miti.meeti.NetworkObjects.OTP;
 import com.miti.meeti.R;
 import com.miti.meeti.database.Cookie.CookieViewModel;
@@ -111,7 +112,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 OTPGetRequest k=new OTPGetRequest();
-                k.execute(Keyvalue.GetHashMap(new Keyvalue("url","/generateOTP"),
+                k.execute(Keyvalue.GetHashMap(new Keyvalue("url","/"+ AllUrl.url_auth().get(3)),
                         new Keyvalue("Miti-Cookie", cookieViewModel.getCookie1())));
             }
         });
@@ -198,7 +199,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
         Mlog.e("Control->",MeetiCookie+","+data);
         try {
             Mlog.e("Control","Yahan");
-            requestHelper=request.execute("verifyOTP",data,MeetiCookie).get();
+            requestHelper=request.execute(AllUrl.url_auth().get(1),data,MeetiCookie).get();
             String temps=requestHelper.getMitiCookie();
             result=requestHelper.getData();
 //                Log.e("Control1",result);
@@ -223,7 +224,7 @@ public class otpfragment extends Fragment implements View.OnClickListener {
         String otpgenerateResult;
         try {
             RequestHelper requestHelperTemp;
-            requestHelperTemp=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/otpStatus"),
+            requestHelperTemp=getRequest.execute(Keyvalue.GetHashMap(new Keyvalue("url","/"+AllUrl.url_auth().get(2)),
                     new Keyvalue("Miti-Cookie",MeetiCookie))).get();
             otpgenerateResult=requestHelperTemp.getData();
         } catch (ExecutionException e) {
