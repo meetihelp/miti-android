@@ -159,7 +159,7 @@ public class social_chat_list extends Fragment {
                 List<DefaultDialog> chatList=new ArrayList<>();
                 for(ChatListDb tempf:newName){
                     Mlog.e(tempf.UserId);
-                    chatList.add(new DefaultDialog(tempf.ChatId,tempf.Name,tempf.ChatType,tempf.UserId2,tempf.UserId));
+                    chatList.add(new DefaultDialog(tempf.ChatId,tempf.Name,tempf.ChatType,tempf.UserId2,tempf.UserId,tempf.LastMessage));
                 }
                 mAdapter.setChatList(chatList);
             }

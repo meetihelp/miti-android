@@ -69,6 +69,7 @@ public class social_chat_list_adapter extends RecyclerView.Adapter<social_chat_l
 //        Log.e("Control-ONbindd for->",chatlist.get(position).TempUserId);
 //        holder.idTextView.setText(chatlist.get(position).getId());
         holder.titleTextView.setText(chatlist.get(position).getDialogName());
+        holder.descriptionTextView.setText(chatlist.get(position).getLastMessage().getText());
 //        holder.descriptionTextView.setText(chatlist.get(position).LastUpdate);
         //action_social_chat_list_to_social_chat_content
         final Bundle bundle=new Bundle();

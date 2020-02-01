@@ -25,7 +25,7 @@ public class ChatSync implements Runnable{
         List<ChatDb>tempxy=new ArrayList<>();
         for(ChatDb tempx:messages){
             tempx.Sync=1;
-            if(tempx.MessageContent.contains("image")){
+            if(tempx.MessageType.contains("image")){
                 tempx.Sync=-3;
             }
             tempx.UserCreatedAt=try123.mitidt();

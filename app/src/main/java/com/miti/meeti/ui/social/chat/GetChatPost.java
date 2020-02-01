@@ -45,6 +45,9 @@ public class GetChatPost extends POSTRequest {
             if(tempcv.MessageType.contains("image")){
                 Mlog.e("GetChatPost1","inside if");
                 tempcv.Sync=-3;
+            }else{
+                Mlog.e("andar hoon main");
+                MainActivity.chatListDbViewModel.updatelast(tempcv.ChatId,tempcv.CreatedAt,tempcv.MessageContent);
             }
             tempcv.UserCreatedAt= try123.mitidt();
             tempxy.add(tempcv);

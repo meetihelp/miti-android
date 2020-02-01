@@ -32,4 +32,7 @@ public class ChatListDbViewModel extends AndroidViewModel {
         repository.Synced(chatid[0]);
     }
     public List<ChatListDb> getold(){return repository.getallold();}
+    public void updatelast(String chatid, String lastupdate,String lastmessage){
+        repository.updatelast(chatid,lastupdate,lastmessage);
+    }
 }

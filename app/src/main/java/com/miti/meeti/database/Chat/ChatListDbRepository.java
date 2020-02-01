@@ -39,8 +39,8 @@ public class ChatListDbRepository {
             return null;
         }
     }
-    public void updatelast(String chatid, String lastupdate){
-        new UpdateLastAsyncTask(chatListDbDao).execute(chatid,lastupdate);
+    public void updatelast(String chatid, String lastupdate,String lastmessage){
+        new UpdateLastAsyncTask(chatListDbDao).execute(chatid,lastupdate,lastmessage);
     }
     public void insert(ChatListDb ...chatlist){
         new InsertChatAsyncTask(chatListDbDao).execute(chatlist);
@@ -91,7 +91,7 @@ public class ChatListDbRepository {
         }
         @Override
         protected Void doInBackground(String... config) {
-            chatListDbDao.UpdateLast(config[0],config[1]);
+            chatListDbDao.UpdateLast(config[0],config[1],config[2]);
             return null;
         }
     }

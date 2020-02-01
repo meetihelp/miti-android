@@ -28,6 +28,6 @@ public interface ChatListDbDao {
     @Query("Update MeetiChatList set miti_sync=1 where chat_id = :chatId")
     void Synced(String chatId);
 
-    @Query("Update MeetiChatList set miti_sync=1,LastUpdate=:lastupdate where chat_id = :chatId")
-    void UpdateLast(String chatId,String lastupdate);
+    @Query("Update MeetiChatList set miti_sync=1,LastUpdate=:lastupdate,LastMessage=:lastmessage where chat_id = :chatId")
+    void UpdateLast(String chatId,String lastupdate,String lastmessage);
 }
