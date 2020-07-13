@@ -40,7 +40,7 @@ import com.miti.meeti.mitiutil.uihelper.InfoDialog;
 
 import java.util.List;
 
-import me.msfjarvis.apprate.AppRate;
+//import me.msfjarvis.apprate.AppRate;
 
 public class newfeed extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
@@ -82,11 +82,11 @@ public class newfeed extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        new AppRate(myContext)
-                .setMinDaysUntilPrompt(7)
-                .setMinLaunchesUntilPrompt(10)
-                .setShowIfAppHasCrashed(true)
-                .init();
+//        new AppRate(myContext)
+//                .setMinDaysUntilPrompt(7)
+//                .setMinLaunchesUntilPrompt(10)
+//                .setShowIfAppHasCrashed(true)
+//                .init();
         setHasOptionsMenu(true);
         v=inflater.inflate(R.layout.fragment_newfeed, container, false);
         swipeRefreshLayout=v.findViewById(R.id.newfeed_refresh);
